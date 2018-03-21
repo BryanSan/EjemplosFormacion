@@ -34,6 +34,20 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
                 // throw new HttpResponseException(actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error"));
             }
 
+            // De esta manera puedes modificar valores obtenidos de los datos del Routing
+            if (actionContext.RequestContext.RouteData.Values.TryGetValue("id", out _))
+            {   
+                actionContext.RequestContext.RouteData.Values["id"] = 0;
+            }
+
+            // De esta manera puedes modificar los valores del Request, tanto los valores del Body como el Url
+            // Todos los valores del Request que sean usados en los parametros del action seran bindeados y apareceran en el diccionario
+            // Todos los valores del Request que no sean usados en los parametros del action no seran bindeados ya que seran ignorados y por lo tanto no apareceran en el diccionario
+            if (actionContext.ActionArguments.TryGetValue("id", out _))
+            {
+                actionContext.ActionArguments["id"] = 0;
+            }
+
             base.OnActionExecuting(actionContext);
         }
 

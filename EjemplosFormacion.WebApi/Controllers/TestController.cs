@@ -25,9 +25,9 @@ namespace EjemplosFormacion.WebApi.Controllers
         [TestIActionFilter] // Action Filter
         [TestOrderedActionFilter(Order = 1)] // Ordered Action Filter
 
-        [HttpGet] // Marca el action como solo accesible por una peticion Get 
+        [HttpPost] // Marca el action como solo accesible por una peticion Get 
         [ActionName("actionFilter")] // Nombre de la accion para cual una url debe coincidir (Tiene un custom route en el web api config para leer el nombre del accion)
-        public IHttpActionResult TestActionFilter()
+        public IHttpActionResult TestActionFilter(int id)
         {
             return Ok();
         }
