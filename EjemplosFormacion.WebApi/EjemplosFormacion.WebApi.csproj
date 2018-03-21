@@ -91,7 +91,7 @@
     <Compile Include="Actions Filters\Ordered Filters\Infraestructure\AuthorizationFilterWithOrderAttribute.cs" />
     <Compile Include="Actions Filters\Ordered Filters\Infraestructure\ExceptionFilterWithOrderAttribute.cs" />
     <Compile Include="Actions Filters\Ordered Filters\Infraestructure\Abstract\IOrderedFilter.cs" />
-    <Compile Include="Actions Filters\Ordered Filters\TestOrderedActionFilterAttribute.cs" />
+    <Compile Include="Actions Filters\Ordered Filters\Normal Action Filters\TestOrderedActionFilterAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Filters Providers\OrderedFilterProvider.cs" />

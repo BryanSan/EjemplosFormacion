@@ -1,5 +1,5 @@
 ﻿using EjemplosFormacion.WebApi.ActionsFilters.NormalActionFilters;
-using EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters;
+using EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters.NormalActionFilters;
 using EjemplosFormacion.WebApi.FiltersProviders;
 using System.Web.Http;
 using System.Web.Http.Filters;
@@ -61,9 +61,9 @@ namespace EjemplosFormacion.WebApi
             // 2 - Action filters
             // 3 - Exception filters
 
-            config.Filters.Add(new TestActionFilterAttribute());
-            config.Filters.Add(new TestIActionFilterAttribute());
-            config.Filters.Add(new TestOrderedActionFilterAttribute(order: 1));
+            config.Filters.Add(new TestActionFilterAttribute()); // Normal Action Filter
+            config.Filters.Add(new TestIActionFilterAttribute()); // Normal Action Filter
+            config.Filters.Add(new TestOrderedActionFilterAttribute(order: 1)); // Normal Ordered Action Filter
         }
     }
 }

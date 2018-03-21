@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters
+namespace EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters.NormalActionFilters
 {
     /// <summary>
     /// Filter Attribute comun en el que hereda de la clase ActionFilterWithOrderAttribute para dar soporte al orden de ejecucion de Action a traves de la propiedad Order  

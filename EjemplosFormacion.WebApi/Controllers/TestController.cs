@@ -1,12 +1,12 @@
 ﻿using EjemplosFormacion.WebApi.ActionsFilters.NormalActionFilters;
-using EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters;
+using EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters.NormalActionFilters;
 using System.Web.Http;
 
 namespace EjemplosFormacion.WebApi.Controllers
 {
-    [TestActionFilter]
-    [TestIActionFilter]
-    [TestOrderedActionFilter(Order = 1)]
+    [TestActionFilter] // Normal Action Filter
+    [TestIActionFilter] // Normal Action Filter
+    [TestOrderedActionFilter(Order = 1)] // Normal Ordered Action Filter
     public class TestController : ApiController
     {
         public TestController()
