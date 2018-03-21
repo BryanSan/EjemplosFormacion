@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters.Infraestructure.Abstract;
+﻿using EjemplosFormacion.WebApi.Filters.OrderedFilters.Infraestructure.Abstract;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -13,6 +13,7 @@ namespace EjemplosFormacion.WebApi.FiltersProviders
     /// Tener cuidado de buscar en todos los scopes que filtros aplican para este Action Descriptor ya que si olvidas un scope o si filtras por un criterio erroneo
     /// Podrias ignorar algun filtro que si aplicaria a menos que otro FilterProvider lo agregue
     /// Si dos FilterProvider marcan el mismo filtro este filtro tendra tantas ejecuciones como se repita
+    /// Valores bajos de la propiedad Order en los filtros marcados como ordenables son evaluados primeros
     /// </summary>
     public class OrderedFilterProvider : IFilterProvider
     {
@@ -40,6 +41,7 @@ namespace EjemplosFormacion.WebApi.FiltersProviders
 
         // Ordenamos los filtros marcados como ordenables a traves de la interfaz "IOrderedFilter" segun su parametro de orden
         // Los que no esten marcados como ordenables seran ejecutados despues de los que si estan marcados como ordenables
+        // Valores bajos de la propiedad Order son evaluados primeros
         IEnumerable<FilterInfo> OrderFilters(IEnumerable<IFilter> filters, FilterScope scope)
         {
             // get all filter that dont implement IOrderedFilter and give them order number of 10000 to get executed last in his scope

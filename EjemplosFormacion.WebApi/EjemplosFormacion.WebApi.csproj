@@ -85,13 +85,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actions Filters\Normal Action Filters\TestActionFilterAttribute.cs" />
-    <Compile Include="Actions Filters\Normal Action Filters\TestIActionFilterAttribute.cs" />
-    <Compile Include="Actions Filters\Ordered Filters\Infraestructure\ActionFilterWithOrderAttribute.cs" />
-    <Compile Include="Actions Filters\Ordered Filters\Infraestructure\AuthorizationFilterWithOrderAttribute.cs" />
-    <Compile Include="Actions Filters\Ordered Filters\Infraestructure\ExceptionFilterWithOrderAttribute.cs" />
-    <Compile Include="Actions Filters\Ordered Filters\Infraestructure\Abstract\IOrderedFilter.cs" />
-    <Compile Include="Actions Filters\Ordered Filters\Normal Action Filters\TestOrderedActionFilterAttribute.cs" />
+    <Compile Include="Filters\Exception Filters\TestExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\Action Filters\TestActionFilterAttribute.cs" />
+    <Compile Include="Filters\Action Filters\TestIActionFilterAttribute.cs" />
+    <Compile Include="Filters\Ordered Filters\Exception Filters\TestOrderedExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\Ordered Filters\Infraestructure\ActionFilterWithOrderAttribute.cs" />
+    <Compile Include="Filters\Ordered Filters\Infraestructure\AuthorizationFilterWithOrderAttribute.cs" />
+    <Compile Include="Filters\Ordered Filters\Infraestructure\ExceptionFilterWithOrderAttribute.cs" />
+    <Compile Include="Filters\Ordered Filters\Infraestructure\Abstract\IOrderedFilter.cs" />
+    <Compile Include="Filters\Ordered Filters\Action Filters\TestOrderedActionFilterAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Filters Providers\OrderedFilterProvider.cs" />

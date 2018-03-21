@@ -1,5 +1,7 @@
-﻿using EjemplosFormacion.WebApi.ActionsFilters.NormalActionFilters;
-using EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters.NormalActionFilters;
+﻿using EjemplosFormacion.WebApi.Filters.ActionFilters;
+using EjemplosFormacion.WebApi.Filters.ExceptionFilters;
+using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
+using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
 using EjemplosFormacion.WebApi.FiltersProviders;
 using System.Web.Http;
 using System.Web.Http.Filters;
@@ -21,16 +23,44 @@ namespace EjemplosFormacion.WebApi
             // Registro de filtros globales
             ConfigureGlobalFilters(config);
 
-            // Rutas de API web
+            // Habilita el reconocimiento de rutas definidas como attributos en los controllers y actions
+            // Recordar que las rutas definidas en attributos se evaluan primero y sobreescriben las rutas definidas aqui en el global config
             config.MapHttpAttributeRoutes();
 
+            // Registro de rutas que reconocera el Web Api
+            ConfigureRoutes(config);
+        }
+
+
+        /// <summary>
+        /// Las rutas se evaluan comenzando desde la primera hasta la ultima
+        /// Si una es evaluada y cumple con el patron no se evaluara mas rutas y se usara esa que ha cumplido
+        /// Por regla general las rutas mas especificas van de primero y las generales de ultima
+        /// Si ninguna ruta cumple lanzara una excepcion
+        /// Puede darse el caso que varias rutas hagan match con la url del request, pero solo la primera que se evalua es la que se usara
+        /// Recordar que las rutas definidas en attributos se evaluan primero y sobreescriben las rutas definidas aqui en el global config
+        /// Donde uses {action} es reemplazado con el nombre del action que se esta evaluando, igualmente con {controller} con el nombre del controller que se esta evaluando
+        /// Los pedazos de ruta marcado como opcional no seran necesarios que el url del request lo supla para decir que dicha url hizo match
+        /// Los pedazos de ruta que no sean {controller} y {action} como {id} se anexaran al request 
+        /// Seran recuperados por parametros que se llamen igual o parametros que sean objetos que tengan propiedades que se llamen igual 
+        /// Ejemplo para {id} lo recuperas con int id o con un objeto con una propiedad que se llame id
+        /// </summary>
+        private static void ConfigureRoutes(HttpConfiguration config)
+        {
+            // Ruta para que tome en cuenta el nombre del action a la hora de evaluar y hacer match con la url del request
+            config.Routes.MapHttpRoute(
+                name: "RouteWithActionName",
+                routeTemplate: "api/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+            // Ruta default del Web Api, se centra al uso de los Http Verbs
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }
-
 
         /// <summary>
         /// Cuidado al agregar servicios ya que se puede ejecutar una logica varias veces 
@@ -61,9 +91,12 @@ namespace EjemplosFormacion.WebApi
             // 2 - Action filters
             // 3 - Exception filters
 
-            config.Filters.Add(new TestActionFilterAttribute()); // Normal Action Filter
-            config.Filters.Add(new TestIActionFilterAttribute()); // Normal Action Filter
-            config.Filters.Add(new TestOrderedActionFilterAttribute(order: 1)); // Normal Ordered Action Filter
+            config.Filters.Add(new TestActionFilterAttribute()); // Action Filter
+            config.Filters.Add(new TestIActionFilterAttribute()); // Action Filter
+            config.Filters.Add(new TestOrderedActionFilterAttribute(order: 1)); // Ordered Action Filter
+
+            config.Filters.Add(new TestExceptionFilterAttribute()); // Excepcion Filter
+            config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 1)); // Excepcion Action Filter
         }
     }
 }
