@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters.Infraestructure;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace EjemplosFormacion.WebApi.ActionsFilters
+namespace EjemplosFormacion.WebApi.ActionsFilters.OrderedFilters
 {
     /// <summary>
-    /// Filter Attribute comun en el que hereda de la clase ActionFilterAttribute para evitar tener que implementar los metodos requeridos por la interfaz IActionFilter
+    /// Filter Attribute comun en el que hereda de la clase ActionFilterWithOrderAttribute para dar soporte al orden de ejecucion de Action a traves de la propiedad Order  
+    /// Al mismo ActionFilterWithOrderAttribute hereda de ActionFilterAttribute para evitar tener que implementar los metodos requeridos por la interfaz IActionFilter y IFilter
     /// Has override de los metodos que necesites y añade la logica necesaria
     /// </summary>
-    public class TestActionFilterAttribute : ActionFilterAttribute
+    public class TestOrderedActionFilterAttribute : ActionFilterWithOrderAttribute
     {
         // Para permitir el mismo filtro varias veces (Devuelve lo que necesites)
         public override bool AllowMultiple => base.AllowMultiple;
 
-        public TestActionFilterAttribute()
+        public TestOrderedActionFilterAttribute(int order = 0)
         {
-
+            // Especifica el Order que deseas, esto sera leido por el custom Filter Provider para determinar el orden
+            Order = order;
         }
-
-        //http://www.tutorialsteacher.com/webapi/web-api-filters
-        //https://msdn.microsoft.com/en-us/library/system.web.http.filters(v=vs.118).aspx
-        //https://www.strathweb.com/2013/11/asynchronous-action-filters-asp-net-web-api/
 
         // Se ejecuta antes de entrar a ejecutar el Action en el Controller, usalo para logica sincronica
         public override void OnActionExecuting(HttpActionContext actionContext)
@@ -51,6 +46,5 @@ namespace EjemplosFormacion.WebApi.ActionsFilters
         {
             return base.OnActionExecutedAsync(actionExecutedContext, cancellationToken);
         }
-
     }
 }
