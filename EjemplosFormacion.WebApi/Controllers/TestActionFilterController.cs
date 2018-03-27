@@ -1,4 +1,5 @@
-﻿using EjemplosFormacion.WebApi.Filters.ActionFilters;
+﻿using EjemplosFormacion.WebApi.Filters.Action_Filters;
+using EjemplosFormacion.WebApi.Filters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
 using System.Web.Http;
 
@@ -64,6 +65,14 @@ namespace EjemplosFormacion.WebApi.Controllers
             return Ok(10);
         }
 
+        // Lee los header del request recibido, tanto los mas comunes como los custom definidos para la aplicacion
+        [TestReadHeaderActionFilter]
+        public IHttpActionResult TestReadHeaderRequestActionFilter()
+        {
+            return Ok();
+        }
+
+        // Añade headers al Request y Response
         [TestAddHeaderRequestActionFilter]
         public IHttpActionResult TestAddHeaderRequestActionFilter()
         {
