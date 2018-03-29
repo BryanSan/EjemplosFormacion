@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
@@ -8,9 +7,9 @@ using System.Web.Http.Filters;
 namespace EjemplosFormacion.WebApi.Filters.ActionFilters
 {
     /// <summary>
-    /// Action Filter que demuestra como se edita los valores del Response - Probar con parametro valores del tipo int
+    /// Action Filter usado par añadir Headers
     /// </summary>
-    public class TestEditResponseActionFilterAttribute : ActionFilterAttribute
+    public class TestAddHeaderRequestActionFilter : ActionFilterAttribute
     {
         // Para permitir el mismo filtro varias veces (Devuelve lo que necesites)
         public override bool AllowMultiple => base.AllowMultiple;
@@ -18,23 +17,20 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
         // Se ejecuta antes de entrar a ejecutar el Action en el Controller, usalo para logica sincronica
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+            // De esta manera puedes Agregar un Custom Header
+            actionContext.Request.Headers.Add("customHeaderRequest", "custom value date time");
+
+            // De esta manera puedes Agregar un Header de los Comunes
+            AuthenticationHeaderValue authenticationHeader = new AuthenticationHeaderValue("schema","credentials");
+            actionContext.Request.Headers.Authorization = authenticationHeader;
+
             base.OnActionExecuting(actionContext);
         }
 
         // Se ejecuta al finalizar el Action en el Controller, usalo para logica sincronica
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
-            ObjectContent objectContent = actionExecutedContext.Response.Content as ObjectContent;
-            if (objectContent != null)
-            {
-                Type type = objectContent.ObjectType; //type of the returned object
-                object value = objectContent.Value; //holding the returned value
-                
-                if (value is int)
-                {
-                    objectContent.Value = 0;
-                }
-            }
+            actionExecutedContext.Response.Headers.Add("customHeaderResponse", "custom value date time");
 
             base.OnActionExecuted(actionExecutedContext);
         }

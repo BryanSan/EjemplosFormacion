@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\TestExceptionFilterController.cs" />
+    <Compile Include="Filters\Action Filters\TestAddHeaderRequestActionFilter.cs" />
     <Compile Include="Filters\Action Filters\TestEditRequestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditResponseActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestReturnExceptionActionFilterAttribute.cs" />

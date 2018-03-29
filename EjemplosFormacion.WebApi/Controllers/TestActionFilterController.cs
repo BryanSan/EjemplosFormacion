@@ -1,4 +1,5 @@
-﻿using EjemplosFormacion.WebApi.Filters.ActionFilters;
+﻿using EjemplosFormacion.WebApi.Filters.Action_Filters;
+using EjemplosFormacion.WebApi.Filters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
 using System.Web.Http;
 
@@ -28,7 +29,7 @@ namespace EjemplosFormacion.WebApi.Controllers
         }
 
         // Interrumpe el procesamiento, genera y devuelve una excepcion con un HttpStatusCode de BadRequest (Mejor devuelve un HttpStatusCode apropiado que una excepcion)
-        [TestReturnExceptionActionFilter] 
+        [TestReturnExceptionActionFilter]
         public IHttpActionResult TestReturnExceptionActionFilter()
         {
             // Nunca entra aqui ya que el Filter interrumpe el procesamiento
@@ -36,7 +37,7 @@ namespace EjemplosFormacion.WebApi.Controllers
         }
 
         // Interrumpe el procesamiento y devuelve un HttpStatusCode de BadRequest sin generar una excepcion
-        [TestReturnHttpStatusCodeActionFilter] 
+        [TestReturnHttpStatusCodeActionFilter]
         public IHttpActionResult TestReturnHttpStatusCodeActionFilter()
         {
             // Nunca entra aqui ya que el Filter interrumpe el procesamiento
@@ -45,7 +46,7 @@ namespace EjemplosFormacion.WebApi.Controllers
 
         // Edita el valor id que venga en la request por Routing (Url) 
         [TestEditRequestActionFilter]
-        public IHttpActionResult TestEditRequestActionFilterFromUri([FromUri] int id) 
+        public IHttpActionResult TestEditRequestActionFilterFromUri([FromUri] int id)
         {
             return Ok(id);
         }
@@ -62,6 +63,20 @@ namespace EjemplosFormacion.WebApi.Controllers
         public IHttpActionResult TestEditResponseActionFilter()
         {
             return Ok(10);
+        }
+
+        // Lee los header del request recibido, tanto los mas comunes como los custom definidos para la aplicacion
+        [TestReadHeaderActionFilter]
+        public IHttpActionResult TestReadHeaderRequestActionFilter()
+        {
+            return Ok();
+        }
+
+        // Añade headers al Request y Response
+        [TestAddHeaderRequestActionFilter]
+        public IHttpActionResult TestAddHeaderRequestActionFilter()
+        {
+            return Ok();
         }
     }
 }
