@@ -6,14 +6,13 @@ using System.Web.Http;
 namespace EjemplosFormacion.WebApi.Controllers
 {
     [TestExceptionFilter] // Excepcion Filter
-    [TestOrderedExceptionFilter(Order = 1)] // Ordered Excepcion Filter
+    [TestOrderedExceptionFilter(Order = 1)] // Ordered Excepcion Filter - Primero en Ejecutar
+    [TestOrderedExceptionFilter(Order = 2)] // Ordered Excepcion Filter - Segundo en Ejecutar
     public class TestExceptionFilterController : ApiController
     {
         [TestExceptionFilter] // Excepcion Filter
-        [TestOrderedExceptionFilter(Order = 1)] // Ordered Excepcion Filter
-
-        [HttpGet] // Marca el action como solo accesible por una peticion Get 
-        [ActionName("excepcionFilter")] // Nombre de la accion para cual una url debe coincidir (Tiene un custom route en el web api config para leer el nombre del accion)
+        [TestOrderedExceptionFilter(Order = 1)] // Ordered Excepcion Filter - Primero en Ejecutar
+        [TestOrderedExceptionFilter(Order = 2)] // Ordered Excepcion Filter - Segundo en Ejecutar
         public IHttpActionResult TestExcepcionFilter()
         {
             throw new NotImplementedException();

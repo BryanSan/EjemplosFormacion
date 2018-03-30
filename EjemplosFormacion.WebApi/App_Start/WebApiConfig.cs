@@ -93,10 +93,12 @@ namespace EjemplosFormacion.WebApi
 
             config.Filters.Add(new TestActionFilterAttribute()); // Action Filter
             config.Filters.Add(new TestIActionFilterAttribute()); // Action Filter
-            config.Filters.Add(new TestOrderedActionFilterAttribute(order: 1)); // Ordered Action Filter
+            config.Filters.Add(new TestOrderedActionFilterAttribute(order: 1)); // Ordered Action Filter - Primero en Ejecutar
+            config.Filters.Add(new TestOrderedActionFilterAttribute(order: 2)); // Ordered Action Filter - Segundo en Ejecutar
 
             config.Filters.Add(new TestExceptionFilterAttribute()); // Excepcion Filter
-            config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 1)); // Excepcion Action Filter
+            config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 1)); // Excepcion Action Filter - Primero en Ejecutar
+            config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 2)); // Excepcion Action Filter - Segundo en Ejecutar
         }
     }
 }

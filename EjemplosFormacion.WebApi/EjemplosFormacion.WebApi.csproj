@@ -89,6 +89,7 @@
     <Compile Include="Filters\Action Filters\TestAddHeaderRequestActionFilter.cs" />
     <Compile Include="Filters\Action Filters\TestEditRequestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditResponseActionFilterAttribute.cs" />
+    <Compile Include="Filters\Action Filters\TestReadHeaderRequestActionFilter.cs" />
     <Compile Include="Filters\Action Filters\TestReturnExceptionActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestReturnHttpStatusCodeActionFilterAttribute.cs" />
     <Compile Include="Filters\Exception Filters\TestExceptionFilterAttribute.cs" />
