@@ -1,4 +1,5 @@
 ﻿using EjemplosFormacion.WebApi.Filters.ActionFilters;
+using EjemplosFormacion.WebApi.Filters.AuthenticationFilters;
 using EjemplosFormacion.WebApi.Filters.ExceptionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
@@ -99,6 +100,10 @@ namespace EjemplosFormacion.WebApi
             config.Filters.Add(new TestExceptionFilterAttribute()); // Excepcion Filter
             config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 1)); // Excepcion Action Filter - Primero en Ejecutar
             config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 2)); // Excepcion Action Filter - Segundo en Ejecutar
+
+            config.Filters.Add(new TestBasicAuthenticationFilter()); // Authentication Filter with Basic Schema
+
+            config.Filters.Add(new AuthorizeAttribute()); // Requiere que el Request este autenticado (con un IPrincipal asignado)
         }
     }
 }
