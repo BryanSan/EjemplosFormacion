@@ -5,6 +5,7 @@ using EjemplosFormacion.WebApi.Filters.ExceptionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
+using EjemplosFormacion.WebApi.Filters.OverrideFilters;
 using EjemplosFormacion.WebApi.FiltersProviders;
 using System.Web.Http;
 using System.Web.Http.Filters;
@@ -112,7 +113,7 @@ namespace EjemplosFormacion.WebApi
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 2)); // Authorize Filter 
 
             // Web Api Build in Authorize Filter Requiere que el Request este autenticado (con un IPrincipal asignado), necesario para que si no tiene credenciales explote
-            config.Filters.Add(new AuthorizeAttribute());
+            config.Filters.Add(new AuthorizeAttribute()); // Authorize Filter 
         }
     }
 }

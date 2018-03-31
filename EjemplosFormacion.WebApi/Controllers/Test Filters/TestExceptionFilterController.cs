@@ -3,7 +3,7 @@ using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
 using System;
 using System.Web.Http;
 
-namespace EjemplosFormacion.WebApi.Controllers
+namespace EjemplosFormacion.WebApi.Controllers.TestFilters
 {
     [TestExceptionFilter] // Excepcion Filter
     [TestOrderedExceptionFilter(Order = 1)] // Ordered Excepcion Filter - Primero en Ejecutar

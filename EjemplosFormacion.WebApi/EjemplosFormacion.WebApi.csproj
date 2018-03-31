@@ -87,9 +87,10 @@
   <ItemGroup>
     <Compile Include="Action Results\AddChallengeOnUnauthorizedActionResult.cs" />
     <Compile Include="Action Results\AuthenticationFailureActionResult.cs" />
-    <Compile Include="Controllers\TestAuthorizationFilterController.cs" />
-    <Compile Include="Controllers\TestBasicAuthenticationFilterController.cs" />
-    <Compile Include="Controllers\TestExceptionFilterController.cs" />
+    <Compile Include="Controllers\Test Filters\TestAuthorizationFilterController.cs" />
+    <Compile Include="Controllers\Test Filters\TestBasicAuthenticationFilterController.cs" />
+    <Compile Include="Controllers\Test Filters\TestExceptionFilterController.cs" />
+    <Compile Include="Controllers\Test Filters\TestOverrideFilterController.cs" />
     <Compile Include="Filters\Action Filters\TestAddHeaderRequestActionFilter.cs" />
     <Compile Include="Filters\Action Filters\TestEditRequestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditResponseActionFilterAttribute.cs" />
@@ -111,8 +112,9 @@
     <Compile Include="Filters\Ordered Filters\Infraestructure\Abstract\IOrderedFilter.cs" />
     <Compile Include="Filters\Ordered Filters\Action Filters\TestOrderedActionFilterAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\TestActionFilterController.cs" />
+    <Compile Include="Controllers\Test Filters\TestActionFilterController.cs" />
     <Compile Include="Filters Providers\OrderedFilterProvider.cs" />
+    <Compile Include="Filters\Override Filters\TestOverrideFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -129,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Test Authentication\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>

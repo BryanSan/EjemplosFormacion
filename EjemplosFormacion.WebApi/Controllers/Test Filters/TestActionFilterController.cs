@@ -2,7 +2,7 @@
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
 using System.Web.Http;
 
-namespace EjemplosFormacion.WebApi.Controllers
+namespace EjemplosFormacion.WebApi.Controllers.TestFilters
 {
     [TestActionFilter] // Action Filter - Al no ser un Ordered Action Filter se ejecuta luego de los Ordered Filter (Ver implementacion Filter Provider)
     [TestIActionFilter] // Action Filter - Al no ser un Ordered Action Filter se ejecuta luego de los Ordered Filter (Ver implementacion Filter Provider)

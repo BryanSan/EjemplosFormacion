@@ -2,7 +2,7 @@
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters;
 using System.Web.Http;
 
-namespace EjemplosFormacion.WebApi.Controllers
+namespace EjemplosFormacion.WebApi.Controllers.TestFilters
 {
     [TestExtendedAuthorizeFilter] // Authorize Attribute
     [TestAuthorizationFilter] // Authorize Attribute

@@ -1,7 +1,7 @@
 ﻿using EjemplosFormacion.WebApi.Filters.AuthenticationFilters;
 using System.Web.Http;
 
-namespace EjemplosFormacion.WebApi.Controllers
+namespace EjemplosFormacion.WebApi.Controllers.TestFilters
 {
     // Web Api Build in Authorize Filter Requiere que el Request este autenticado (con un IPrincipal asignado), necesario para que si no tiene credenciales explote
     [Authorize] 

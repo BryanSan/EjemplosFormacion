@@ -30,7 +30,6 @@ namespace EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters
             {
                 HandleUnauthorizedRequest(actionContext);
             }
-            base.OnAuthorization(actionContext);
         }
 
         // Logica para definir tus autorizaciones en manera asincronica
@@ -42,7 +41,8 @@ namespace EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters
             {
                 HandleUnauthorizedRequest(actionContext);
             }
-            return base.OnAuthorizationAsync(actionContext, cancellationToken);
+
+            return Task.FromResult<object>(null);
         }
 
         // Logica para manejar las request que esten desautorizadas

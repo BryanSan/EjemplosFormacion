@@ -35,7 +35,8 @@ namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
             {
                 HandleUnauthorizedRequest(actionContext);
             }
-            return base.OnAuthorizationAsync(actionContext, cancellationToken);
+
+            return Task.FromResult<object>(null);
         }
 
         // Logica para manejar las request que esten desautorizadas
