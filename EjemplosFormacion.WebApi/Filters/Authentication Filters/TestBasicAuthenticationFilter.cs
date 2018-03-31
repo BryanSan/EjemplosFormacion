@@ -16,6 +16,8 @@ namespace EjemplosFormacion.WebApi.Filters.AuthenticationFilters
     /// Si tiene un Schema diferente al Basic no hace nada
     /// Si no hace nada no significa que aprueba ni que desautoriza, solo deja pasar y que otro vea que hace
     /// Usa una peticion con el header Authentication con valor Basic usuario:clave para poder probar
+    /// En resumen valida las credenciales pasadas en el Request y asigna el IPrincipal y IIdentity al Request
+    /// Puedes crear tus propias implementaciones para las Interfaces IPrincipal y IIdentity para guardar mas datos que necesites
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class TestBasicAuthenticationFilter : Attribute, IAuthenticationFilter

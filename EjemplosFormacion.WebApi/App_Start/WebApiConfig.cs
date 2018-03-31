@@ -1,5 +1,6 @@
 ﻿using EjemplosFormacion.WebApi.Filters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.AuthenticationFilters;
+using EjemplosFormacion.WebApi.Filters.AuthorizationFilters;
 using EjemplosFormacion.WebApi.Filters.ExceptionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
@@ -103,7 +104,11 @@ namespace EjemplosFormacion.WebApi
 
             config.Filters.Add(new TestBasicAuthenticationFilter()); // Authentication Filter with Basic Schema
 
-            config.Filters.Add(new AuthorizeAttribute()); // Requiere que el Request este autenticado (con un IPrincipal asignado)
+            config.Filters.Add(new TestExtendedAuthorizeFilterAttribute()); // Authorize Filter Requiere que el Request este autenticado (con un IPrincipal asignado)
+            config.Filters.Add(new TestAuthorizationFilter()); // Authorize Filter 
+            config.Filters.Add(new TestIAuthorizationFilterAttribute()); // Authorize Filter 
+
+            config.Filters.Add(new AuthorizeAttribute()); // Authorize Filter Requiere que el Request este autenticado (con un IPrincipal asignado)
         }
     }
 }

@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Action Results\AddChallengeOnUnauthorizedActionResult.cs" />
     <Compile Include="Action Results\AuthenticationFailureActionResult.cs" />
+    <Compile Include="Controllers\TestAuthorizationFilterController.cs" />
     <Compile Include="Controllers\TestBasicAuthenticationFilterController.cs" />
     <Compile Include="Controllers\TestExceptionFilterController.cs" />
     <Compile Include="Filters\Action Filters\TestAddHeaderRequestActionFilter.cs" />
@@ -96,6 +97,9 @@
     <Compile Include="Filters\Action Filters\TestReturnExceptionActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestReturnHttpStatusCodeActionFilterAttribute.cs" />
     <Compile Include="Filters\Authentication Filters\TestBasicAuthenticationFilter.cs" />
+    <Compile Include="Filters\Authorization Filters\TestExtendedAuthorizeFilterAttribute.cs" />
+    <Compile Include="Filters\Authorization Filters\TestAuthorizationFilterAttribute.cs" />
+    <Compile Include="Filters\Authorization Filters\TestIAuthorizationFilterAttribute.cs" />
     <Compile Include="Filters\Exception Filters\TestExceptionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestIActionFilterAttribute.cs" />
