@@ -7,6 +7,11 @@ using System.Web.Http.Filters;
 
 namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
 {
+    /// <summary>
+    /// Implement this interface to perform asynchronous authorization logic; 
+    /// for example, if your authorization logic makes asynchronous I/O or network calls. 
+    /// (If your authorization logic is CPU-bound, it is simpler to derive from AuthorizationFilterAttribute, because then you don't need to write an asynchronous method.)
+    /// </summary>
     public class TestIAuthorizationFilterAttribute : FilterAttribute, IAuthorizationFilter
     {
 

@@ -103,6 +103,7 @@
     <Compile Include="Filters\Exception Filters\TestExceptionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestIActionFilterAttribute.cs" />
+    <Compile Include="Filters\Ordered Filters\Authorization Filters\TestOrderedAuthorizationFilterAttribute.cs" />
     <Compile Include="Filters\Ordered Filters\Exception Filters\TestOrderedExceptionFilterAttribute.cs" />
     <Compile Include="Filters\Ordered Filters\Infraestructure\ActionFilterWithOrderAttribute.cs" />
     <Compile Include="Filters\Ordered Filters\Infraestructure\AuthorizationFilterWithOrderAttribute.cs" />

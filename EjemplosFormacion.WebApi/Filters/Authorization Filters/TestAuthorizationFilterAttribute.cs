@@ -10,6 +10,8 @@ namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
 {
     /// <summary>
     /// Extend AuthorizationFilterAttribute to perform synchronous authorization logic that is not necessarily based on the current user or role.
+    /// Has override sobre los metodos OnAuthorization o OnAuthorizationAsync para definir tu logica de Autorizacion
+    /// Si no se asigna un Response se da por Autorizado la respuesta
     /// </summary>
     public class TestAuthorizationFilterAttribute : AuthorizationFilterAttribute
     {
@@ -22,8 +24,6 @@ namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
             {
                 HandleUnauthorizedRequest(actionContext);
             }
-
-            base.OnAuthorization(actionContext);
         }
 
         // Logica para definir tus autorizaciones en manera asincronica
