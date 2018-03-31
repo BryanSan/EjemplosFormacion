@@ -71,6 +71,7 @@ namespace EjemplosFormacion.WebApi.Filters.AuthenticationFilters
             // 6. If the credentials are valid, set principal.
             else
             {
+                Thread.CurrentPrincipal = principal;
                 context.Principal = principal;
             }
 
