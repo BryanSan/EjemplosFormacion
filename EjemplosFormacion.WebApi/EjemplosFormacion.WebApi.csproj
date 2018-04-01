@@ -147,10 +147,13 @@
     </Compile>
     <Compile Include="IoC\UnityDependencyResolver.cs" />
     <Compile Include="Messaging Handlers\TestAddHeaderMessageHandler.cs" />
+    <Compile Include="Messaging Handlers\TestBasicAuthenticatonMessageHandler.cs" />
+    <Compile Include="Messaging Handlers\TestCookiesMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestMethodOverrideHeaderMessageHandler.cs" />
+    <Compile Include="Messaging Handlers\TestReadHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestReturnResponseMessageHandler.cs" />
-    <Compile Include="Messaging Handlers\TestSearchApiKeyMessagingHandler.cs" />
+    <Compile Include="Messaging Handlers\TestReadQueryStringMessagingHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stubs\Abstract\ITestDependency.cs" />
     <Compile Include="Stubs\Implementation\TestDependency.cs" />

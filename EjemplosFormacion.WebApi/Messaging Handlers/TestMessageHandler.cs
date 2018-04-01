@@ -6,13 +6,13 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
 {
     public class TestMessageHandler : DelegatingHandler
     {
-        public TestMessageHandler()
+        // Passing the next Handler of the Pipeline If Any
+        public TestMessageHandler(DelegatingHandler delegatingHandler) : base(delegatingHandler)
         {
 
         }
 
-        // Passing the next Handler of the Pipeline If Any
-        public TestMessageHandler(DelegatingHandler delegatingHandler) : base(delegatingHandler)
+        public TestMessageHandler()
         {
 
         }

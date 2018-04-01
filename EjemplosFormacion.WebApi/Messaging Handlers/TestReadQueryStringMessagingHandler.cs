@@ -5,13 +5,19 @@ using System.Threading.Tasks;
 
 namespace EjemplosFormacion.WebApi.MessagingHandlers
 {
-    public class TestSearchApiKeyMessagingHandler : DelegatingHandler
+    public class TestReadQueryStringMessagingHandler : DelegatingHandler
     {
-        public string Key { get; set; }
+        readonly string _key;
 
-        public TestSearchApiKeyMessagingHandler(string key)
+        // Passing the next Handler of the Pipeline If Any
+        public TestReadQueryStringMessagingHandler(DelegatingHandler delegatingHandler, string key = null) : base(delegatingHandler) 
         {
-            Key = key;
+            _key = key;
+        }
+
+        public TestReadQueryStringMessagingHandler(string key) : this(null, key)
+        {
+            
         }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -30,7 +36,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         {
             var query = message.RequestUri.ParseQueryString();
             string key = query["key"];
-            return (key == Key);
+            return (key == _key);
         }
 
     }

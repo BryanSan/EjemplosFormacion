@@ -34,7 +34,23 @@ namespace EjemplosFormacion.WebApi.Controllers.TestMessagingHandler
             return Ok();
         }
 
-        public IHttpActionResult TestSearchApiKeyMessagingHandler()
+        public IHttpActionResult TestReadQueryStringMessagingHandler()
+        {
+            return Ok();
+        }
+
+        public IHttpActionResult TestCookiesMessageHandler()
+        {
+            return Ok();
+        }
+
+        public IHttpActionResult TestReadHeaderMessageHandler()
+        {
+            return Ok();
+        }
+
+        [Authorize]
+        public IHttpActionResult TestBasicAuthenticatonMessageHandler()
         {
             return Ok();
         }

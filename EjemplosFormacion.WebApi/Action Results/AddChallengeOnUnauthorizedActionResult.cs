@@ -10,27 +10,43 @@ namespace EjemplosFormacion.WebApi.ActionResults
 {
     public class AddChallengeOnUnauthorizedActionResult : IHttpActionResult
     {
-        public AuthenticationHeaderValue Challenge { get; private set; }
+        readonly AuthenticationHeaderValue _challenge;
+        readonly IHttpActionResult _innerResult;
+        readonly HttpResponseMessage _innerResponse;
 
-        public IHttpActionResult InnerResult { get; private set; }
-
-        public AddChallengeOnUnauthorizedActionResult(AuthenticationSchemes schema, IHttpActionResult innerResult)
+        private AddChallengeOnUnauthorizedActionResult(AuthenticationSchemes schema)
         {
-            Challenge = new AuthenticationHeaderValue(schema.ToString());
-            InnerResult = innerResult;
+            _challenge = new AuthenticationHeaderValue(schema.ToString());
+        }
+
+        public AddChallengeOnUnauthorizedActionResult(AuthenticationSchemes schema, IHttpActionResult innerResult) : this(schema)
+        {
+            _innerResult = innerResult;
+        }
+
+        public AddChallengeOnUnauthorizedActionResult(AuthenticationSchemes schema, HttpResponseMessage innerResponse) : this(schema)
+        {
+            _innerResponse = innerResponse;
         }
 
         // Si el Response tiene el StatusCode como UnAuthorized entonces agregamos un Header con el Schema que se uso para intentar authenticar el Request
         public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            HttpResponseMessage response = await InnerResult.ExecuteAsync(cancellationToken);
+            // Si ya tengo el response entonces la uso
+            HttpResponseMessage response = _innerResponse;
+
+            // Si no tengo response entonces busco en ejecuto mi ActionResult para obtener el response
+            if (_innerResult != null)
+            {
+                response = await _innerResult.ExecuteAsync(cancellationToken);
+            } 
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 // Only add one challenge per authentication scheme.
-                if (!response.Headers.WwwAuthenticate.Any((h) => h.Scheme == Challenge.Scheme))
+                if (!response.Headers.WwwAuthenticate.Any((h) => h.Scheme == _challenge.Scheme))
                 {
-                    response.Headers.WwwAuthenticate.Add(Challenge);
+                    response.Headers.WwwAuthenticate.Add(_challenge);
                 }
             }
 

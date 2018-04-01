@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
@@ -21,13 +23,27 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
             {
                 actionContext.RequestContext.RouteData.Values["id"] = 0;
             }
-
+            
             // De esta manera puedes modificar los valores del Request, TANTO los valores del Body como el Url
             // Todos los valores del Request que sean usados en los parametros del action seran bindeados y apareceran en el diccionario
             // Todos los valores del Request que no sean usados en los parametros del action no seran bindeados ya que seran ignorados y por lo tanto no apareceran en el diccionario
             if (actionContext.ActionArguments.TryGetValue("id", out _))
             {
                 actionContext.ActionArguments["id"] = 0;
+            }
+
+            // Puedes inspeccionar el Content tambien casteandolo a un Type apropiado y modificar sus valores
+            ObjectContent objectContent = actionContext.Request.Content as ObjectContent;
+            if (objectContent != null)
+            {
+                Type type = objectContent.ObjectType; //type of the returned object
+                object value = objectContent.Value; //holding the returned value
+
+                if (value is int)
+                {
+                    // Asignaselo al objectContent.Value para persistir los cambios
+                    objectContent.Value = 0;
+                }
             }
 
             base.OnActionExecuting(actionContext);

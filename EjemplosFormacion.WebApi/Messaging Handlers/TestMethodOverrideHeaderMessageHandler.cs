@@ -11,6 +11,17 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         readonly string[] _methods = { "DELETE", "HEAD", "PUT" };
         const string _header = "X-HTTP-Method-Override";
 
+        // Passing the next Handler of the Pipeline If Any
+        public TestMethodOverrideHeaderMessageHandler(DelegatingHandler delegatingHandler) : base(delegatingHandler)
+        {
+
+        }
+
+        public TestMethodOverrideHeaderMessageHandler()
+        {
+
+        }
+
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             // Check for HTTP POST with the X-HTTP-Method-Override header.

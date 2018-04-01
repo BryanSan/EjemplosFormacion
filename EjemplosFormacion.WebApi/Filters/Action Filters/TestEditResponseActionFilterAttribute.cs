@@ -24,6 +24,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
         // Se ejecuta al finalizar el Action en el Controller, usalo para logica sincronica
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
+            // Puedes inspeccionar el Content tambien casteandolo a un Type apropiado y modificar sus valores
             ObjectContent objectContent = actionExecutedContext.Response.Content as ObjectContent;
             if (objectContent != null)
             {
@@ -32,6 +33,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
                 
                 if (value is int)
                 {
+                    // Asignaselo al objectContent.Value para persistir los cambios
                     objectContent.Value = 0;
                 }
             }

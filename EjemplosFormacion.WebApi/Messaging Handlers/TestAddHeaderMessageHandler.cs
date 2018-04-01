@@ -6,6 +6,17 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
 {
     public class TestAddHeaderMessageHandler : DelegatingHandler
     {
+        // Passing the next Handler of the Pipeline If Any
+        public TestAddHeaderMessageHandler(DelegatingHandler delegatingHandler) : base(delegatingHandler)
+        {
+
+        }
+
+        public TestAddHeaderMessageHandler()
+        {
+
+        }
+
         async protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             request.Headers.Add("X-Custom-Header-Request", "This is my custom header in request.");

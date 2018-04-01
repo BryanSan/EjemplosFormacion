@@ -210,10 +210,35 @@ namespace EjemplosFormacion.WebApi
             // Test Search for key in Query String Message Handler
             config.Routes.MapHttpRoute(
                 name: "RouteTestSearchApiKeyMessagingHandler",
-                routeTemplate: "api/TestMessagingHandler/TestSearchApiKeyMessagingHandler/{id}",
+                routeTemplate: "api/TestMessagingHandler/TestReadQueryStringMessagingHandler/{id}",
                 defaults: new { id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestSearchApiKeyMessagingHandler("key") // Message Handler for this Route
+                handler: new TestReadQueryStringMessagingHandler("key") // Message Handler for this Route
+            );
+
+            // Test CRUD Cookies Message Handler
+            config.Routes.MapHttpRoute(
+                name: "RouteTestCookiesMessageHandler",
+                routeTemplate: "api/TestMessagingHandler/TestCookiesMessageHandler/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: new TestCookiesMessageHandler() // Message Handler for this Route
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "RouteTestReadHeaderMessageHandler",
+                routeTemplate: "api/TestMessagingHandler/TestReadHeaderMessageHandler/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: new TestReadHeaderMessageHandler() // Message Handler for this Route
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "RouteTestBasicAuthenticatonMessageHandler",
+                routeTemplate: "api/TestMessagingHandler/TestBasicAuthenticatonMessageHandler/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: new TestBasicAuthenticatonMessageHandler() // Message Handler for this Route
             );
         }
 

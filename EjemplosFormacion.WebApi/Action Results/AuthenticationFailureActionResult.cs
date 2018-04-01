@@ -8,15 +8,13 @@ namespace EjemplosFormacion.WebApi.ActionResults
 {
     public class AuthenticationFailureActionResult : IHttpActionResult
     {
-
-        public string ReasonPhrase { get; private set; }
-
-        public HttpRequestMessage Request { get; private set; }
+        readonly string _reasonPhrase;
+        readonly HttpRequestMessage _request;
 
         public AuthenticationFailureActionResult(string reasonPhrase, HttpRequestMessage request)
         {
-            ReasonPhrase = reasonPhrase;
-            Request = request;
+            _reasonPhrase = reasonPhrase;
+            _request = request;
         }
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
@@ -28,8 +26,8 @@ namespace EjemplosFormacion.WebApi.ActionResults
         private HttpResponseMessage Execute()
         {
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            response.RequestMessage = Request;
-            response.ReasonPhrase = ReasonPhrase;
+            response.RequestMessage = _request;
+            response.ReasonPhrase = _reasonPhrase;
             return response;
         }
     }
