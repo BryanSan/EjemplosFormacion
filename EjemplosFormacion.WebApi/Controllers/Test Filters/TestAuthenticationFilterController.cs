@@ -6,7 +6,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
     // Web Api Build in Authorize Filter Requiere que el Request este autenticado (con un IPrincipal asignado), necesario para que si no tiene credenciales explote
     [Authorize] 
     [TestBasicAuthenticationFilter] // Authentication Filter with Basic Schema
-    public class TestBasicAuthenticationFilterController : ApiController
+    public class TestAuthenticationFilterController : ApiController
     {
         // Web Api Build in Authorize Filter Requiere que el Request este autenticado (con un IPrincipal asignado), necesario para que si no tiene credenciales explote
         [Authorize]

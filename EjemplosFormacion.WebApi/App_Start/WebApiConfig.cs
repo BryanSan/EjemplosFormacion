@@ -5,10 +5,16 @@ using EjemplosFormacion.WebApi.Filters.ExceptionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
-using EjemplosFormacion.WebApi.Filters.OverrideFilters;
 using EjemplosFormacion.WebApi.FiltersProviders;
+using EjemplosFormacion.WebApi.IoC;
+using EjemplosFormacion.WebApi.MessagingHandlers;
+using EjemplosFormacion.WebApi.Stubs.Abstract;
+using EjemplosFormacion.WebApi.Stubs.Implementation;
+using System;
 using System.Web.Http;
 using System.Web.Http.Filters;
+using Unity;
+using Unity.Lifetime;
 
 namespace EjemplosFormacion.WebApi
 {
@@ -21,20 +27,56 @@ namespace EjemplosFormacion.WebApi
         {
             // Configuración y servicios de API web
 
+            //Configure Dependency Resolver (IoC Bridge)
+            ConfigureDependencyResolver(config);
+
             // Registro de servicios
             ConfigureServices(config);
 
             // Registro de filtros globales
             ConfigureGlobalFilters(config);
 
-            // Habilita el reconocimiento de rutas definidas como attributos en los controllers y actions
-            // Recordar que las rutas definidas en attributos se evaluan primero y sobreescriben las rutas definidas aqui en el global config
-            config.MapHttpAttributeRoutes();
-
             // Registro de rutas que reconocera el Web Api
             ConfigureRoutes(config);
+
+            // Registro Messaging Handlers
+            ConfigureMessagingHandlers(config);
         }
 
+        /// <summary>
+        /// Se configura el Dependency Container y se registrar en el Dependency Resolver del Web Api
+        /// </summary>
+        private static void ConfigureDependencyResolver(HttpConfiguration config)
+        {
+            // Se crea el IoC Container
+            UnityContainer container = new UnityContainer();
+
+            // Se registran las dependencias en el IoC Container
+            RegisterDependencies(container);
+
+            // Se registra el Dependency Resolver y el IoC Container a usar
+            config.DependencyResolver = new UnityDependencyResolver(container);
+        }
+
+        /// <summary>
+        /// Se registran las dependencias de la aplicacion
+        /// </summary>
+        private static void RegisterDependencies(UnityContainer container)
+        {
+            container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
+        }
+
+        /// <summary>
+        /// Cuidado al agregar servicios ya que se puede ejecutar una logica varias veces 
+        /// Has un Replace para mantener 1 servicio de un solo tipo 
+        /// Si haces un Add piensa bien si necesitas ambos servicios corriendo juntos
+        /// Testea si es necesario para ver si la logica se ejecuta varias veces y no dañes el performance
+        /// </summary>
+        private static void ConfigureServices(HttpConfiguration config)
+        {
+            // Custom action filter provider which does ordering
+            config.Services.Replace(typeof(IFilterProvider), new OrderedFilterProvider());
+        }
 
         /// <summary>
         /// Las rutas se evaluan comenzando desde la primera hasta la ultima
@@ -51,6 +93,10 @@ namespace EjemplosFormacion.WebApi
         /// </summary>
         private static void ConfigureRoutes(HttpConfiguration config)
         {
+            // Habilita el reconocimiento de rutas definidas como attributos en los controllers y actions
+            // Recordar que las rutas definidas en attributos se evaluan primero y sobreescriben las rutas definidas aqui en el global config
+            config.MapHttpAttributeRoutes();
+
             // Ruta para que tome en cuenta el nombre del action a la hora de evaluar y hacer match con la url del request
             config.Routes.MapHttpRoute(
                 name: "RouteWithActionName",
@@ -64,18 +110,6 @@ namespace EjemplosFormacion.WebApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-        }
-
-        /// <summary>
-        /// Cuidado al agregar servicios ya que se puede ejecutar una logica varias veces 
-        /// Has un Replace para mantener 1 servicio de un solo tipo 
-        /// Si haces un Add piensa bien si necesitas ambos servicios corriendo juntos
-        /// Testea si es necesario para ver si la logica se ejecuta varias veces y no dañes el performance
-        /// </summary>
-        private static void ConfigureServices(HttpConfiguration config)
-        {
-            // Custom action filter provider which does ordering
-            config.Services.Replace(typeof(IFilterProvider), new OrderedFilterProvider());
         }
 
         private static void ConfigureGlobalFilters(HttpConfiguration config)
@@ -113,7 +147,39 @@ namespace EjemplosFormacion.WebApi
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 2)); // Authorize Filter 
 
             // Web Api Build in Authorize Filter Requiere que el Request este autenticado (con un IPrincipal asignado), necesario para que si no tiene credenciales explote
-            config.Filters.Add(new AuthorizeAttribute()); // Authorize Filter 
+            //config.Filters.Add(new AuthorizeAttribute()); // Authorize Filter 
+        }
+
+        // Registro de Messaging Handlers
+        private static void ConfigureMessagingHandlers(HttpConfiguration config)
+        {
+            // Registro de Message Handler para todas las Request
+            // Puedes pasar un Message Handler vacio, osea no hay cadena de Handlers, 
+            // Si quieres que otro handler se ejecute luego de este, pasalo en el constructor y se creara la cadena 
+
+            // Registro Messaging Handler sin cadena (Sin otro Messaging Handler que le siga)
+            config.MessageHandlers.Add(new TestMessageHandler());
+
+            // Registro Messaging Handler con cadena (Le sigue otro Messaging Handler)
+            config.MessageHandlers.Add(new TestMessageHandler(new TestMessageHandler()));
+
+            // Puedes usar un Message especifico solo para una ruta sin cadena
+            config.Routes.MapHttpRoute(
+                name: "RouteTestWithMessagingHandlerNoChain",
+                routeTemplate: "api/TestMessagingHandler/TestMessagingHandlerRouteSpecificNoChain/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: new TestMessageHandler() // Message Handler for this Route
+            );
+
+            // Puedes usar un Message especifico solo para una ruta con cadena
+            config.Routes.MapHttpRoute(
+                name: "RouteTestWithMessagingHandlerYesChain",
+                routeTemplate: "api/TestMessagingHandler/TestMessagingHandlerRouteSpecificYesChain/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: new TestMessageHandler(new TestMessageHandler()) // Message Handler for this Route
+            );
         }
     }
 }
