@@ -40,7 +40,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
             IEnumerable<string> headerValues;
             var customHeaderText = string.Empty;
 
-            if (actionContext.Request.Headers.TryGetValues("customHeader", out headerValues))
+            if (actionContext.Request.Headers.TryGetValues("customHeaderRequest", out headerValues))
             {
                 customHeaderText = headerValues.FirstOrDefault();
             }
@@ -59,7 +59,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
             IEnumerable<string> headerValues;
             var customHeaderText = string.Empty;
 
-            if (actionExecutedContext.Response.Headers.TryGetValues("customHeader", out headerValues))
+            if (actionExecutedContext.Response.Headers.TryGetValues("customHeaderResponse", out headerValues))
             {
                 customHeaderText = headerValues.FirstOrDefault();
             }

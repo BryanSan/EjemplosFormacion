@@ -118,10 +118,10 @@
     <Compile Include="Controllers\Test Filters\TestOverrideFilterController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
-    <Compile Include="Filters\Action Filters\TestAddHeaderRequestActionFilter.cs" />
+    <Compile Include="Filters\Action Filters\TestAddHeaderActionFilter.cs" />
     <Compile Include="Filters\Action Filters\TestEditRequestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditResponseActionFilterAttribute.cs" />
-    <Compile Include="Filters\Action Filters\TestReadHeaderRequestActionFilter.cs" />
+    <Compile Include="Filters\Action Filters\TestReadHeaderActionFilter.cs" />
     <Compile Include="Filters\Action Filters\TestReturnExceptionActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestReturnHttpStatusCodeActionFilterAttribute.cs" />
     <Compile Include="Filters\Authentication Filters\TestBasicAuthenticationFilter.cs" />
@@ -146,7 +146,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IoC\UnityDependencyResolver.cs" />
+    <Compile Include="Messaging Handlers\TestAddHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestMessageHandler.cs" />
+    <Compile Include="Messaging Handlers\TestMethodOverrideHeaderMessageHandler.cs" />
+    <Compile Include="Messaging Handlers\TestReturnResponseMessageHandler.cs" />
+    <Compile Include="Messaging Handlers\TestSearchApiKeyMessagingHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stubs\Abstract\ITestDependency.cs" />
     <Compile Include="Stubs\Implementation\TestDependency.cs" />

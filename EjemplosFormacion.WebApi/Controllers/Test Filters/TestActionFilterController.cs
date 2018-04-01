@@ -72,7 +72,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
         }
 
         // Añade headers al Request y Response
-        [TestAddHeaderRequestActionFilter]
+        [TestAddHeaderActionFilter]
         public IHttpActionResult TestAddHeaderRequestActionFilter()
         {
             return Ok();

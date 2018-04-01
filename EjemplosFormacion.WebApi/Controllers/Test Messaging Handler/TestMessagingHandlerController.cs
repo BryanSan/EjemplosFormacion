@@ -18,5 +18,25 @@ namespace EjemplosFormacion.WebApi.Controllers.TestMessagingHandler
         {
             return Ok();
         }
+
+        public IHttpActionResult TestReturnResponseMessageHandler()
+        {
+            return Ok();
+        }
+
+        public IHttpActionResult TestMethodOverrideHeaderMessageHandler()
+        {
+            return Ok();
+        }
+
+        public IHttpActionResult TestAddHeaderMessageHandler()
+        {
+            return Ok();
+        }
+
+        public IHttpActionResult TestSearchApiKeyMessagingHandler()
+        {
+            return Ok();
+        }
     }
 }

@@ -10,7 +10,6 @@ using EjemplosFormacion.WebApi.IoC;
 using EjemplosFormacion.WebApi.MessagingHandlers;
 using EjemplosFormacion.WebApi.Stubs.Abstract;
 using EjemplosFormacion.WebApi.Stubs.Implementation;
-using System;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using Unity;
@@ -180,6 +179,43 @@ namespace EjemplosFormacion.WebApi
                 constraints: null,
                 handler: new TestMessageHandler(new TestMessageHandler()) // Message Handler for this Route
             );
+
+            // Test Return Response Message Handler
+            config.Routes.MapHttpRoute(
+                name: "RouteTestReturnResponseMessageHandler",
+                routeTemplate: "api/TestMessagingHandler/TestReturnResponseMessageHandler/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: new TestReturnResponseMessageHandler() // Message Handler for this Route
+            );
+
+            // Test Method Override Header Message Handler
+            config.Routes.MapHttpRoute(
+                name: "RouteTestMethodOverrideHeaderMessageHandler",
+                routeTemplate: "api/TestMessagingHandler/TestMethodOverrideHeaderMessageHandler/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: new TestMethodOverrideHeaderMessageHandler() // Message Handler for this Route
+            );
+
+            // Test Add Header in Request and Response Message Handler
+            config.Routes.MapHttpRoute(
+                name: "RouteTestAddHeaderMessageHandler",
+                routeTemplate: "api/TestMessagingHandler/TestAddHeaderMessageHandler/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: new TestAddHeaderMessageHandler() // Message Handler for this Route
+            );
+
+            // Test Search for key in Query String Message Handler
+            config.Routes.MapHttpRoute(
+                name: "RouteTestSearchApiKeyMessagingHandler",
+                routeTemplate: "api/TestMessagingHandler/TestSearchApiKeyMessagingHandler/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: new TestSearchApiKeyMessagingHandler("key") // Message Handler for this Route
+            );
         }
+
     }
 }

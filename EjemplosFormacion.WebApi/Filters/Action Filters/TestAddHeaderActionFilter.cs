@@ -9,7 +9,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// <summary>
     /// Action Filter usado par añadir Headers
     /// </summary>
-    public class TestAddHeaderRequestActionFilter : ActionFilterAttribute
+    public class TestAddHeaderActionFilter : ActionFilterAttribute
     {
         // Para permitir el mismo filtro varias veces (Devuelve lo que necesites)
         public override bool AllowMultiple => base.AllowMultiple;
