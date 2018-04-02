@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 
 namespace EjemplosFormacion.WebApi.MessagingHandlers
 {
+    /// <summary>
+    /// Message Handler para ejecutar codigo en el Pipeline del Web Api cuando llega un Request
+    /// Puedes hacer el CRUD al Request y Response
+    /// </summary>
     public class TestMessageHandler : DelegatingHandler
     {
         // Passing the next Handler of the Pipeline If Any

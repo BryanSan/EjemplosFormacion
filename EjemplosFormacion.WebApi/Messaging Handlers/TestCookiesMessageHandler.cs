@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace EjemplosFormacion.WebApi.MessagingHandlers
 {
+    /// <summary>
+    /// Message Handler que lee y añade Cookies 
+    /// Usando el header Set-Cookie para añadir una Cookie
+    /// Inspeccionar el Request para ver las Cookie disponibles
+    /// Usa de ejemplo añadir el SessionId si no existe y leerlo si ya existe
+    /// </summary>
     public class TestCookiesMessageHandler : DelegatingHandler
     {
         const string SessionIdToken = "session-id";

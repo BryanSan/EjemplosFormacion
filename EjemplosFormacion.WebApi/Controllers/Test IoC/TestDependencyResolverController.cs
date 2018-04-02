@@ -12,9 +12,17 @@ namespace EjemplosFormacion.WebApi.Controllers.TestIoC
             _dependency = dependency;
         }
 
+        // Test Dependency Resolver para revisar que la dependencia sea resuelta
         public IHttpActionResult TestDependencyResolver()
         {
-            return Ok();
+            if (_dependency != null)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Dependencia null!.");
+            }
         }
     }
 }

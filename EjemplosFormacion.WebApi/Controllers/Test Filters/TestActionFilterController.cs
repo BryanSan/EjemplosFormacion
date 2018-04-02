@@ -13,6 +13,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
     {
         [TestActionFilter] // Action Filter
         [TestIActionFilter] // Action Filter
+        // Test de Action Filter vacios
         public IHttpActionResult TestActionFilter()
         {
             return Ok();
@@ -22,21 +23,22 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
         [TestOrderedActionFilter(Order = 1)] // Ordered Action Filter - Primero en ejecutar
         [TestOrderedActionFilter(Order = 2)] // Ordered Action Filter - Segundo en ejecutar
         [TestOrderedActionFilter(Order = 3)] // Ordered Action Filter - Tercero en ejecutar
+        // Test de Action Filter vacios y con Orden
         public IHttpActionResult TestOrderedActionFilter()
         {
             return Ok();
         }
 
-        // Interrumpe el procesamiento, genera y devuelve una excepcion con un HttpStatusCode de BadRequest (Mejor devuelve un HttpStatusCode apropiado que una excepcion)
         [TestReturnExceptionActionFilter]
+        // Test de Action Filter que interrumpe el procesamiento, genera y devuelve una excepcion con un HttpStatusCode de BadRequest (Mejor devuelve un HttpStatusCode apropiado que una excepcion)
         public IHttpActionResult TestReturnExceptionActionFilter()
         {
             // Nunca entra aqui ya que el Filter interrumpe el procesamiento
             return Ok();
         }
 
-        // Interrumpe el procesamiento y devuelve un HttpStatusCode de BadRequest sin generar una excepcion
         [TestReturnHttpStatusCodeActionFilter]
+        // Test de Action Filter que interrumpe el procesamiento y devuelve un HttpStatusCode de BadRequest sin generar una excepcion
         public IHttpActionResult TestReturnHttpStatusCodeActionFilter()
         {
             // Nunca entra aqui ya que el Filter interrumpe el procesamiento
@@ -45,6 +47,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
 
         // Edita el valor id que venga en la request por Routing (Url) 
         [TestEditRequestActionFilter]
+        // Test de Action Filter que edita un valor del Request que venga de la Uri
         public IHttpActionResult TestEditRequestActionFilterFromUri([FromUri] int id)
         {
             return Ok(id);
@@ -52,27 +55,29 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
 
         // Edit el valor id que venga en la request en el Body
         [TestEditRequestActionFilter]
+        // Test de Action Filter que edita un valor del Request que venga en el Body
         public IHttpActionResult TestEditRequestActionFilterFromBody([FromBody] int id)
         {
             return Ok(id);
         }
 
-        // Edita el valor devuelto en el response
+        // Edita el valor devuelto en el response de este Action
         [TestEditResponseActionFilter]
+        // Test de Action Filter que edita el valor devuelto en el Response
         public IHttpActionResult TestEditResponseActionFilter()
         {
             return Ok(10);
         }
 
-        // Lee los header del request recibido, tanto los mas comunes como los custom definidos para la aplicacion
         [TestReadHeaderActionFilter]
+        // Test de Action Filter que lee los header del request recibido, tanto los mas comunes como los custom definidos para la aplicacion
         public IHttpActionResult TestReadHeaderRequestActionFilter()
         {
             return Ok();
         }
 
-        // Añade headers al Request y Response
         [TestAddHeaderActionFilter]
+        // Test de Action Filter que añade headers al Request y Response
         public IHttpActionResult TestAddHeaderRequestActionFilter()
         {
             return Ok();

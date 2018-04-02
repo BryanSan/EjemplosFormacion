@@ -9,6 +9,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestAuthentication
     public class TestBasicAuthenticationController : ApiController
     {
         [TestBasicAuthenticationFilter] // Authentication Filter with Basic Schema
+        // Test de Authentication Filter para validar un Request contra el Schema Basic
         public IHttpActionResult TestBasicAuthenticationFilter()
         {
             return Ok();

@@ -6,6 +6,9 @@ using System.Web.Http;
 
 namespace EjemplosFormacion.WebApi.ActionResults
 {
+    /// <summary>
+    /// Action Result para devolver un Response con el HttpStatusCode de Unauthorized junto con el Request que se envio
+    /// </summary>
     public class AuthenticationFailureActionResult : IHttpActionResult
     {
         readonly string _reasonPhrase;

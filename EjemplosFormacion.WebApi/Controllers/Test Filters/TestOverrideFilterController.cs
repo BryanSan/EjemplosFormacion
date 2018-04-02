@@ -11,6 +11,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
     {
         // Hace override al Filter Authorize en el Controller
         [TestOverrideFilter(typeof(IAuthorizationFilter))] // Override Filter
+        // Test Override Filter que invalida la ejecucion (no se ejecutan) de los Filter del tipo IAuthorizationFilter
         public IHttpActionResult TestOverrideFilter()
         {
             return Ok();

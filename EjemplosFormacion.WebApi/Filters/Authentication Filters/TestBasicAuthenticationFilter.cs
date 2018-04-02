@@ -19,7 +19,6 @@ namespace EjemplosFormacion.WebApi.Filters.AuthenticationFilters
     /// En resumen valida las credenciales pasadas en el Request y asigna el IPrincipal y IIdentity al Request
     /// Puedes crear tus propias implementaciones para las Interfaces IPrincipal y IIdentity para guardar mas datos que necesites
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class TestBasicAuthenticationFilter : Attribute, IAuthenticationFilter
     {
         public bool AllowMultiple => false;

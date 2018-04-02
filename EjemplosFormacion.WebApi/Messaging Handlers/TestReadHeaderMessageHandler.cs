@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace EjemplosFormacion.WebApi.MessagingHandlers
 {
+    /// <summary>
+    /// Message Handler para leer los Headers mas comunes y los custom Header del Request  y Response
+    /// Para los mas comunes puedes usar las propiedades disponibles para interactuar con ellos
+    /// </summary>
     public class TestReadHeaderMessageHandler : DelegatingHandler
     {
         // Passing the next Handler of the Pipeline If Any

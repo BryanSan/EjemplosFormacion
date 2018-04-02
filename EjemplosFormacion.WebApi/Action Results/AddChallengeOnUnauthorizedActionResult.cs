@@ -8,6 +8,10 @@ using System.Web.Http;
 
 namespace EjemplosFormacion.WebApi.ActionResults
 {
+    /// <summary>
+    /// Action Result para añadir el header de Challenge (WwwAuthenticate) cuando una respuesta no es Autorizada
+    /// Para que el cliente sepa con que Schema el Servidor rechazo su Request
+    /// </summary>
     public class AddChallengeOnUnauthorizedActionResult : IHttpActionResult
     {
         readonly AuthenticationHeaderValue _challenge;
