@@ -12,7 +12,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         const string _header = "X-HTTP-Method-Override";
 
         // Passing the next Handler of the Pipeline If Any
-        public TestMethodOverrideHeaderMessageHandler(DelegatingHandler delegatingHandler) : base(delegatingHandler)
+        public TestMethodOverrideHeaderMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)
         {
 
         }

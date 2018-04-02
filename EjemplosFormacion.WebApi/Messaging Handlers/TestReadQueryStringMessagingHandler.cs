@@ -10,14 +10,14 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         readonly string _key;
 
         // Passing the next Handler of the Pipeline If Any
-        public TestReadQueryStringMessagingHandler(DelegatingHandler delegatingHandler, string key = null) : base(delegatingHandler) 
+        public TestReadQueryStringMessagingHandler(HttpMessageHandler messageHandler, string key) : base(messageHandler)
         {
             _key = key;
         }
 
-        public TestReadQueryStringMessagingHandler(string key) : this(null, key)
+        public TestReadQueryStringMessagingHandler(string key)
         {
-            
+            _key = key;
         }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
@@ -32,7 +32,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
             return base.SendAsync(request, cancellationToken);
         }
 
-        private bool ValidateKey(HttpRequestMessage message)
+        bool ValidateKey(HttpRequestMessage message)
         {
             var query = message.RequestUri.ParseQueryString();
             string key = query["key"];

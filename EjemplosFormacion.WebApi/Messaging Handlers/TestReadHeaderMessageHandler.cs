@@ -10,7 +10,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     public class TestReadHeaderMessageHandler : DelegatingHandler
     {
         // Passing the next Handler of the Pipeline If Any
-        public TestReadHeaderMessageHandler(DelegatingHandler delegatingHandler) : base(delegatingHandler)
+        public TestReadHeaderMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)
         {
 
         }

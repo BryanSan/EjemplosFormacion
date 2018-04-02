@@ -1,4 +1,5 @@
-﻿using EjemplosFormacion.WebApi.Filters.ActionFilters;
+﻿using EjemplosFormacion.HelperClasess;
+using EjemplosFormacion.WebApi.Filters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.AuthenticationFilters;
 using EjemplosFormacion.WebApi.Filters.AuthorizationFilters;
 using EjemplosFormacion.WebApi.Filters.ExceptionFilters;
@@ -10,7 +11,10 @@ using EjemplosFormacion.WebApi.IoC;
 using EjemplosFormacion.WebApi.MessagingHandlers;
 using EjemplosFormacion.WebApi.Stubs.Abstract;
 using EjemplosFormacion.WebApi.Stubs.Implementation;
+using System.Net.Http;
+using System.Security.Cryptography;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Http.Filters;
 using Unity;
 using Unity.Lifetime;
@@ -35,16 +39,16 @@ namespace EjemplosFormacion.WebApi
             // Registro de filtros globales
             ConfigureGlobalFilters(config);
 
-            // Registro de rutas que reconocera el Web Api
-            ConfigureRoutes(config);
-
             // Registro Messaging Handlers
             ConfigureMessagingHandlers(config);
+
+            // Registro de rutas que reconocera el Web Api
+            ConfigureRoutes(config);
         }
 
         /// <summary>
         /// Se configura el Dependency Container y se registrar en el Dependency Resolver del Web Api
-        /// </summary>
+        /// </summary>  
         private static void ConfigureDependencyResolver(HttpConfiguration config)
         {
             // Se crea el IoC Container
@@ -62,6 +66,7 @@ namespace EjemplosFormacion.WebApi
         /// </summary>
         private static void RegisterDependencies(UnityContainer container)
         {
+            // Registrar tus dependencias
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
         }
 
@@ -157,88 +162,126 @@ namespace EjemplosFormacion.WebApi
             // Si quieres que otro handler se ejecute luego de este, pasalo en el constructor y se creara la cadena 
 
             // Registro Messaging Handler sin cadena (Sin otro Messaging Handler que le siga)
+            // Agregar uno a uno cada Message Handler
             config.MessageHandlers.Add(new TestMessageHandler());
 
             // Registro Messaging Handler con cadena (Le sigue otro Messaging Handler)
-            config.MessageHandlers.Add(new TestMessageHandler(new TestMessageHandler()));
+            // Esto no sirve en este contexto ya que si necesitas que otro Message Handler le siga debes hacer dos Add y no hacerlo de esta manera
+            // Ya que cuando hagas una peticion te dara error 
+            // La lista 'DelegatingHandler' no es valida porque la propiedad 'InnerHandler' de 'TestMessageHandler' no es nula.
+            // config.MessageHandlers.Add(new TestMessageHandler(new TestMessageHandler()));
+
+            // Puedes definir una lista de handlers de esta manera
+            DelegatingHandler[] handlers = new DelegatingHandler[] { new TestMessageHandler() };
+            // Crear una Pipeline con tus handlers + el Handler que ejecuta el Controller y lo puedes asignar al handler de tu ruta
+            HttpMessageHandler routeHandlers = HttpClientFactory.CreatePipeline(new HttpControllerDispatcher(config), handlers);
+
+            // Agregar el Pipeline creado a la ruta
+            config.Routes.MapHttpRoute(
+                name: "RouteTestWithMessagingHandlerWithFactory",
+                routeTemplate: "api/TestMessagingHandler/TestWithMessagingHandlerWithFactory/{id}",
+                defaults: new { controller = "TestMessagingHandler", action = "TestWithMessagingHandlerWithFactory", id = RouteParameter.Optional },
+                constraints: null,
+                handler: routeHandlers
+            );
 
             // Puedes usar un Message especifico solo para una ruta sin cadena
             config.Routes.MapHttpRoute(
                 name: "RouteTestWithMessagingHandlerNoChain",
                 routeTemplate: "api/TestMessagingHandler/TestMessagingHandlerRouteSpecificNoChain/{id}",
-                defaults: new { id = RouteParameter.Optional },
+                defaults: new { controller = "TestMessagingHandler", action = "TestMessagingHandlerRouteSpecificNoChain", id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestMessageHandler() // Message Handler for this Route
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestMessageHandler(new HttpControllerDispatcher(config)) 
             );
 
             // Puedes usar un Message especifico solo para una ruta con cadena
             config.Routes.MapHttpRoute(
                 name: "RouteTestWithMessagingHandlerYesChain",
                 routeTemplate: "api/TestMessagingHandler/TestMessagingHandlerRouteSpecificYesChain/{id}",
-                defaults: new { id = RouteParameter.Optional },
+                defaults: new { controller = "TestMessagingHandler", action = "TestMessagingHandlerRouteSpecificYesChain", id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestMessageHandler(new TestMessageHandler()) // Message Handler for this Route
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestMessageHandler(new TestMessageHandler(new HttpControllerDispatcher(config))) 
             );
 
             // Test Return Response Message Handler
             config.Routes.MapHttpRoute(
                 name: "RouteTestReturnResponseMessageHandler",
                 routeTemplate: "api/TestMessagingHandler/TestReturnResponseMessageHandler/{id}",
-                defaults: new { id = RouteParameter.Optional },
+                defaults: new { controller = "TestMessagingHandler", action = "TestReturnResponseMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestReturnResponseMessageHandler() // Message Handler for this Route
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestReturnResponseMessageHandler(new HttpControllerDispatcher(config))
             );
 
             // Test Method Override Header Message Handler
             config.Routes.MapHttpRoute(
                 name: "RouteTestMethodOverrideHeaderMessageHandler",
                 routeTemplate: "api/TestMessagingHandler/TestMethodOverrideHeaderMessageHandler/{id}",
-                defaults: new { id = RouteParameter.Optional },
+                defaults: new { controller = "TestMessagingHandler", action = "TestMethodOverrideHeaderMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestMethodOverrideHeaderMessageHandler() // Message Handler for this Route
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestMethodOverrideHeaderMessageHandler(new HttpControllerDispatcher(config)) 
             );
 
             // Test Add Header in Request and Response Message Handler
             config.Routes.MapHttpRoute(
                 name: "RouteTestAddHeaderMessageHandler",
                 routeTemplate: "api/TestMessagingHandler/TestAddHeaderMessageHandler/{id}",
-                defaults: new { id = RouteParameter.Optional },
+                defaults: new { controller = "TestMessagingHandler", action = "TestAddHeaderMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestAddHeaderMessageHandler() // Message Handler for this Route
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestAddHeaderMessageHandler(new HttpControllerDispatcher(config))
             );
 
             // Test Search for key in Query String Message Handler
             config.Routes.MapHttpRoute(
                 name: "RouteTestSearchApiKeyMessagingHandler",
                 routeTemplate: "api/TestMessagingHandler/TestReadQueryStringMessagingHandler/{id}",
-                defaults: new { id = RouteParameter.Optional },
+                defaults: new { controller = "TestMessagingHandler", action = "TestReadQueryStringMessagingHandler", id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestReadQueryStringMessagingHandler("key") // Message Handler for this Route
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestReadQueryStringMessagingHandler(new HttpControllerDispatcher(config), "key")
             );
 
             // Test CRUD Cookies Message Handler
             config.Routes.MapHttpRoute(
                 name: "RouteTestCookiesMessageHandler",
                 routeTemplate: "api/TestMessagingHandler/TestCookiesMessageHandler/{id}",
-                defaults: new { id = RouteParameter.Optional },
+                defaults: new { controller = "TestMessagingHandler", action = "TestCookiesMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestCookiesMessageHandler() // Message Handler for this Route
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestCookiesMessageHandler(new HttpControllerDispatcher(config)) 
             );
 
+            // Test Reader Header Message Handler
             config.Routes.MapHttpRoute(
                 name: "RouteTestReadHeaderMessageHandler",
                 routeTemplate: "api/TestMessagingHandler/TestReadHeaderMessageHandler/{id}",
-                defaults: new { id = RouteParameter.Optional },
+                defaults: new { controller = "TestMessagingHandler", action = "TestReadHeaderMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestReadHeaderMessageHandler() // Message Handler for this Route
+                handler: new TestReadHeaderMessageHandler(new HttpControllerDispatcher(config)) // Message Handler for this Route
             );
 
+            // Test Basic Authentication Message Handler
             config.Routes.MapHttpRoute(
                 name: "RouteTestBasicAuthenticatonMessageHandler",
                 routeTemplate: "api/TestMessagingHandler/TestBasicAuthenticatonMessageHandler/{id}",
-                defaults: new { id = RouteParameter.Optional },
+                defaults: new { controller = "TestMessagingHandler", action = "TestBasicAuthenticatonMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
-                handler: new TestBasicAuthenticatonMessageHandler() // Message Handler for this Route
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestBasicAuthenticatonMessageHandler(new HttpControllerDispatcher(config))
+            );
+
+            // Test Decrypt Json Request and Encrypt Response to Json Response
+            config.Routes.MapHttpRoute(
+                name: "RouteTestJsonEncrypterMessageHandler",
+                routeTemplate: "api/TestMessagingHandler/TestJsonEncrypterMessageHandler/{id}",
+                defaults: new { controller = "TestMessagingHandler", action = "TestJsonEncrypterMessageHandler", id = RouteParameter.Optional },
+                constraints: null,
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestJsonEncrypterMessageHandler(new SymmetricEncrypter<AesManaged, SHA256Managed>(), new HttpControllerDispatcher(config)) 
             );
         }
 

@@ -12,7 +12,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         const string SessionIdToken = "session-id";
 
         // Passing the next Handler of the Pipeline If Any
-        public TestCookiesMessageHandler(DelegatingHandler delegatingHandler) : base(delegatingHandler)
+        public TestCookiesMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)
         {
 
         }
