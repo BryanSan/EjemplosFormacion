@@ -92,7 +92,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
         }
 
         [TestWithDependencyActionFilter]
-        // Test que valida los Data Annotation y devuelve error si no se cumplen las reglas de validacion
+        // Test que valida que la Dependencia del Action Filter sea resulta, como es un attributo no sirve el Construction Injection y se hace Property Injection
         public IHttpActionResult TestWithDependencyActionFilter()
         {
             return Ok();
