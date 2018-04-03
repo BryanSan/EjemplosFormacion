@@ -116,13 +116,14 @@
     <Compile Include="Controllers\Test Filters\TestOverrideFilterController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
-    <Compile Include="Filters\Action Filters\TestAddHeaderActionFilter.cs" />
+    <Compile Include="Filters\Action Filters\TestAddHeaderActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditRequestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditResponseActionFilterAttribute.cs" />
-    <Compile Include="Filters\Action Filters\TestReadHeaderActionFilter.cs" />
+    <Compile Include="Filters\Action Filters\TestReadHeaderActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestReturnExceptionActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestReturnHttpStatusCodeActionFilterAttribute.cs" />
-    <Compile Include="Filters\Action Filters\TestValidationModelStateActionFilter.cs" />
+    <Compile Include="Filters\Action Filters\TestValidationModelStateActionFilterAttribute.cs" />
+    <Compile Include="Filters\Action Filters\TestWithDependencyActionFilterAttribute.cs" />
     <Compile Include="Filters\Authentication Filters\TestBasicAuthenticationFilter.cs" />
     <Compile Include="Filters\Authorization Filters\TestExtendedAuthorizeFilterAttribute.cs" />
     <Compile Include="Filters\Authorization Filters\TestAuthorizationFilterAttribute.cs" />

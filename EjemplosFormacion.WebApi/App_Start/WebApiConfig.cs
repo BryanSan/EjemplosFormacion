@@ -17,6 +17,7 @@ using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Filters;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 
 namespace EjemplosFormacion.WebApi
@@ -68,6 +69,10 @@ namespace EjemplosFormacion.WebApi
         {
             // Registrar tus dependencias
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
+
+            TestDependency testDependency = new TestDependency();
+            container.RegisterInstance<ITestDependency>(testDependency);
+            container.RegisterType<TestWithDependencyActionFilterAttribute>(new InjectionProperty("Dependency"));
         }
 
         /// <summary>
@@ -142,7 +147,7 @@ namespace EjemplosFormacion.WebApi
             config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 1)); // Excepcion Action Filter - Primero en Ejecutar
             config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 2)); // Excepcion Action Filter - Segundo en Ejecutar
 
-            config.Filters.Add(new TestBasicAuthenticationFilter()); // Authentication Filter with Basic Schema
+            config.Filters.Add(new TestBasicAuthenticationFilterAttribute()); // Authentication Filter with Basic Schema
 
             config.Filters.Add(new TestExtendedAuthorizeFilterAttribute()); // Authorize Filter Requiere que el Request este autenticado (con un IPrincipal asignado)
             config.Filters.Add(new TestAuthorizationFilterAttribute()); // Authorize Filter 
@@ -192,7 +197,7 @@ namespace EjemplosFormacion.WebApi
                 defaults: new { controller = "TestMessagingHandler", action = "TestMessagingHandlerRouteSpecificNoChain", id = RouteParameter.Optional },
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
-                handler: new TestMessageHandler(new HttpControllerDispatcher(config)) 
+                handler: new TestMessageHandler(new HttpControllerDispatcher(config))
             );
 
             // Puedes usar un Message especifico solo para una ruta con cadena
@@ -202,7 +207,7 @@ namespace EjemplosFormacion.WebApi
                 defaults: new { controller = "TestMessagingHandler", action = "TestMessagingHandlerRouteSpecificYesChain", id = RouteParameter.Optional },
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
-                handler: new TestMessageHandler(new TestMessageHandler(new HttpControllerDispatcher(config))) 
+                handler: new TestMessageHandler(new TestMessageHandler(new HttpControllerDispatcher(config)))
             );
 
             // Test Return Response Message Handler
@@ -222,7 +227,7 @@ namespace EjemplosFormacion.WebApi
                 defaults: new { controller = "TestMessagingHandler", action = "TestMethodOverrideHeaderMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
-                handler: new TestMethodOverrideHeaderMessageHandler(new HttpControllerDispatcher(config)) 
+                handler: new TestMethodOverrideHeaderMessageHandler(new HttpControllerDispatcher(config))
             );
 
             // Test Add Header in Request and Response Message Handler
@@ -252,7 +257,7 @@ namespace EjemplosFormacion.WebApi
                 defaults: new { controller = "TestMessagingHandler", action = "TestCookiesMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
-                handler: new TestCookiesMessageHandler(new HttpControllerDispatcher(config)) 
+                handler: new TestCookiesMessageHandler(new HttpControllerDispatcher(config))
             );
 
             // Test Reader Header Message Handler
@@ -281,7 +286,7 @@ namespace EjemplosFormacion.WebApi
                 defaults: new { controller = "TestMessagingHandler", action = "TestJsonEncrypterMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
-                handler: new TestJsonEncrypterMessageHandler(new SymmetricEncrypter<AesManaged, SHA256Managed>(), new HttpControllerDispatcher(config)) 
+                handler: new TestJsonEncrypterMessageHandler(new SymmetricEncrypter<AesManaged, SHA256Managed>(), new HttpControllerDispatcher(config))
             );
         }
 

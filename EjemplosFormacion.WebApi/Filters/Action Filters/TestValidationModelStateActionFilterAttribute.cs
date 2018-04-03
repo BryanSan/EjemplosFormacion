@@ -7,7 +7,7 @@ using System.Web.Http.Filters;
 
 namespace EjemplosFormacion.WebApi.Filters.ActionFilters
 {
-    public class TestValidationModelStateActionFilter : ActionFilterAttribute
+    public class TestValidationModelStateActionFilterAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
@@ -15,7 +15,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
             {
                 TestModelError error = new TestModelError(actionContext.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList());
 
-                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, error);
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, actionContext.ModelState);
             }
         }
     }

@@ -90,5 +90,13 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
         {
             return Ok();
         }
+
+        [TestWithDependencyActionFilter]
+        // Test que valida los Data Annotation y devuelve error si no se cumplen las reglas de validacion
+        public IHttpActionResult TestWithDependencyActionFilter()
+        {
+            return Ok();
+        }
+
     }
 }

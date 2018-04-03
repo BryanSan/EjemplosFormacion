@@ -13,7 +13,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// Los Headers del Request son los mas usado para leer y engloban tanto los mas comunes (los cuales tienen sus propias propiedades para leerlos desde el Request) como los Custom Headers definidos por la aplicacion
     /// Los Headers del Response son menos comunes y tienen menos predefinidos, sin embargo tiene uno que otro, tambien es posible leer los Custom Header
     /// </summary>
-    public class TestReadHeaderActionFilter : ActionFilterAttribute
+    public class TestReadHeaderActionFilterAttribute : ActionFilterAttribute
     {
         // Para permitir el mismo filtro varias veces (Devuelve lo que necesites)
         public override bool AllowMultiple => base.AllowMultiple;
