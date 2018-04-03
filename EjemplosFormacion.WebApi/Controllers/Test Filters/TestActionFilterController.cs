@@ -1,5 +1,6 @@
 ﻿using EjemplosFormacion.WebApi.Filters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
+using EjemplosFormacion.WebApi.Models;
 using System.Web.Http;
 
 namespace EjemplosFormacion.WebApi.Controllers.TestFilters
@@ -79,6 +80,13 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
         [TestAddHeaderActionFilter]
         // Test de Action Filter que añade headers al Request y Response
         public IHttpActionResult TestAddHeaderRequestActionFilter()
+        {
+            return Ok();
+        }
+
+        [TestValidationModelStateActionFilter]
+        // Test que valida los Data Annotation y devuelve error si no se cumplen las reglas de validacion
+        public IHttpActionResult TestValidationModelStateActionFilter(TestModel testModel)
         {
             return Ok();
         }
