@@ -119,7 +119,9 @@
     <Compile Include="Filters\Action Filters\TestAddHeaderActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditRequestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditResponseActionFilterAttribute.cs" />
+    <Compile Include="Filters\Action Filters\TestLoggingActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestReadHeaderActionFilterAttribute.cs" />
+    <Compile Include="Filters\Action Filters\TestRequiredParameterActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestReturnExceptionActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestReturnHttpStatusCodeActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestValidationModelStateActionFilterAttribute.cs" />
@@ -140,7 +142,7 @@
     <Compile Include="Filters\Ordered Filters\Action Filters\TestOrderedActionFilterAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Test Filters\TestActionFilterController.cs" />
-    <Compile Include="Filters Providers\OrderedFilterProvider.cs" />
+    <Compile Include="Filters Providers\DependencyInjectionOrderedFilterProvider.cs" />
     <Compile Include="Filters\Override Filters\TestOverrideFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

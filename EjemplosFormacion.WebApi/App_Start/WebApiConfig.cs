@@ -1,4 +1,6 @@
 ﻿using EjemplosFormacion.HelperClasess;
+using EjemplosFormacion.HelperClasess.Abstract;
+using EjemplosFormacion.HelperClasess.Wrappers;
 using EjemplosFormacion.WebApi.Filters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.AuthenticationFilters;
 using EjemplosFormacion.WebApi.Filters.AuthorizationFilters;
@@ -17,7 +19,7 @@ using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Filters;
 using Unity;
-using Unity.Injection;
+using Unity.Interception.ContainerIntegration;
 using Unity.Lifetime;
 
 namespace EjemplosFormacion.WebApi
@@ -32,10 +34,10 @@ namespace EjemplosFormacion.WebApi
             // Configuración y servicios de API web
 
             //Configure Dependency Resolver (IoC Bridge)
-            ConfigureDependencyResolver(config);
+            IUnityContainer container = ConfigureDependencyResolver(config);
 
             // Registro de servicios
-            ConfigureServices(config);
+            ConfigureServices(config, container);
 
             // Registro de filtros globales
             ConfigureGlobalFilters(config);
@@ -50,29 +52,29 @@ namespace EjemplosFormacion.WebApi
         /// <summary>
         /// Se configura el Dependency Container y se registrar en el Dependency Resolver del Web Api
         /// </summary>  
-        private static void ConfigureDependencyResolver(HttpConfiguration config)
+        private static IUnityContainer ConfigureDependencyResolver(HttpConfiguration config)
         {
             // Se crea el IoC Container
             UnityContainer container = new UnityContainer();
+            container.AddNewExtension<Interception>();
 
             // Se registran las dependencias en el IoC Container
             RegisterDependencies(container);
 
             // Se registra el Dependency Resolver y el IoC Container a usar
             config.DependencyResolver = new UnityDependencyResolver(container);
+
+            return container;
         }
 
         /// <summary>
         /// Se registran las dependencias de la aplicacion
         /// </summary>
-        private static void RegisterDependencies(UnityContainer container)
+        private static void RegisterDependencies(IUnityContainer container)
         {
             // Registrar tus dependencias
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
-
-            TestDependency testDependency = new TestDependency();
-            container.RegisterInstance<ITestDependency>(testDependency);
-            container.RegisterType<TestWithDependencyActionFilterAttribute>(new InjectionProperty("Dependency"));
+            container.RegisterType<IWrapperLogger, WrapperNLogger>(new ContainerControlledLifetimeManager());
         }
 
         /// <summary>
@@ -81,10 +83,10 @@ namespace EjemplosFormacion.WebApi
         /// Si haces un Add piensa bien si necesitas ambos servicios corriendo juntos
         /// Testea si es necesario para ver si la logica se ejecuta varias veces y no dañes el performance
         /// </summary>
-        private static void ConfigureServices(HttpConfiguration config)
+        private static void ConfigureServices(HttpConfiguration config, IUnityContainer container)
         {
             // Custom action filter provider which does ordering
-            config.Services.Replace(typeof(IFilterProvider), new OrderedFilterProvider());
+            config.Services.Replace(typeof(IFilterProvider), new DependencyInjectionOrderedFilterProvider(container));
         }
 
         /// <summary>

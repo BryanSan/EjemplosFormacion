@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using Unity;
 
 namespace EjemplosFormacion.WebApi.FiltersProviders
 {
@@ -15,8 +16,15 @@ namespace EjemplosFormacion.WebApi.FiltersProviders
     /// Si dos FilterProvider marcan el mismo filtro este filtro tendra tantas ejecuciones como se repita
     /// Valores bajos de la propiedad Order en los filtros marcados como ordenables son evaluados primeros
     /// </summary>
-    public class OrderedFilterProvider : IFilterProvider
+    public class DependencyInjectionOrderedFilterProvider : IFilterProvider
     {
+        private IUnityContainer _container;
+
+        public DependencyInjectionOrderedFilterProvider(IUnityContainer container)
+        {
+            _container = container;
+        }
+
         // Buscamos todos los filtros que aplican para este ActionDescriptor incluyendo Globales, Controllers y Actions Specific
         // Devolvemos todos aquellos que aplican para el, ordenados si estan marcados como ordenables
         // El orden en el cual devuelvas esta lista sera el orden que seran ejecutados segun su scope
@@ -35,8 +43,13 @@ namespace EjemplosFormacion.WebApi.FiltersProviders
             // Concatena todos los filtros de todos los scopes o si no, no seran marcados para ejecutar por este FilterProvider
             // Si otro FilterProvider no los marca para ejecutar entonces seran ignorados
             // El orden en el cual devuelvas esta lista sera el orden que seran ejecutados segun su scope
-            return globalSpecificFilters.Concat(controllerSpecificFilters)
-                                        .Concat(actionSpecificFilters);
+            List<FilterInfo> listFilters = globalSpecificFilters.Concat(controllerSpecificFilters).Concat(actionSpecificFilters).ToList();
+
+            // Se buildea los Filters con el Container de Dependency Injection por si alguno de los Filters necesita que se le injecte una dependency
+            // Como algunos de los Filters que tienen Property Injection con el atributo [Dependency] en una propiedad
+            listFilters.ForEach(r => _container.BuildUp(r.Instance.GetType(), r.Instance));
+
+            return listFilters;
         }
 
         // Ordenamos los filtros marcados como ordenables a traves de la interfaz "IOrderedFilter" segun su parametro de orden

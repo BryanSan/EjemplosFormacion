@@ -1,6 +1,7 @@
 ﻿using EjemplosFormacion.WebApi.Filters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
 using EjemplosFormacion.WebApi.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Http;
 
 namespace EjemplosFormacion.WebApi.Controllers.TestFilters
@@ -38,9 +39,9 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
             return Ok();
         }
 
-        [TestReturnHttpStatusCodeActionFilter]
+        [TestReturnHttpStatusCodeResponseActionFilter]
         // Test de Action Filter que interrumpe el procesamiento y devuelve un HttpStatusCode de BadRequest sin generar una excepcion
-        public IHttpActionResult TestReturnHttpStatusCodeActionFilter()
+        public IHttpActionResult TestReturnHttpStatusCodeResponseActionFilter()
         {
             // Nunca entra aqui ya que el Filter interrumpe el procesamiento
             return Ok();
@@ -91,12 +92,25 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
             return Ok();
         }
 
+        [TestRequiredParameterActionFilter]
+        // Test que valida que los parametros marcados como [Required] existan, no sean nulos y que no no esten vacios (para las listas)
+        public IHttpActionResult TestRequiredParameterActionFilter([Required] TestModel testModel)
+        {
+            return Ok();
+        }
+
+        [TestLoggingActionFilter]
+        // Test que Loggea la ejecucion del Action
+        public IHttpActionResult TestLoggingActionFilter()
+        {
+            return Ok();
+        }
+
         [TestWithDependencyActionFilter]
         // Test que valida que la Dependencia del Action Filter sea resulta, como es un attributo no sirve el Construction Injection y se hace Property Injection
         public IHttpActionResult TestWithDependencyActionFilter()
         {
             return Ok();
         }
-
     }
 }

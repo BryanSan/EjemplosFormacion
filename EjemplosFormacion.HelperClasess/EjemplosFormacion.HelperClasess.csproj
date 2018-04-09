@@ -6,10 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Wrappers\" />
+    <PackageReference Include="NLog" Version="4.5.2" />
   </ItemGroup>
 
 </Project>

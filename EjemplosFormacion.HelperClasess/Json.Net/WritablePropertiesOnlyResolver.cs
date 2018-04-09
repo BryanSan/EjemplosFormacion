@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace EjemplosFormacion.HelperClasess.Json.Net
 {
-    public class WritablePropertiesOnlyResolver : DefaultContractResolver
+    internal class WritablePropertiesOnlyResolver : DefaultContractResolver
     {
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
