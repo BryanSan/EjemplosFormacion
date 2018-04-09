@@ -4,7 +4,7 @@ using System.Web.Http.Dependencies;
 using Unity;
 using Unity.Exceptions;
 
-namespace EjemplosFormacion.WebApi.IoC
+namespace EjemplosFormacion.WebApi.DependencyResolver
 {
     /// <summary>
     /// Dependency Resolver para ayudar al Web Api a resolver las dependencias de los controladores que cree, 
