@@ -18,6 +18,7 @@ namespace EjemplosFormacion.WebApi
 {
     /// <summary>
     /// Clase usada para configurar el Web Api, tanto sus Rutas, Filtros y Servicios
+    /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/configuring-aspnet-web-api
     /// </summary>
     public static class WebApiConfig
     {
@@ -43,6 +44,7 @@ namespace EjemplosFormacion.WebApi
         /// Has un Replace para mantener 1 servicio de un solo tipo 
         /// Si haces un Add piensa bien si necesitas ambos servicios corriendo juntos
         /// Testea si es necesario para ver si la logica se ejecuta varias veces y no dañes el performance
+        /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/configuring-aspnet-web-api
         /// </summary>
         private static void ConfigureServices(HttpConfiguration config)
         {
