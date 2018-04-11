@@ -132,6 +132,7 @@
     <Compile Include="Controllers\Test Filters\TestAuthenticationFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestExceptionFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestOverrideFilterController.cs" />
+    <Compile Include="Controllers\Test HttpModule\TestHttpModuleController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
     <Compile Include="Filters\Action Filters\TestAddHeaderActionFilterAttribute.cs" />
@@ -166,6 +167,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Dependency Resolver\UnityDependencyResolver.cs" />
+    <Compile Include="HttpModules\TestHttpModule.cs" />
     <Compile Include="Messaging Handlers\TestAddHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestBasicAuthenticatonMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestCookiesMessageHandler.cs" />
