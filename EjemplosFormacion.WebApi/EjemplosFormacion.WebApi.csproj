@@ -167,7 +167,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Dependency Resolver\UnityDependencyResolver.cs" />
-    <Compile Include="HttpModules\TestHttpModule.cs" />
+    <Compile Include="Http Handler Factory\TestHttpHandlerFactory.cs" />
+    <Compile Include="Http Handler\TestAsyncHttpHandler.cs" />
+    <Compile Include="Http Handler\TestSyncHttpHandler.cs" />
+    <Compile Include="Http Modules\TestHttpModule.cs" />
     <Compile Include="Messaging Handlers\TestAddHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestBasicAuthenticatonMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestCookiesMessageHandler.cs" />
