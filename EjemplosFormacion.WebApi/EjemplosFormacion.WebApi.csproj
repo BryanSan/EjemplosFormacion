@@ -128,6 +128,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="Controllers\Test Authentication\TestBasicAuthenticationController.cs" />
+    <Compile Include="Controllers\Test Built In Attributes\TestHttpVerbAttributeController.cs" />
     <Compile Include="Controllers\Test Filters\TestAuthorizationFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestAuthenticationFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestExceptionFilterController.cs" />
