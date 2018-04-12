@@ -1,4 +1,5 @@
 ﻿using EjemplosFormacion.HelperClasess;
+using EjemplosFormacion.WebApi.DirectRouteProviders;
 using EjemplosFormacion.WebApi.Filters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.AuthenticationFilters;
 using EjemplosFormacion.WebApi.Filters.AuthorizationFilters;
@@ -68,8 +69,12 @@ namespace EjemplosFormacion.WebApi
         private static void ConfigureRoutes(HttpConfiguration config)
         {
             // Habilita el reconocimiento de rutas definidas como attributos en los controllers y actions
+            // Las rutas definidas como atributos las configuras con el atributo [RoutePrefix("ruta")]
             // Recordar que las rutas definidas en attributos se evaluan primero y sobreescriben las rutas definidas aqui en el global config
-            config.MapHttpAttributeRoutes();
+            // Este Custom Direct Route Provider agrega el string que le pases (api en este caso) a la ruta entregada por el attributo Route Prefix
+            config.MapHttpAttributeRoutes(new TestDirectRouteProvider("api"));
+            // Puedes usar Route Constraints de igual manera en esta ruta, recordar que solo es un template  
+            //config.MapHttpAttributeRoutes(new TestDirectRouteProvider("api/v{version:int}"));
 
             // Ruta para que tome en cuenta el nombre del action a la hora de evaluar y hacer match con la url del request
             config.Routes.MapHttpRoute(

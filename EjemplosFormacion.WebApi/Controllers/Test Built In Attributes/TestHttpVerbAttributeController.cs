@@ -6,7 +6,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestBuiltInAttributes
     {
         // Restringe este Action a solo ser llamado por Request que vengan con el HttpMethod Get
         [HttpGet]
-        public IHttpActionResult GetWithHttpVerbAttribute()
+        public IHttpActionResult TestHttpGetAttribute()
         {
             return Ok();
         }
@@ -15,28 +15,28 @@ namespace EjemplosFormacion.WebApi.Controllers.TestBuiltInAttributes
         // Este Action solo puede ser llamado por Request que vengan con el HttpMethod Get o Post
         [HttpGet]
         [HttpPost]
-        public IHttpActionResult GetOrPostWithHttpVerbAttribute()
+        public IHttpActionResult TestMultipleHttpVerbGetPostAttribute()
         {
             return Ok();
         }
 
         // Restringe este Action a solo ser llamado por Request que vengan con el HttpMethod Post
         [HttpPost]
-        public IHttpActionResult PostWithHttpVerbAttribute()
+        public IHttpActionResult TestHttpPostAttribute()
         {
             return Ok();
         }
 
         // Restringe este Action a solo ser llamado por Request que vengan con el HttpMethod Put
         [HttpPut]
-        public IHttpActionResult PutWithHttpVerbAttribute()
+        public IHttpActionResult TestHttpPutAttribute()
         {
             return Ok();
         }
 
         // Restringe este Action a solo ser llamado por Request que vengan con el HttpMethod Delete
         [HttpDelete]
-        public IHttpActionResult DeleteWithHttpVerbAttribute()
+        public IHttpActionResult TestHttpDeleteAttribute()
         {
             return Ok();
         }
