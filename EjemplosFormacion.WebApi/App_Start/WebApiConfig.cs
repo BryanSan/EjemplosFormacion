@@ -1,5 +1,9 @@
 ﻿using EjemplosFormacion.HelperClasess;
+using EjemplosFormacion.WebApi.Controllers.TestCustomRoutesConfiguration;
 using EjemplosFormacion.WebApi.DirectRouteProviders;
+using EjemplosFormacion.WebApi.ExceptionHandler;
+using EjemplosFormacion.WebApi.ExceptionLogger;
+using EjemplosFormacion.WebApi.ExtensionMethods;
 using EjemplosFormacion.WebApi.Filters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.AuthenticationFilters;
 using EjemplosFormacion.WebApi.Filters.AuthorizationFilters;
@@ -13,6 +17,7 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
+using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Filters;
 
 namespace EjemplosFormacion.WebApi
@@ -49,8 +54,23 @@ namespace EjemplosFormacion.WebApi
         /// </summary>
         private static void ConfigureServices(HttpConfiguration config)
         {
+            // =========================================================
+            //                  Single-Services
+            // =========================================================
+
+            // Exception handlers are the solution for customizing all possible responses to unhandled exceptions caught by Web API.
+            config.Services.Replace(typeof(IExceptionHandler), new TestExceptionHandler());
+
+            // =========================================================
+            //                  Multi-Services
+            // =========================================================
+
             // Custom action filter provider which does ordering
-            config.Services.Replace(typeof(IFilterProvider), GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(DependencyInjectionOrderedFilterProvider)));
+            // Se necesita que el Dependency Resolver resuelta y construya el tipo ya que se tiene una Dependencia al UnityContainer dentro del FilterProvider
+            config.Services.Add(typeof(IFilterProvider), GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(DependencyInjectionOrderedFilterProvider)));
+
+            // Exception loggers are the solution to seeing all unhandled exception caught by Web API.
+            config.Services.Add(typeof(IExceptionLogger), new TestExceptionLogger());
         }
 
         /// <summary>
@@ -76,13 +96,18 @@ namespace EjemplosFormacion.WebApi
             // Puedes usar Route Constraints de igual manera en esta ruta, recordar que solo es un template  
             //config.MapHttpAttributeRoutes(new TestDirectRouteProvider("api/v{version:int}"));
 
+            // Se usa un Custom Direct Route Factory junto con el Custom Direct Route Provider y el metodo de extension RegisterTypedRoute 
+            // Para crear Rutas de manera Type Safe y dejarlo de hacer con strings
+            config.RegisterTypedRoute("TypedDirectRouteFactory", c => c.Action<TestTypedDirectRouteFactoryController>(x => x.TestTypedDirectRouteFactoryNoParams()));
+            config.RegisterTypedRoute("TypedDirectRouteFactory/{id:int}", c => c.Action<TestTypedDirectRouteFactoryController>(x => x.TestTypedDirectRouteFactoryWithParams(default(int))));
+
             // Ruta para que tome en cuenta el nombre del action a la hora de evaluar y hacer match con la url del request
             config.Routes.MapHttpRoute(
                 name: "RouteWithActionName",
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            
             // Ruta default del Web Api, se centra al uso de los Http Verbs
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

@@ -14,13 +14,13 @@ namespace EjemplosFormacion.WebApi.Controllers.TestBuiltInAttributes
     // Quedando la ruta (RoutePrefix + Route) con posibilidad de tener algo o despues si hay un Direct Route Provider como es en este caso que tiene un "api" configurado
     // Para llegar a este Action usar api/RoutePrefix/TestRoutePrefixAttribute
     // (DirectRouteProviderPrefix + RoutePrefix + Route)
-    [RoutePrefix("RoutePrefix")]
-    public class TestRoutePrefixAttributeController : ApiController
+    //[RoutePrefix("RouteAndRoutePrefix")]
+    public class TestRouteAndRoutePrefixAttributeController : ApiController
     {
         // Para llegar a este Action usar api/RoutePrefix/TestRoutePrefixAttribute
         // (DirectRouteProviderPrefix + RoutePrefix + Route)
-        [Route("TestRoutePrefixAttribute")]
-        public IHttpActionResult TestRoutePrefixAttribute()
+        [Route(nameof(TestRouteAttribute))]
+        public IHttpActionResult TestRouteAttribute()
         {
             return Ok();
         }
