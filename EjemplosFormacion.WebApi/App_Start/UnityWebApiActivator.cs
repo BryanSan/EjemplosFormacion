@@ -1,15 +1,16 @@
+using EjemplosFormacion.WebApi;
 using EjemplosFormacion.WebApi.DependencyResolver;
 using System.Web.Http;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(EjemplosFormacion.WebApi.UnityWebApiActivator), nameof(EjemplosFormacion.WebApi.UnityWebApiActivator.Start))]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(EjemplosFormacion.WebApi.UnityWebApiActivator), nameof(EjemplosFormacion.WebApi.UnityWebApiActivator.Shutdown))]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityWebApiActivator), nameof(UnityWebApiActivator.Start))]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(UnityWebApiActivator), nameof(UnityWebApiActivator.Shutdown))]
 
 namespace EjemplosFormacion.WebApi
 {
     /// <summary>
     /// Provides the bootstrapping for integrating Unity with WebApi when it is hosted in ASP.NET.
     /// </summary>
-    public static class UnityWebApiActivator
+    static class UnityWebApiActivator
     {
         /// <summary>
         /// Integrates Unity when the application starts.

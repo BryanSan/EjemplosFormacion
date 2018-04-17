@@ -14,7 +14,7 @@ namespace EjemplosFormacion.WebApi.HttpHandler
     //  During the processing of an http request, only one HTTP handler will be called.
     //  In the asp.net request pipe line, HttpHandler comes after HttpModule and it is the end point objects in ASP.NET pipeline.
     /// </summary>
-    public class TestAsyncHttpHandler : IHttpAsyncHandler
+    class TestAsyncHttpHandler : IHttpAsyncHandler
     {
         private HttpContext _context;
 

@@ -14,7 +14,7 @@ namespace EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters
     /// Has override de los metodos que necesites y añade la logica necesaria
     /// Puedes modificar el request, el response o interrumpir el procesamiento
     /// </summary>
-    public class TestOrderedActionFilterAttribute : ActionFilterWithOrderAttribute
+    class TestOrderedActionFilterAttribute : ActionFilterWithOrderAttribute
     {
         // Para permitir el mismo filtro varias veces (Devuelve lo que necesites)
         public override bool AllowMultiple => base.AllowMultiple;

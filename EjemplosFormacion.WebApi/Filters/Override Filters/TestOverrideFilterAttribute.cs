@@ -13,7 +13,7 @@ namespace EjemplosFormacion.WebApi.Filters.OverrideFilters
     /// Ejemplo: En el controller Tienes un Autorize para los Admin y en el action uno para los Customer, 
     /// sin el override el usuario tendria que ser Admin y Customer para entrar, pero si haces override del Autorize en el controller este es ignorado y tendrias que ser solo Customer
     /// </summary>
-    public class TestOverrideFilterAttribute : Attribute, IFilter, IOverrideFilter
+    class TestOverrideFilterAttribute : Attribute, IFilter, IOverrideFilter
     {
         public bool AllowMultiple => false;
 

@@ -15,7 +15,7 @@ namespace EjemplosFormacion.WebApi.DirectRouteProviders
     /// Tambien tiene el comportamiento de dar soporte a rutas tipadas mediante un diccionario estatico que se va llenando con la ayuda de Extension Methods del HttpConfiguration para posteriormente registrar estas rutas
     /// El Direct Route Provider will simply walk through all of the available controllers and harvest all routes declared through the use of RouteAttribute and register them. Of course, it is all not surprising – after all, this is the typical attribute routing behavior
     /// </summary>
-    public class TestDirectRouteProvider : DefaultDirectRouteProvider
+    class TestDirectRouteProvider : DefaultDirectRouteProvider
     {
         internal static readonly ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>> Routes = new ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>>();
         private readonly string _centralizedPrefix;

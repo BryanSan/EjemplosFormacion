@@ -13,7 +13,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// Las excepciones penalizan el performance, es mas apropiado asignar el response con el HttpStatusCode y devolver sin excepcion
     /// Al asignar el response el Web Api interrumpe el procesamiento y sale
     /// </summary>
-    public class TestReturnExceptionActionFilterAttribute : ActionFilterAttribute
+    class TestReturnExceptionActionFilterAttribute : ActionFilterAttribute
     {
         // Para permitir el mismo filtro varias veces (Devuelve lo que necesites)
         public override bool AllowMultiple => base.AllowMultiple;

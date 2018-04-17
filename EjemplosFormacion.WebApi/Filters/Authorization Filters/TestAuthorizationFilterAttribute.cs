@@ -13,7 +13,7 @@ namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
     /// Has override sobre los metodos OnAuthorization o OnAuthorizationAsync para definir tu logica de Autorizacion
     /// Si no se asigna un Response se da por Autorizado la respuesta
     /// </summary>
-    public class TestAuthorizationFilterAttribute : AuthorizationFilterAttribute
+    class TestAuthorizationFilterAttribute : AuthorizationFilterAttribute
     {
         // Logica para definir tus autorizaciones en manera sincronica
         // Este es el metodo llamado por Web Api para ver si esta autorizado o no (sincrono)

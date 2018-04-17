@@ -10,7 +10,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// <summary>
     /// Action Filter que demuestra como se edita los valores del Request que vengan tanto del Routing (Url), como del Body - Probar con parametro "id"
     /// </summary>
-    public class TestEditRequestActionFilterAttribute : ActionFilterAttribute
+    class TestEditRequestActionFilterAttribute : ActionFilterAttribute
     {
         // Para permitir el mismo filtro varias veces (Devuelve lo que necesites)
         public override bool AllowMultiple => base.AllowMultiple;

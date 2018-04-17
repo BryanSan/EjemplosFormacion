@@ -10,7 +10,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// <summary>
     /// Action Filter que demuestra como se edita los valores del Response - Probar con parametro valores del tipo int
     /// </summary>
-    public class TestEditResponseActionFilterAttribute : ActionFilterAttribute
+    class TestEditResponseActionFilterAttribute : ActionFilterAttribute
     {
         // Para permitir el mismo filtro varias veces (Devuelve lo que necesites)
         public override bool AllowMultiple => base.AllowMultiple;

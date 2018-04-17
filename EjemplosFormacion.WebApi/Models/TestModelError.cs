@@ -2,7 +2,7 @@
 
 namespace EjemplosFormacion.WebApi.Models
 {
-    public class TestModelError
+    class TestModelError
     {
         public List<string> Errores { get; set; }
 

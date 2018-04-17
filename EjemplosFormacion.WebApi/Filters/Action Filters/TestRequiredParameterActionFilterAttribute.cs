@@ -15,7 +15,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// Marca los parametros del Action que necesitas obligatoriamente con el atributo [Required]
     /// Cuidado que esto solo valida los parametros del Action ya que las propiedades marcadas como Required en el Dto o entidad recibida se validaran con el Model Binding y Model Validation
     /// </summary>
-    public class TestRequiredParameterActionFilterAttribute : ActionFilterAttribute
+    class TestRequiredParameterActionFilterAttribute : ActionFilterAttribute
     {
         // Almacena los Required Parameters que ya han sido evaluados en Request anteriores
         private readonly ConcurrentDictionary<Tuple<HttpMethod, string>, List<string>> _Cache = new ConcurrentDictionary<Tuple<HttpMethod, string>, List<string>>();

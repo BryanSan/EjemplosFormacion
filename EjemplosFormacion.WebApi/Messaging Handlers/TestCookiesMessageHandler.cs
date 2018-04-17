@@ -13,7 +13,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// Inspeccionar el Request para ver las Cookie disponibles
     /// Usa de ejemplo añadir el SessionId si no existe y leerlo si ya existe
     /// </summary>
-    public class TestCookiesMessageHandler : DelegatingHandler
+    class TestCookiesMessageHandler : DelegatingHandler
     {
         const string SessionIdToken = "session-id";
 

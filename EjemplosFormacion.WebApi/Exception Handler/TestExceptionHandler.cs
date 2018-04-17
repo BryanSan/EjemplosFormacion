@@ -5,38 +5,20 @@ using System.Web.Http.ExceptionHandling;
 
 namespace EjemplosFormacion.WebApi.ExceptionHandler
 {
+    /// <summary>
+    /// Exception handlers are the solution for customizing all possible responses to unhandled exceptions caught by Web API.
+    /// Se usa para ser hacer handler a una Exception que no ha sido atendida por el Action o un Exception Filter, devolver un Response adecuado o cualquier otro tipo de procesamiento
+    /// Las excepciones del tipo HttpResponseException son un caso especial y no llamaran al ExceptionHandler
+    /// </summary>
     class TestExceptionHandler : IExceptionHandler
     {
+        // Metodo de contrato del Exception Handler que se debe implementar la logica para hacer Handle a la Excepcion
+        // Aqui puedes revisar la informacion del ExceptionHandlerContext para obtener toda la informacion acerca de la excepcion y Handlear segun sea el caso
         public virtual Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
         {
-            if (!ShouldHandle(context))
-            {
-                return Task.FromResult(0);
-            }
+            context.Result = new TextPlainErrorResult(context.ExceptionContext.Request, "Oops! Sorry! Something went wrong. Please contact support@contoso.com so we can try to fix it.");
 
-            return HandleAsyncCore(context, cancellationToken);
-        }
-
-        public virtual Task HandleAsyncCore(ExceptionHandlerContext context, CancellationToken cancellationToken)
-        {
-            HandleCore(context);
             return Task.FromResult(0);
         }
-
-        public virtual void HandleCore(ExceptionHandlerContext context)
-        {
-            context.Result = new TextPlainErrorResult
-            {
-                Request = context.ExceptionContext.Request,
-                Content = "Oops! Sorry! Something went wrong." +
-                      "Please contact support@contoso.com so we can try to fix it."
-            };
-        }
-
-        public virtual bool ShouldHandle(ExceptionHandlerContext context)
-        {
-            return true;
-        }
-
     }
 }

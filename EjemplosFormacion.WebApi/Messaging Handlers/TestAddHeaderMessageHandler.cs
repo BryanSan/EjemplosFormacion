@@ -7,7 +7,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// <summary>
     /// Message Handler para agregar un custom Header al Request y Response
     /// </summary>
-    public class TestAddHeaderMessageHandler : DelegatingHandler
+    class TestAddHeaderMessageHandler : DelegatingHandler
     {
         // Passing the next Handler of the Pipeline If Any
         public TestAddHeaderMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)

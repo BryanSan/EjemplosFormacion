@@ -6,7 +6,7 @@ namespace EjemplosFormacion.WebApi.Filters.OrderedFilters.Infraestructure
     /// <summary>
     /// Clase padre de las cuales clases hijas heredaran para dar soporte a Orden de ejecucion
     /// </summary>
-    public abstract class ExceptionFilterWithOrderAttribute : ExceptionFilterAttribute, IOrderedFilter
+    abstract class ExceptionFilterWithOrderAttribute : ExceptionFilterAttribute, IOrderedFilter
     {
         public int Order { get; set; }
     }

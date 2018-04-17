@@ -9,7 +9,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// Message Handler que devuelve un Response, interrumpiendo todo procesamiento del Pipeline del Web Api
     /// Como no llama al base.SendAsync este Message Handler no permite que pase la ejecucion a otro Inner Message Handler
     /// </summary>
-    public class TestReturnResponseMessageHandler : DelegatingHandler
+    class TestReturnResponseMessageHandler : DelegatingHandler
     {
         // Passing the next Handler of the Pipeline If Any
         public TestReturnResponseMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)

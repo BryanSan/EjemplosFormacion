@@ -9,7 +9,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// <summary>
     /// Action Filter que Loggea la ejecucion del Action, Loggea la informacion del Action, Controller, Request, Response, Excepcion y Tiempos
     /// </summary>
-    public class TestLoggingActionFilterAttribute : ActionFilterAttribute
+    class TestLoggingActionFilterAttribute : ActionFilterAttribute
     {
         [Dependency]
         public IWrapperLogger Logger { get; set; }

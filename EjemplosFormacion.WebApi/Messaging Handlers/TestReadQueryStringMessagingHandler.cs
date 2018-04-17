@@ -8,7 +8,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// <summary>
     /// Message Handler para leer los valores del Query String 
     /// </summary>
-    public class TestReadQueryStringMessagingHandler : DelegatingHandler
+    class TestReadQueryStringMessagingHandler : DelegatingHandler
     {
         readonly string _key;
 

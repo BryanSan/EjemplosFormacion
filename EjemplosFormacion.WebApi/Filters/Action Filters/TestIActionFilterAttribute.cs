@@ -14,7 +14,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// El metodo se ejecuta antes que la action sea ejecutada, debes awaitear el parametro "continuation" para ejecutar operaciones luego que le action halla sido ejecutada
     /// Puedes modificar el request, el response o interrumpir el procesamiento (Ver otros ActionFilter que demuestran como se hace esto)
     /// </summary>
-    public class TestIActionFilterAttribute : FilterAttribute, IActionFilter
+    class TestIActionFilterAttribute : FilterAttribute, IActionFilter
     {
         /// El metodo se ejecuta antes que la action sea ejecutada, debes awaitear el parametro "continuation" para ejecutar operaciones luego que le action halla sido ejecutada
         public async Task<HttpResponseMessage> ExecuteActionFilterAsync(HttpActionContext actionContext, CancellationToken cancellationToken, Func<Task<HttpResponseMessage>> continuation)

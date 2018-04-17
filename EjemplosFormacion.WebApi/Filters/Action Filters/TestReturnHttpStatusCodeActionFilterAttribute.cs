@@ -11,7 +11,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// Action Filter que demuestra como interrumpir el procesamiento de un Request (Sin excepciones) al asignar la propiedad Response a un HttpStatusCode apropiado
     /// Al asignar el response el Web Api para el procesamiento y sale
     /// </summary>
-    public class TestReturnHttpStatusCodeResponseActionFilterAttribute : ActionFilterAttribute
+    class TestReturnHttpStatusCodeResponseActionFilterAttribute : ActionFilterAttribute
     {
         // Para permitir el mismo filtro varias veces (Devuelve lo que necesites)
         public override bool AllowMultiple => base.AllowMultiple;

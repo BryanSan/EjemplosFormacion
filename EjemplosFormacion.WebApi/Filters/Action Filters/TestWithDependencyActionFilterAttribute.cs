@@ -12,7 +12,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// Action Filter que tiene una dependencia, se testea que el Web Api pueda resolver esta dependencia
     /// Ya que para que se pueda usar como attributo debe tener un constructor vacio la modalidad Construction Injection no funciona y se tiene que usar el Property Injection
     /// </summary>
-    public class TestWithDependencyActionFilterAttribute : ActionFilterAttribute
+    class TestWithDependencyActionFilterAttribute : ActionFilterAttribute
     {
         [Dependency]
         public ITestDependency Dependency { get; set; }

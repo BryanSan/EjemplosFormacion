@@ -6,7 +6,12 @@ using System.Web.Http.Routing;
 
 namespace EjemplosFormacion.WebApi.DirectRouteFactory
 {
-    public class TestTypedDirectRouteFactory : IDirectRouteFactory
+    /// <summary>
+    /// Custom Direct Route Factory (Es lo equivalente al RouteAttribute), se usa para albergar custom informacion sobre una Direct Route para un Action
+    /// En este caso esta implementacion se usa para albergar informacion que sera usada para implementar unas Custom Direct Route de manera Tipada 
+    /// Con la ayuda de un Extension Method del HttpConfiguration que llenara esta informacion y el Direct Route Provider que leera esta informacion para registrar la Route
+    /// </summary>
+    class TestTypedDirectRouteFactory : IDirectRouteFactory
     {
         public Type ControllerType { get; private set; }
 

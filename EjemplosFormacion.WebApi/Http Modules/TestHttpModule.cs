@@ -38,7 +38,7 @@ namespace EjemplosFormacion.WebApi.HttpModules
     /// PreSendRequestHeaders -> Occurs just before ASP.NET sends HTTP headers to the client.
     /// PreSendRequestContent -> Occurs just before ASP.NET sends content to the client. The PreSendRequestContent event may occur multiple times.
     /// </summary>
-    public class TestHttpModule : IHttpModule
+    class TestHttpModule : IHttpModule
     {
         public void Dispose()
         {

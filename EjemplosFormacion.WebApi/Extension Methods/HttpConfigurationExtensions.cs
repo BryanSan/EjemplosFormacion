@@ -11,7 +11,7 @@ namespace EjemplosFormacion.WebApi.ExtensionMethods
     /// Se pueden usar Constraints y demas
     /// Por debajo crea un IDirectRouteFactory para la configuracion dada y lo registra en el Direct Route Provider para que registra la ruta configurada
     /// </summary>
-    public static class HttpConfigurationExtensions
+    static class HttpConfigurationExtensions
     {
         public static TestTypedDirectRouteFactory RegisterTypedRoute(this HttpConfiguration config, string template, Action<TestTypedDirectRouteFactory> configSetup)
         {

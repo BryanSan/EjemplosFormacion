@@ -9,7 +9,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
     /// <summary>
     /// Action Result para devolver un Response con el HttpStatusCode de Unauthorized junto con el Request que se envio
     /// </summary>
-    public class AuthenticationFailureActionResult : IHttpActionResult
+    class AuthenticationFailureActionResult : IHttpActionResult
     {
         readonly string _reasonPhrase;
         readonly HttpRequestMessage _request;

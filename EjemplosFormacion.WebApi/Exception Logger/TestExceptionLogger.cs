@@ -1,55 +1,30 @@
-﻿using System.Collections;
+﻿using EjemplosFormacion.HelperClasess.Abstract;
+using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.ExceptionHandling;
+using Unity.Attributes;
 
 namespace EjemplosFormacion.WebApi.ExceptionLogger
 {
-    public class TestExceptionLogger : IExceptionLogger
+    /// <summary>
+    /// Exception loggers are the solution to seeing all unhandled exception caught by Web API.
+    /// Se usa para hacer Logger a cualquier Exception que ocurra en el Web Api que no haya sido handleada por un Action, esta clase hara Logger de la Exception indiferentemente que la Excepcion halla sido handleada por un ExceptionFilter o un ExceptionHandler, *de hecho esta clase es llamada primero que los ExceptionFilter y ExceptionHandler*
+    /// Las excepciones del tipo HttpResponseException son un caso especial y no llamaran al ExceptionHandler
+    /// </summary>
+    class TestExceptionLogger : IExceptionLogger
     {
+        [Dependency]
+        public IWrapperLogger Logger { get; set; }
+
+        // Metodo del contrato de IExceptionLogger que se debe implementar
+        // Aqui puedes revisar la informacion del ExceptionLoggerContext para obtener toda la informacion acerca de la excepcion y loggear segun sea el caso
         public virtual Task LogAsync(ExceptionLoggerContext context, CancellationToken cancellationToken)
         {
-            if (!ShouldLog(context))
-            {
-                return Task.FromResult(0);
-            }
+            Logger.Error(context.ExceptionContext.Exception.ToString());
 
-            return LogAsyncCore(context, cancellationToken);
-        }
-
-        public virtual Task LogAsyncCore(ExceptionLoggerContext context, CancellationToken cancellationToken)
-        {
-            LogCore(context);
             return Task.FromResult(0);
-        }
-
-        public virtual void LogCore(ExceptionLoggerContext context)
-        {
-            Trace.TraceError(context.ExceptionContext.Exception.ToString());
-        }
-
-        public virtual bool ShouldLog(ExceptionLoggerContext context)
-        {
-            IDictionary exceptionData = context.ExceptionContext.Exception.Data;
-
-            if (!exceptionData.Contains("MS_LoggedBy"))
-            {
-                exceptionData.Add("MS_LoggedBy", new List<object>());
-            }
-
-            ICollection<object> loggedBy = ((ICollection<object>)exceptionData["MS_LoggedBy"]);
-
-            if (!loggedBy.Contains(this))
-            {
-                loggedBy.Add(this);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     /// Si tiene algun error lo pasa a una entidad y devuelve un BadRequest con dichos errores
     /// Para la validacion de Required tener cuidado con los valores default no nullable ya que no devolvera error, pasar la propiedad a nullable int -> int?
     /// </summary>
-    public class TestValidationModelStateActionFilterAttribute : ActionFilterAttribute
+    class TestValidationModelStateActionFilterAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {

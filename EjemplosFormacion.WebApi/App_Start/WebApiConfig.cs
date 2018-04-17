@@ -26,7 +26,7 @@ namespace EjemplosFormacion.WebApi
     /// Clase usada para configurar el Web Api, tanto sus Rutas, Filtros y Servicios
     /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/configuring-aspnet-web-api
     /// </summary>
-    public static class WebApiConfig
+    static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
         {
@@ -58,6 +58,8 @@ namespace EjemplosFormacion.WebApi
             //                  Single-Services
             // =========================================================
 
+            // If an exception occurs, the IExceptionLogger will be called first,
+            // Then the controller ExceptionFilters and if still unhandled, the IExceptionHandler implementation.
             // Exception handlers are the solution for customizing all possible responses to unhandled exceptions caught by Web API.
             config.Services.Replace(typeof(IExceptionHandler), new TestExceptionHandler());
 
@@ -67,10 +69,13 @@ namespace EjemplosFormacion.WebApi
 
             // Custom action filter provider which does ordering
             // Se necesita que el Dependency Resolver resuelta y construya el tipo ya que se tiene una Dependencia al UnityContainer dentro del FilterProvider
-            config.Services.Add(typeof(IFilterProvider), GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(DependencyInjectionOrderedFilterProvider)));
+            config.Services.Add(typeof(IFilterProvider), config.DependencyResolver.GetService(typeof(DependencyInjectionOrderedFilterProvider)));
 
+            // If an exception occurs, the IExceptionLogger will be called first,
+            // Then the controller ExceptionFilters and if still unhandled, the IExceptionHandler implementation.
             // Exception loggers are the solution to seeing all unhandled exception caught by Web API.
-            config.Services.Add(typeof(IExceptionLogger), new TestExceptionLogger());
+            // Se necesita que el Dependency Resolver resuelta y construya el tipo ya que se tiene una Dependencia al WrapperLoger dentro del ExceptionLogger
+            config.Services.Add(typeof(IExceptionLogger), config.DependencyResolver.GetService(typeof(TestExceptionLogger)));
         }
 
         /// <summary>
@@ -138,6 +143,9 @@ namespace EjemplosFormacion.WebApi
             config.Filters.Add(new TestOrderedActionFilterAttribute(order: 1)); // Ordered Action Filter - Primero en Ejecutar
             config.Filters.Add(new TestOrderedActionFilterAttribute(order: 2)); // Ordered Action Filter - Segundo en Ejecutar
 
+            // If an exception occurs, the IExceptionLogger will be called first,
+            // Then the controller ExceptionFilters and if still unhandled, the IExceptionHandler implementation.
+            // Exception filters are the easiest solution for processing the subset unhandled exceptions related to a specific action or controller.
             config.Filters.Add(new TestExceptionFilterAttribute()); // Excepcion Filter
             config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 1)); // Excepcion Action Filter - Primero en Ejecutar
             config.Filters.Add(new TestOrderedExceptionFilterAttribute(order: 2)); // Excepcion Action Filter - Segundo en Ejecutar
@@ -149,6 +157,9 @@ namespace EjemplosFormacion.WebApi
             config.Filters.Add(new TestIAuthorizationFilterAttribute()); // Authorize Filter 
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 1)); // Authorize Filter 
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 2)); // Authorize Filter 
+
+            // Se necesita que el Dependency Resolver resuelta y construya el tipo ya que se tiene una Dependencia al WrapperLoger dentro del ActionFilter
+            config.Filters.Add(config.DependencyResolver.GetService(typeof(TestLoggingActionFilterAttribute)) as IFilter); // Action Filter with Dependency Property Injection
 
             // Web Api Build in Authorize Filter Requiere que el Request este autenticado (con un IPrincipal asignado), necesario para que si no tiene credenciales explote
             //config.Filters.Add(new AuthorizeAttribute()); // Authorize Filter 

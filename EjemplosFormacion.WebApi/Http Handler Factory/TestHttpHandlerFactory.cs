@@ -10,7 +10,7 @@ namespace EjemplosFormacion.WebApi.HttpHandlerFactory
     /// Normalmente inspeccionaras la URL en busca de un Match y crearas y retornaras un HttpHandler para esta URL que has hecho match
     /// You can generate a new handler instance for each HTTP request by creating a class that implements the IHttpHandlerFactory interface. 
     /// </summary>
-    public class TestHttpHandlerFactory : IHttpHandlerFactory
+    class TestHttpHandlerFactory : IHttpHandlerFactory
     {
         public IHttpHandler GetHandler(HttpContext context, string requestType, String url, String pathTranslated)
         {

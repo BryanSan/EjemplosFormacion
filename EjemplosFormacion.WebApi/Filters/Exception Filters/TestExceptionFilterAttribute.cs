@@ -11,7 +11,7 @@ namespace EjemplosFormacion.WebApi.Filters.ExceptionFilters
     /// Filter attribute para interceptar excepciones que hereda de la clase ExceptionFilterAttribute para evitar tener que implementar los metodos requeridos por la interfaz IExceptionFilter
     /// Se puede usar para sustituir el response con un response mas adecuado segun la logica diga por ejemplo por el tipo de excepcion
     /// </summary>
-    public class TestExceptionFilterAttribute : ExceptionFilterAttribute
+    class TestExceptionFilterAttribute : ExceptionFilterAttribute
     {
         // Mayormente el metodo se tratara de revisar que excepcion tiene la action y dependiendo del tipo de Excepcion crear el response
         // Con este puedes usar metodos sincronicos

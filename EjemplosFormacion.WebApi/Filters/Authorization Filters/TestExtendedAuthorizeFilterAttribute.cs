@@ -18,7 +18,7 @@ namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
     /// Metodos override de Bajo Nivel
     /// Has override sobre los metodos OnAuthorization o OnAuthorizationAsync para definir tu logica de Autorizacion
     /// </summary>
-    public class TestExtendedAuthorizeFilterAttribute : AuthorizeAttribute
+    class TestExtendedAuthorizeFilterAttribute : AuthorizeAttribute
     {
         // Logica para definir tus autorizaciones en manera sincronica
         // Este es el metodo llamado por Web Api para ver si esta autorizado o no (sincrono)

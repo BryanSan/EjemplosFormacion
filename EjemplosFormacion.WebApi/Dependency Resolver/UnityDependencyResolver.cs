@@ -14,7 +14,7 @@ namespace EjemplosFormacion.WebApi.DependencyResolver
     /// If GetService returns null, Web API looks for a parameterless constructor on the controller class.
     /// No retornar errores si no se puede resolver las dependencias, simplemente devolver null
     /// </summary>
-    public class UnityDependencyResolver : IDependencyResolver
+    class UnityDependencyResolver : IDependencyResolver
     {
         protected readonly IUnityContainer container;
 

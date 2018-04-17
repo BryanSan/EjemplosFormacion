@@ -16,7 +16,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// Usa una entidad modelo para hostear el mensaje ya que da problemas para el mensaje en texto puro
     /// Usa una dependencia para encriptar y desencriptar Entidades de cualquier tipo con los algoritmos Simetricos especificados en los atributos de este message handler
     /// </summary>
-    public class TestJsonEncrypterMessageHandler : DelegatingHandler
+    class TestJsonEncrypterMessageHandler : DelegatingHandler
     {
         readonly ISymmetricEncrypter<AesManaged, SHA256Managed> _symmetricEncrypter;
 

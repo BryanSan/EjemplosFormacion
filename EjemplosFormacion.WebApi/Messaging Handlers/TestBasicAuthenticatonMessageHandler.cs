@@ -15,7 +15,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// Si no tiene header, o credenciales deja pasar sin problemas mas no lo marca como autenticado (asigna el IPrincipal)
     /// Si tiene header y credenciales y no son validas, tanto en formato como en Autenticacion devuelve un error junto con el Challenger Header para exponer contra que se esta validando
     /// </summary>
-    public class TestBasicAuthenticatonMessageHandler : DelegatingHandler
+    class TestBasicAuthenticatonMessageHandler : DelegatingHandler
     {
         // Passing the next Handler of the Pipeline If Any
         public TestBasicAuthenticatonMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)

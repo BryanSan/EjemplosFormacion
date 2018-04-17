@@ -16,7 +16,7 @@ namespace EjemplosFormacion.WebApi.FiltersProviders
     /// Si dos FilterProvider marcan el mismo filtro este filtro tendra tantas ejecuciones como se repita
     /// Valores bajos de la propiedad Order en los filtros marcados como ordenables son evaluados primeros
     /// </summary>
-    public class DependencyInjectionOrderedFilterProvider : IFilterProvider
+    class DependencyInjectionOrderedFilterProvider : IFilterProvider
     {
         private IUnityContainer _container;
 

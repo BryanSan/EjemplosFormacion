@@ -12,7 +12,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
     /// Action Result para añadir el header de Challenge (WwwAuthenticate) cuando una respuesta no es Autorizada
     /// Para que el cliente sepa con que Schema el Servidor rechazo su Request
     /// </summary>
-    public class AddChallengeOnUnauthorizedActionResult : IHttpActionResult
+    class AddChallengeOnUnauthorizedActionResult : IHttpActionResult
     {
         readonly AuthenticationHeaderValue _challenge;
         readonly IHttpActionResult _innerResult;

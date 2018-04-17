@@ -9,7 +9,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// <summary>
     /// Message Handler para leer el Header X-HTTP-Method-Override y actualiza el metodo (HttpVerb) del Request con el valor del Header X-HTTP-Method-Override
     /// </summary>
-    public class TestMethodOverrideHeaderMessageHandler : DelegatingHandler
+    class TestMethodOverrideHeaderMessageHandler : DelegatingHandler
     {
         readonly string[] _methods = { "DELETE", "HEAD", "PUT" };
         const string _header = "X-HTTP-Method-Override";

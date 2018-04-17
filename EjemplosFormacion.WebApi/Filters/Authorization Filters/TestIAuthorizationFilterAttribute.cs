@@ -12,7 +12,7 @@ namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
     /// for example, if your authorization logic makes asynchronous I/O or network calls. 
     /// (If your authorization logic is CPU-bound, it is simpler to derive from AuthorizationFilterAttribute, because then you don't need to write an asynchronous method.)
     /// </summary>
-    public class TestIAuthorizationFilterAttribute : FilterAttribute, IAuthorizationFilter
+    class TestIAuthorizationFilterAttribute : FilterAttribute, IAuthorizationFilter
     {
 
         public virtual void OnAuthorization(HttpActionContext actionContext)

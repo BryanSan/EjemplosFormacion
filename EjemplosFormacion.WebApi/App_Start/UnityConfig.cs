@@ -12,7 +12,7 @@ namespace EjemplosFormacion.WebApi
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>
-    public static class UnityConfig
+    static class UnityConfig
     {
         #region Unity Container
         private static Lazy<IUnityContainer> container =

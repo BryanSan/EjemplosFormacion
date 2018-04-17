@@ -13,7 +13,7 @@ namespace EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters
     /// Al mismo tiempo la clase padre implementa los metodos requeridos por la interfaz IExceptionFilter para evitar tener que dar una implementacion
     /// Se puede usar para sustituir el response con un response mas adecuado segun la logica diga por ejemplo por el tipo de excepcion
     /// </summary>
-    public class TestOrderedExceptionFilterAttribute : ExceptionFilterWithOrderAttribute
+    class TestOrderedExceptionFilterAttribute : ExceptionFilterWithOrderAttribute
     {
         public TestOrderedExceptionFilterAttribute(int order = 0)
         {

@@ -14,7 +14,7 @@ namespace EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters
     /// Has override sobre los metodos OnAuthorization o OnAuthorizationAsync para definir tu logica de Autorizacion
     /// Si no se asigna un Response se da por Autorizado la respuesta
     /// </summary>
-    public class TestOrderedAuthorizationFilterAttribute : AuthorizationFilterWithOrderAttribute
+    class TestOrderedAuthorizationFilterAttribute : AuthorizationFilterWithOrderAttribute
     {
         public TestOrderedAuthorizationFilterAttribute(int order = 0)
         {
