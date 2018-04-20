@@ -2,7 +2,7 @@
 using System.Net;
 using System.Web.Http;
 
-namespace EjemplosFormacion.WebApi.Controllers.TestServices
+namespace EjemplosFormacion.WebApi.Controllers.TestWebApiServices
 {
     public class TestExceptionHandlerController : ApiController
     {

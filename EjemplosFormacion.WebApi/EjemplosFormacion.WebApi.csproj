@@ -137,9 +137,10 @@
     <Compile Include="Controllers\Test Filters\TestExceptionFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestOverrideFilterController.cs" />
     <Compile Include="Controllers\Test HttpModule\TestHttpModuleController.cs" />
+    <Compile Include="Controllers\Test Images\TestImageController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
-    <Compile Include="Controllers\Test Services\TestExceptionHandlerController.cs" />
+    <Compile Include="Controllers\Test Web Api Services\TestExceptionHandlerController.cs" />
     <Compile Include="Direct Route Factory\TestTypedDirectRouteFactory.cs" />
     <Compile Include="Direct Route Providers\TestDirectRouteProvider.cs" />
     <Compile Include="Exception Handler\TestExceptionHandler.cs" />

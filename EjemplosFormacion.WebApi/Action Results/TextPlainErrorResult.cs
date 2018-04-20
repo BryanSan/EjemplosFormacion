@@ -23,6 +23,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
+            // Retornamos un simple Response con el Error y el Request usado
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
 
             response.Content = new StringContent(Content);
