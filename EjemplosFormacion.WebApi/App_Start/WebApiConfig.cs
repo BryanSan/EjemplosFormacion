@@ -12,6 +12,7 @@ using EjemplosFormacion.WebApi.Filters.OrderedFilters.ActionFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
 using EjemplosFormacion.WebApi.FiltersProviders;
+using EjemplosFormacion.WebApi.HostBufferPolicySelector;
 using EjemplosFormacion.WebApi.MessagingHandlers;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -19,6 +20,7 @@ using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Filters;
+using System.Web.Http.Hosting;
 
 namespace EjemplosFormacion.WebApi
 {
@@ -62,6 +64,8 @@ namespace EjemplosFormacion.WebApi
             // Then the controller ExceptionFilters and if still unhandled, the IExceptionHandler implementation.
             // Exception handlers are the solution for customizing all possible responses to unhandled exceptions caught by Web API.
             config.Services.Replace(typeof(IExceptionHandler), new TestExceptionHandler());
+
+            config.Services.Replace(typeof(IHostBufferPolicySelector), new NoWebHostBufferPolicySelector());
 
             // =========================================================
             //                  Multi-Services

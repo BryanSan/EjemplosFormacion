@@ -9,13 +9,13 @@ namespace EjemplosFormacion.WebApi.ActionResults
     /// <summary>
     /// Http Action Result usada para devolver un Error en Texto Puro
     /// </summary>
-    class TextPlainErrorResult : IHttpActionResult
+    class TextPlainErrorActionResult : IHttpActionResult
     {
         public HttpRequestMessage Request { get; private set; }
 
         public string Content { get; private set; }
 
-        public TextPlainErrorResult(HttpRequestMessage request, string content)
+        public TextPlainErrorActionResult(HttpRequestMessage request, string content)
         {
             Request = request;
             Content = content;

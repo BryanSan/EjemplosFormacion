@@ -125,7 +125,8 @@
   <ItemGroup>
     <Compile Include="Action Results\AddChallengeOnUnauthorizedActionResult.cs" />
     <Compile Include="Action Results\AuthenticationFailureActionResult.cs" />
-    <Compile Include="Action Results\TextPlainErrorResult.cs" />
+    <Compile Include="Action Results\FileStreamActionResult.cs" />
+    <Compile Include="Action Results\TextPlainErrorActionResult.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="Controllers\Test Authentication\TestBasicAuthenticationController.cs" />
@@ -146,6 +147,8 @@
     <Compile Include="Exception Handler\TestExceptionHandler.cs" />
     <Compile Include="Exception Logger\TestExceptionLogger.cs" />
     <Compile Include="Extension Methods\HttpConfigurationExtensions.cs" />
+    <Compile Include="Action Results\FileActionResult.cs" />
+    <Compile Include="Extension Methods\StringExtension.cs" />
     <Compile Include="Filters\Action Filters\TestAddHeaderActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditRequestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditResponseActionFilterAttribute.cs" />
@@ -178,6 +181,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Dependency Resolver\UnityDependencyResolver.cs" />
+    <Compile Include="Host Buffer Policy Selector\NoWebHostBufferPolicySelector.cs" />
     <Compile Include="Http Handler Factory\TestHttpHandlerFactory.cs" />
     <Compile Include="Http Handler\TestAsyncHttpHandler.cs" />
     <Compile Include="Http Handler\TestSyncHttpHandler.cs" />
