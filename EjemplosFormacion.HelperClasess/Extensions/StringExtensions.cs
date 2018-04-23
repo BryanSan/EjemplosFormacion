@@ -1,5 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text.RegularExpressions;
 
 namespace EjemplosFormacion.HelperClasess.Extensions
@@ -46,6 +51,43 @@ namespace EjemplosFormacion.HelperClasess.Extensions
         public static bool IsStringNumberOfTimes(this string source, string stringToSearch, int numberOfTimes)
         {
             return Regex.Matches(source, Regex.Escape(stringToSearch)).Count >= numberOfTimes;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static bool AnyInvalidFileNameChars(this string fileName)
+        {
+            char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
+
+            return invalidFileNameChars.Intersect(fileName).Any();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ext"></param>
+        /// <returns></returns>
+        public static MediaTypeHeaderValue GetMimeNameFromExt(this string ext)
+        {
+            var mimeNames = new Dictionary<string, string>();
+
+            mimeNames.Add(".mp3", "audio/mpeg");    // List all supported media types; 
+            mimeNames.Add(".mp4", "video/mp4");
+            mimeNames.Add(".ogg", "application/ogg");
+            mimeNames.Add(".ogv", "video/ogg");
+            mimeNames.Add(".oga", "audio/ogg");
+            mimeNames.Add(".wav", "audio/x-wav");
+            mimeNames.Add(".webm", "video/webm");
+
+            string value;
+
+            if (mimeNames.TryGetValue(ext.ToLowerInvariant(), out value))
+                return new MediaTypeHeaderValue(value);
+            else
+                return new MediaTypeHeaderValue(MediaTypeNames.Application.Octet);
         }
     }
 }

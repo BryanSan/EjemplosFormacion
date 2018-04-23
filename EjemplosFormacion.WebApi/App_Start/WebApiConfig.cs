@@ -52,6 +52,7 @@ namespace EjemplosFormacion.WebApi
         /// Has un Replace para mantener 1 servicio de un solo tipo 
         /// Si haces un Add piensa bien si necesitas ambos servicios corriendo juntos
         /// Testea si es necesario para ver si la logica se ejecuta varias veces y no dañes el performance
+        /// O que por ejecutar la logica o pasar dos veces el servicio se dañen cosas
         /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/configuring-aspnet-web-api
         /// </summary>
         private static void ConfigureServices(HttpConfiguration config)
