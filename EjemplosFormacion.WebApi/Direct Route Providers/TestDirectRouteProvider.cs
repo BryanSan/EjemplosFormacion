@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.WebApi.DirectRouteFactory;
+﻿using EjemplosFormacion.WebApi.DirectRouteFactories;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

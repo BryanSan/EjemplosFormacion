@@ -1,5 +1,5 @@
 using EjemplosFormacion.WebApi;
-using EjemplosFormacion.WebApi.DependencyResolver;
+using EjemplosFormacion.WebApi.DependencyResolvers;
 using System.Web.Http;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UnityWebApiActivator), nameof(UnityWebApiActivator.Start))]

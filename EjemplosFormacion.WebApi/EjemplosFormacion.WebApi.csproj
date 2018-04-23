@@ -142,10 +142,10 @@
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestExceptionHandlerController.cs" />
-    <Compile Include="Direct Route Factory\TestTypedDirectRouteFactory.cs" />
+    <Compile Include="Direct Route Factories\TestTypedDirectRouteFactory.cs" />
     <Compile Include="Direct Route Providers\TestDirectRouteProvider.cs" />
-    <Compile Include="Exception Handler\TestExceptionHandler.cs" />
-    <Compile Include="Exception Logger\TestExceptionLogger.cs" />
+    <Compile Include="Exception Handlers\TestExceptionHandler.cs" />
+    <Compile Include="Exception Loggers\TestExceptionLogger.cs" />
     <Compile Include="Extension Methods\HttpConfigurationExtensions.cs" />
     <Compile Include="Action Results\FileActionResult.cs" />
     <Compile Include="Extension Methods\StringExtension.cs" />
@@ -180,11 +180,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Dependency Resolver\UnityDependencyResolver.cs" />
-    <Compile Include="Host Buffer Policy Selector\NoWebHostBufferPolicySelector.cs" />
-    <Compile Include="Http Handler Factory\TestHttpHandlerFactory.cs" />
-    <Compile Include="Http Handler\TestAsyncHttpHandler.cs" />
-    <Compile Include="Http Handler\TestSyncHttpHandler.cs" />
+    <Compile Include="Dependency Resolvers\UnityDependencyResolver.cs" />
+    <Compile Include="Host Buffer Policy Selectors\NoWebHostBufferPolicySelector.cs" />
+    <Compile Include="Http Handler Factories\TestHttpHandlerFactory.cs" />
+    <Compile Include="Http Handlers\TestAsyncHttpHandler.cs" />
+    <Compile Include="Http Handlers\TestSyncHttpHandler.cs" />
     <Compile Include="Http Modules\TestHttpModule.cs" />
     <Compile Include="Messaging Handlers\TestAddHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestBasicAuthenticatonMessageHandler.cs" />
@@ -198,6 +198,7 @@
     <Compile Include="Models\MessageEncrypted.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Models\TestModelError.cs" />
+    <Compile Include="Multipart Stream Providers\InMemoryMultipartFormDataStreamProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stubs\Abstract\ITestDependency.cs" />
     <Compile Include="Stubs\Implementation\TestDependency.cs" />

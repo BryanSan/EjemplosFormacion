@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Routing;
 
-namespace EjemplosFormacion.WebApi.DirectRouteFactory
+namespace EjemplosFormacion.WebApi.DirectRouteFactories
 {
     /// <summary>
     /// Custom Direct Route Factory (Es lo equivalente al RouteAttribute), se usa para albergar custom informacion sobre una Direct Route para un Action

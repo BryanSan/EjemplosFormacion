@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace EjemplosFormacion.WebApi.HttpHandler
+namespace EjemplosFormacion.WebApi.HttpHandlers
 {
     /// <summary>
     //  HTTP handlers are not get executed for every requests.

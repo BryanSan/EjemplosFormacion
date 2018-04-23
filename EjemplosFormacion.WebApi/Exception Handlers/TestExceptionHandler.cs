@@ -1,9 +1,10 @@
 ﻿using EjemplosFormacion.WebApi.ActionResults;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.ExceptionHandling;
 
-namespace EjemplosFormacion.WebApi.ExceptionHandler
+namespace EjemplosFormacion.WebApi.ExceptionHandlers
 {
     /// <summary>
     /// Exception handlers are the solution for customizing all possible responses to unhandled exceptions caught by Web API.
@@ -16,7 +17,7 @@ namespace EjemplosFormacion.WebApi.ExceptionHandler
         // Aqui puedes revisar la informacion del ExceptionHandlerContext para obtener toda la informacion acerca de la excepcion y Handlear segun sea el caso
         public virtual Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
         {
-            context.Result = new TextPlainErrorActionResult(context.ExceptionContext.Request, "Oops! Sorry! Something went wrong. Please contact support@contoso.com so we can try to fix it.");
+            context.Result = new TextPlainErrorActionResult(context.ExceptionContext.Request, "Oops! Sorry! Something went wrong. Please contact support@contoso.com so we can try to fix it." + Environment.NewLine + context.ExceptionContext.Exception.Message);
 
             return Task.FromResult(0);
         }

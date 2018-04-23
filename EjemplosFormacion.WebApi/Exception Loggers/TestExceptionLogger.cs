@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http.ExceptionHandling;
 using Unity.Attributes;
 
-namespace EjemplosFormacion.WebApi.ExceptionLogger
+namespace EjemplosFormacion.WebApi.ExceptionLoggers
 {
     /// <summary>
     /// Exception loggers are the solution to seeing all unhandled exception caught by Web API.

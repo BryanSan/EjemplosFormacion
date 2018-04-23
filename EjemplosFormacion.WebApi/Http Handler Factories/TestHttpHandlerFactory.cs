@@ -1,8 +1,8 @@
-﻿using EjemplosFormacion.WebApi.HttpHandler;
+﻿using EjemplosFormacion.WebApi.HttpHandlers;
 using System;
 using System.Web;
 
-namespace EjemplosFormacion.WebApi.HttpHandlerFactory
+namespace EjemplosFormacion.WebApi.HttpHandlerFactories
 {
     /// <summary>
     /// HttpHandlerFactory es un generador de controladores 

@@ -3,13 +3,13 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http.WebHost;
 
-namespace EjemplosFormacion.WebApi.HostBufferPolicySelector
+namespace EjemplosFormacion.WebApi.HostBufferPolicySelectors
 {
     public class NoWebHostBufferPolicySelector : WebHostBufferPolicySelector
     {
         public override bool UseBufferedInputStream(object hostContext)
         {
-            var context = hostContext as HttpContextBase;
+            HttpContextBase context = hostContext as HttpContextBase;
 
             if (context != null)
             {
