@@ -147,7 +147,6 @@
     <Compile Include="Exception Handlers\TestExceptionHandler.cs" />
     <Compile Include="Exception Loggers\TestExceptionLogger.cs" />
     <Compile Include="Extension Methods\HttpConfigurationExtensions.cs" />
-    <Compile Include="Action Results\FileActionResult.cs" />
     <Compile Include="Extension Methods\StringExtension.cs" />
     <Compile Include="Filters\Action Filters\TestAddHeaderActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestEditRequestActionFilterAttribute.cs" />

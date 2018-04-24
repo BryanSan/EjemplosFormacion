@@ -17,7 +17,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
         readonly string _contentType;
         readonly RangeHeaderValue _rangeHeader;
 
-        public FileStreamActionResult(Stream stream, string contentType, RangeHeaderValue rangeHeader)
+        public FileStreamActionResult(Stream stream, string contentType, RangeHeaderValue rangeHeader = null)
         {
             _stream = stream;
             _contentType = contentType;
@@ -35,7 +35,9 @@ namespace EjemplosFormacion.WebApi.ActionResults
 
                 if (_rangeHeader == null || !_rangeHeader.Ranges.Any())
                 {
-                    response.Content = new PushStreamContent(WriteToStreamFull, _contentType);
+                    response.Content = new StreamContent(_stream);
+                    response.Content.Headers.ContentType = new MediaTypeHeaderValue(_contentType);
+
                     return response;
                 }
                 else
@@ -43,8 +45,6 @@ namespace EjemplosFormacion.WebApi.ActionResults
                     long start = 0, end = 0, totalLenght;
 
                     totalLenght = _stream.Length;
-
-                    
 
                     // 1. If the unit is not 'bytes'.
                     // 2. If there are multiple ranges in header value.
@@ -63,10 +63,10 @@ namespace EjemplosFormacion.WebApi.ActionResults
 
                     // We are now ready to produce partial content.
                     response.StatusCode = HttpStatusCode.PartialContent;
-                    response.Content = new PushStreamContent(async (outputStream, httpContent, transpContext)
+                    response.Content = new PushStreamContent((outputStream, httpContent, transpContext)
                     =>
                     {
-                        await WriteToStreamRange(outputStream, httpContent, transpContext, start, end);
+                        WriteToStreamRange(outputStream, httpContent, transpContext, start, end);
                     }, _contentType);
 
                     response.Content.Headers.ContentLength = end - start + 1;
@@ -77,27 +77,11 @@ namespace EjemplosFormacion.WebApi.ActionResults
             }, cancellationToken);
         }
 
-        public async Task WriteToStreamFull(Stream outputStream, HttpContent content, TransportContext context)
+        public void WriteToStreamRange(Stream outputStream, HttpContent content, TransportContext context, long start, long end)
         {
             try
             {
-                await _stream.CopyToAsync(outputStream);
-            }
-            catch (Exception)
-            {
-                return;
-            }
-            finally
-            {
-                outputStream.Close();
-            }
-        }
-
-        public async Task WriteToStreamRange(Stream outputStream, HttpContent content, TransportContext context, long start, long end)
-        {
-            try
-            {
-                await _stream.CopyToAsync(outputStream);
+                _stream.WritePartialContentToOutputStream(outputStream, start, end);
             }
             catch (Exception)
             {

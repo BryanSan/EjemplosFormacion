@@ -70,7 +70,7 @@ namespace EjemplosFormacion.HelperClasess.Extensions
         /// </summary>
         /// <param name="ext"></param>
         /// <returns></returns>
-        public static MediaTypeHeaderValue GetMimeNameFromExt(this string ext)
+        public static MediaTypeHeaderValue GetMimeTypeNameFromExtension(this string ext)
         {
             var mimeNames = new Dictionary<string, string>();
 
