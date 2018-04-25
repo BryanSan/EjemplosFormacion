@@ -1,4 +1,5 @@
 ﻿using EjemplosFormacion.WebApi.Filters.OrderedFilters.Infraestructure.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -22,7 +23,7 @@ namespace EjemplosFormacion.WebApi.FiltersProviders
 
         public DependencyInjectionOrderedFilterProvider(IUnityContainer container)
         {
-            _container = container;
+            _container = container ?? throw new ArgumentException("container vacio!.");
         }
 
         // Buscamos todos los filtros que aplican para este ActionDescriptor incluyendo Globales, Controllers y Actions Specific

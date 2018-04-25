@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EjemplosFormacion.HelperClasess.Extensions;
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -7,7 +8,6 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using EjemplosFormacion.HelperClasess.Extensions;
 
 namespace EjemplosFormacion.WebApi.ActionResults
 {
@@ -19,7 +19,9 @@ namespace EjemplosFormacion.WebApi.ActionResults
 
         public FileStreamActionResult(Stream stream, string contentType, RangeHeaderValue rangeHeader = null)
         {
-            _stream = stream;
+            if (string.IsNullOrWhiteSpace(contentType)) throw new ArgumentException("contentType vacio!.");
+
+            _stream = stream ?? throw new ArgumentException("stream vacio!.");
             _contentType = contentType;
             _rangeHeader = rangeHeader;
         }

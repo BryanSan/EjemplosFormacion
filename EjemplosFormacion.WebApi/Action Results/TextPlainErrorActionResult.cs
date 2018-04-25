@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
 
         public TextPlainErrorActionResult(HttpRequestMessage request, string content)
         {
-            Request = request;
+            Request = request ?? throw new ArgumentException("request vacio!.");
             Content = content;
         }
 

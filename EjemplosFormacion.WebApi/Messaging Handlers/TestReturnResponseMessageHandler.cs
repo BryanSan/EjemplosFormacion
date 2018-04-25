@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         // Passing the next Handler of the Pipeline If Any
         public TestReturnResponseMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)
         {
-
+            if (messageHandler == null) throw new ArgumentException("messageHandler vacio!.");
         }
 
         public TestReturnResponseMessageHandler()

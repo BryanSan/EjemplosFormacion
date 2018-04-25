@@ -117,16 +117,18 @@ namespace EjemplosFormacion.WebApi.Controllers.TestImages
             return new FileStreamActionResult(stream, contentType, Request.Headers.Range);
         }
 
+        // Extraido de -> https://stackoverflow.com/questions/38069730/how-to-create-a-multipart-http-response-with-asp-net-core
         // Demostracion de como devolver al cliente varios archivos usando un MultiPartResult
         // Esta Action devuelve un MultiPartResult entero sin Streaming
         // El navegador Firefox descargara los archivos separados con su Content-Type y Filename, mientras que los demas navegadores descargaran un unico archivo sin formato
         // En caso del cliente ser una aplicacion puedes leer el response con el metodo AsMultiPartAsync() y tratar los archivos separadamente
-        // https://stackoverflow.com/questions/15088390/how-to-read-multipartcontent-from-httpresponsemessage/37117511
+        // Como Leerlo en el HttpClient -> https://stackoverflow.com/questions/15088390/how-to-read-multipartcontent-from-httpresponsemessage/37117511
         // HttpClient client = new HttpClient();
         // HttpResponseMessage response = await client.PostAsyc("{send the request to api}");
         // var content = await response.Content.ReadAsMultipartAsync();
         // var stringContent = await content.Contents[0].ReadAsStringAsync();
         // var streamContent = await content.Contents[1].ReadAsStreamAsync();
+        [HttpGet]
         public IHttpActionResult TestGetMultipartFileAsStreamNoStreaming()
         {
             // Recupera el archivo como Stream, si lo recuperas como Byte estaras matando todo lo que se quiere lograr
@@ -151,7 +153,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestImages
                     Stream = stream2
                 }
             };
-
+            
             // Pasas la lista al Action Result que la tratara y creara el Content
             return new MultipartActionResult(multipartContents);
         }

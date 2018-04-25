@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
         public AuthenticationFailureActionResult(string reasonPhrase, HttpRequestMessage request)
         {
             _reasonPhrase = reasonPhrase;
-            _request = request;
+            _request = request ?? throw new ArgumentException("request vacio!.");
         }
 
         public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)

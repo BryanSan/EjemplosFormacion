@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -16,6 +17,10 @@ namespace EjemplosFormacion.WebApi.ActionResults
 
         public MultipartActionResult(List<MultipartItem> multiPartItem, string subtype = "byteranges", string boundary = null)
         {
+            if (multiPartItem == null || multiPartItem.Count <= 0) throw new ArgumentException("multiPartItem invalido!.");
+            
+            _multiPartItem = multiPartItem;
+
             if (boundary == null)
             {
                 _content = new MultipartContent(subtype);

@@ -2,6 +2,7 @@
 using EjemplosFormacion.HelperClasess.Extensions;
 using EjemplosFormacion.WebApi.Models;
 using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -24,12 +25,14 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         public TestJsonEncrypterMessageHandler(ISymmetricEncrypter<AesManaged, SHA256Managed> symmetricEncrypter,
                                                HttpMessageHandler messageHandler) : base(messageHandler)
         {
-            _symmetricEncrypter = symmetricEncrypter;
+            if (messageHandler == null) throw new ArgumentException("messageHandler vacio!.");
+
+            _symmetricEncrypter = symmetricEncrypter ?? throw new ArgumentException("symmetricEncrypter vacio!.");
         }
 
         public TestJsonEncrypterMessageHandler(ISymmetricEncrypter<AesManaged, SHA256Managed> symmetricEncrypter)
         {
-            _symmetricEncrypter = symmetricEncrypter;
+            _symmetricEncrypter = symmetricEncrypter ?? throw new ArgumentException("symmetricEncrypter vacio!.");
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

@@ -55,7 +55,7 @@ namespace EjemplosFormacion.WebApi.MultipartStreamProviders
                     HttpContent formContent = Contents[index];
                     // Extract name from Content-Disposition header. We know from earlier that the header is present.
                     ContentDispositionHeaderValue contentDisposition = formContent.Headers.ContentDisposition;
-                    string formFieldName = UnquoteToken(contentDisposition.Name) ?? String.Empty;
+                    string formFieldName = UnQuoteToken(contentDisposition.Name) ?? String.Empty;
 
                     // Read the contents as string data and add to form data
                     string formFieldValue = await formContent.ReadAsStringAsync();
@@ -73,7 +73,7 @@ namespace EjemplosFormacion.WebApi.MultipartStreamProviders
         /// </summary>
         /// <param name="token">Token to unquote.</param>
         /// <returns>Unquoted token.</returns>
-        private static string UnquoteToken(string token)
+        private static string UnQuoteToken(string token)
         {
             if (String.IsNullOrWhiteSpace(token))
             {

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,11 +16,16 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         // Passing the next Handler of the Pipeline If Any
         public TestReadQueryStringMessagingHandler(HttpMessageHandler messageHandler, string key) : base(messageHandler)
         {
+            if (messageHandler == null) throw new ArgumentException("messageHandler vacio!.");
+            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException("key vacio!.");
+
             _key = key;
         }
 
         public TestReadQueryStringMessagingHandler(string key)
         {
+            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException("key vacio!.");
+
             _key = key;
         }
 

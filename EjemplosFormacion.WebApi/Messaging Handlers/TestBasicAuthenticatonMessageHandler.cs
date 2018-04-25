@@ -20,7 +20,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         // Passing the next Handler of the Pipeline If Any
         public TestBasicAuthenticatonMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)
         {
-
+            if (messageHandler == null) throw new ArgumentException("messageHandler vacio!.");
         }
 
         public TestBasicAuthenticatonMessageHandler()

@@ -22,16 +22,15 @@ namespace EjemplosFormacion.WebApi.DirectRouteProviders
 
         public TestDirectRouteProvider(string centralizedPrefix)
         {
+            if (string.IsNullOrWhiteSpace(centralizedPrefix)) throw new ArgumentException("centralizedPrefix vacio!.");
+
             _centralizedPrefix = centralizedPrefix;
 
             // Se quita cualquier posible "/" que pueda ver en la ruta ya que cuando se haga match se agregara
-            if (!string.IsNullOrWhiteSpace(_centralizedPrefix))
+            _centralizedPrefix = _centralizedPrefix.Trim();
+            if (_centralizedPrefix.Last() == '/')
             {
-                _centralizedPrefix = _centralizedPrefix.Trim();
-                if (_centralizedPrefix.Last() == '/')
-                {
-                    _centralizedPrefix = _centralizedPrefix.Remove(_centralizedPrefix.LastIndexOf("/"));
-                }
+                _centralizedPrefix = _centralizedPrefix.Remove(_centralizedPrefix.LastIndexOf("/"));
             }
         }
 

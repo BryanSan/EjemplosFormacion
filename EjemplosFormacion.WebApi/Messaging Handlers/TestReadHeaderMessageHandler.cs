@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -16,7 +17,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         // Passing the next Handler of the Pipeline If Any
         public TestReadHeaderMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)
         {
-
+            if (messageHandler == null) throw new ArgumentException("messageHandler vacio!.");
         }
 
         public TestReadHeaderMessageHandler()

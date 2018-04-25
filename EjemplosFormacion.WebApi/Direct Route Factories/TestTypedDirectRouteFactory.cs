@@ -30,6 +30,8 @@ namespace EjemplosFormacion.WebApi.DirectRouteFactories
 
         public TestTypedDirectRouteFactory(string template)
         {
+            if (string.IsNullOrWhiteSpace(template)) throw new ArgumentException("template vacio!.");
+
             Template = template;
         }
 

@@ -16,15 +16,11 @@ namespace EjemplosFormacion.WebApi.DependencyResolvers
     /// </summary>
     class UnityDependencyResolver : IDependencyResolver
     {
-        protected readonly IUnityContainer container;
+        protected readonly IUnityContainer _container;
 
         public UnityDependencyResolver(IUnityContainer container)
         {
-            if (container == null)
-            {
-                throw new ArgumentNullException("container");
-            }
-            this.container = container;
+            _container = container ?? throw new ArgumentException("container vacio!.");
         }
 
         /// <summary>
@@ -36,7 +32,7 @@ namespace EjemplosFormacion.WebApi.DependencyResolvers
         {
             try
             {
-                return container.Resolve(serviceType);
+                return _container.Resolve(serviceType);
             }
             catch (ResolutionFailedException)
             {
@@ -53,7 +49,7 @@ namespace EjemplosFormacion.WebApi.DependencyResolvers
         {
             try
             {
-                return container.ResolveAll(serviceType);
+                return _container.ResolveAll(serviceType);
             }
             catch (ResolutionFailedException)
             {
@@ -70,7 +66,7 @@ namespace EjemplosFormacion.WebApi.DependencyResolvers
         /// <returns></returns>
         public IDependencyScope BeginScope()
         {
-            IUnityContainer childContainer = container.CreateChildContainer();
+            IUnityContainer childContainer = _container.CreateChildContainer();
             return new UnityDependencyResolver(childContainer);
         }
 
@@ -87,9 +83,9 @@ namespace EjemplosFormacion.WebApi.DependencyResolvers
         {
             if (disposing)
             {
-                if (container != null)
+                if (_container != null)
                 {
-                    container.Dispose();
+                    _container.Dispose();
                 }
             }
         }

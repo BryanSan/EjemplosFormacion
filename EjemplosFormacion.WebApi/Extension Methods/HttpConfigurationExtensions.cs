@@ -15,6 +15,9 @@ namespace EjemplosFormacion.WebApi.ExtensionMethods
     {
         public static TestTypedDirectRouteFactory RegisterTypedRoute(this HttpConfiguration config, string template, Action<TestTypedDirectRouteFactory> configSetup)
         {
+            if (string.IsNullOrWhiteSpace(template)) throw new ArgumentException("template vacio!.");
+            if (configSetup == null) throw new ArgumentException("configSetup vacio!.");
+
             // Creamos el IDirectRouteFactory en este caso TestTypedDirectRouteFactory para registrar la ruta en el Direct Route Provider
             var route = new TestTypedDirectRouteFactory(template);
             configSetup(route);

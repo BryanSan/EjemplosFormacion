@@ -17,7 +17,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
         // Passing the next Handler of the Pipeline If Any
         public TestMethodOverrideHeaderMessageHandler(HttpMessageHandler messageHandler) : base(messageHandler)
         {
-
+            if (messageHandler == null) throw new ArgumentException("messageHandler vacio!.");
         }
 
         public TestMethodOverrideHeaderMessageHandler()

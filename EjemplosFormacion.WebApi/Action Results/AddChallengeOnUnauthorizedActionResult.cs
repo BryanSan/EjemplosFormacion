@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,12 +26,12 @@ namespace EjemplosFormacion.WebApi.ActionResults
 
         public AddChallengeOnUnauthorizedActionResult(AuthenticationSchemes schema, IHttpActionResult innerResult) : this(schema)
         {
-            _innerResult = innerResult;
+            _innerResult = innerResult ?? throw new ArgumentException("innerResult vacio!.");
         }
 
         public AddChallengeOnUnauthorizedActionResult(AuthenticationSchemes schema, HttpResponseMessage innerResponse) : this(schema)
         {
-            _innerResponse = innerResponse;
+            _innerResponse = innerResponse ?? throw new ArgumentException("innerResponse vacio!.");
         }
 
         // Si el Response tiene el StatusCode como UnAuthorized entonces agregamos un Header con el Schema que se uso para intentar authenticar el Request
