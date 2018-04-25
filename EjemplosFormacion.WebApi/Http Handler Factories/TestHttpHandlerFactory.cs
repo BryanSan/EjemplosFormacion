@@ -16,7 +16,7 @@ namespace EjemplosFormacion.WebApi.HttpHandlerFactories
         {
             IHttpHandler handlerToReturn;
 
-            context.Response.Write("Hello from Http Handler Factory!" + Environment.NewLine);
+            context.Response.Write("Hello from Http Handler Factory!" + "\r\n");
 
             if ("get" == context.Request.RequestType.ToLower())
             {

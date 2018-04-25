@@ -27,7 +27,7 @@ namespace EjemplosFormacion.WebApi.HttpHandlers
             // This handler is called whenever a file ending 
             // in .TestHttpHandlerFactory is requested. A file with that extension does not need to exist.
             // The path .TestHttpHandlerFactory is configured in the registration of this HttpHandler in the Web.Config
-            context.Response.Write("Hello from Sync Handler!" + Environment.NewLine);
+            context.Response.Write("Hello from Sync Handler!" + "\r\n");
             context.Response.Write("EndProcessRequest.");
         }
     }

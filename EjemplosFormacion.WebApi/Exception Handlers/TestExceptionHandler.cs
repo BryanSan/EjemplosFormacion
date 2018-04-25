@@ -17,7 +17,7 @@ namespace EjemplosFormacion.WebApi.ExceptionHandlers
         // Aqui puedes revisar la informacion del ExceptionHandlerContext para obtener toda la informacion acerca de la excepcion y Handlear segun sea el caso
         public virtual Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
         {
-            context.Result = new TextPlainErrorActionResult(context.ExceptionContext.Request, "Oops! Sorry! Something went wrong. Please contact support@contoso.com so we can try to fix it." + Environment.NewLine + context.ExceptionContext.Exception.Message);
+            context.Result = new TextPlainErrorActionResult(context.ExceptionContext.Request, "Oops! Sorry! Something went wrong. Please contact support@contoso.com so we can try to fix it." + "\r\n" + context.ExceptionContext.Exception.Message);
 
             return Task.FromResult(0);
         }

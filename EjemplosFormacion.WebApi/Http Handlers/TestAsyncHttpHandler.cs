@@ -32,7 +32,7 @@ namespace EjemplosFormacion.WebApi.HttpHandlers
         {
             _context = context;
 
-            _context.Response.Write("Begin IsThreadPoolThread is " + Thread.CurrentThread.IsThreadPoolThread + Environment.NewLine);
+            _context.Response.Write("Begin IsThreadPoolThread is " + Thread.CurrentThread.IsThreadPoolThread + "\r\n");
 
             AsynchOperation asynch = new AsynchOperation(cb, _context, extraData);
             asynch.StartAsyncWork();
@@ -78,9 +78,9 @@ namespace EjemplosFormacion.WebApi.HttpHandlers
 
             private void StartAsyncTask(Object workItemState)
             {
-                _context.Response.Write("Completion IsThreadPoolThread is " + Thread.CurrentThread.IsThreadPoolThread + Environment.NewLine);
+                _context.Response.Write("Completion IsThreadPoolThread is " + Thread.CurrentThread.IsThreadPoolThread + "\r\n");
         
-                _context.Response.Write("Hello from Async Handler!" + Environment.NewLine);
+                _context.Response.Write("Hello from Async Handler!" + "\r\n");
                 _completed = true;
                 _callback(this);
             }
