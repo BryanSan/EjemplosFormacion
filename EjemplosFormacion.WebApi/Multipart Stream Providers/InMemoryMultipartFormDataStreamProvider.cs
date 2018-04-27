@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace EjemplosFormacion.WebApi.MultipartStreamProviders
 {
-    public class InMemoryMultipartFormDataStreamProvider : MultipartStreamProvider
+    /// <summary>
+    /// Custom Implementacion del MultiPartStreamProvider que te ordena en dos colecciones apartes los items del Multipart que sean Files o Form Data
+    /// </summary>
+    class InMemoryMultipartFormDataStreamProvider : MultipartStreamProvider
     {
         // Set of indexes of which HttpContents we designate as form data
         private Collection<bool> _isFormData = new Collection<bool>();
@@ -37,7 +40,7 @@ namespace EjemplosFormacion.WebApi.MultipartStreamProviders
             }
 
             // If no Content-Disposition header was present.
-            throw new InvalidOperationException(string.Format("Did not find required '{0}' header field in MIME multipart body part..", "Content-Disposition"));
+            throw new InvalidOperationException(string.Format("Did not find required '{0}' header field in MIME multipart body part.. (No se encontro el header Content-Disposition en uno de los items 'HttpContent' del MultiPartResult)", "Content-Disposition"));
         }
 
         /// <summary>

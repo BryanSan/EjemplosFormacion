@@ -4,6 +4,9 @@ namespace EjemplosFormacion.HelperClasess.Extensions
 {
     public static class HeaderExtensions
     {
+        /// <summary>
+        /// Extension method usado para extraer el start y end bytes validando que si se realizo la extraccion exitosamente
+        /// </summary>
         public static bool TryReadRangeItem(this RangeItemHeaderValue range, long contentLength, out long start, out long end)
         {
             if (range.From != null)

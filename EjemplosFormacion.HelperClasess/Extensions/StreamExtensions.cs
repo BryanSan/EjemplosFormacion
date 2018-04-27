@@ -6,7 +6,10 @@ namespace EjemplosFormacion.HelperClasess.Extensions
 {
     public static class StreamExtensions
     {
-        public static void WritePartialContentToOutputStream(this Stream inputStream, Stream outputStream, long start, long end)
+        /// <summary>
+        /// Extension method usado para escribir en un stream el rango de bytes solicitado de mi Source Stream
+        /// </summary>
+        public static void WritePartialContentToOutputStream(this Stream sourceStream, Stream outputStream, long start, long end)
         {
             // This will be used in copying input stream to output stream.
             int readStreamBufferSize = 1024 * 1024;
@@ -15,15 +18,15 @@ namespace EjemplosFormacion.HelperClasess.Extensions
             long position = start;
             byte[] buffer = new byte[readStreamBufferSize];
 
-            inputStream.Position = start;
+            sourceStream.Position = start;
             do
             {
                 try
                 {
                     if (remainingBytes > readStreamBufferSize)
-                        count = inputStream.Read(buffer, 0, readStreamBufferSize);
+                        count = sourceStream.Read(buffer, 0, readStreamBufferSize);
                     else
-                        count = inputStream.Read(buffer, 0, (int)remainingBytes);
+                        count = sourceStream.Read(buffer, 0, (int)remainingBytes);
                     outputStream.Write(buffer, 0, count);
                 }
                 catch (Exception error)
@@ -31,7 +34,7 @@ namespace EjemplosFormacion.HelperClasess.Extensions
                     Debug.WriteLine(error);
                     break;
                 }
-                position = inputStream.Position;
+                position = sourceStream.Position;
                 remainingBytes = end - position + 1;
             } while (position <= end);
         }

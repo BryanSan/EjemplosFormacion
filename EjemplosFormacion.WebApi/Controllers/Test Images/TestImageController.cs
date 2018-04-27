@@ -1,4 +1,5 @@
 ﻿using EjemplosFormacion.WebApi.ActionResults;
+using EjemplosFormacion.WebApi.Models;
 using EjemplosFormacion.WebApi.MultipartStreamProviders;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -118,44 +119,49 @@ namespace EjemplosFormacion.WebApi.Controllers.TestImages
         }
 
         // Extraido de -> https://stackoverflow.com/questions/38069730/how-to-create-a-multipart-http-response-with-asp-net-core
-        // Demostracion de como devolver al cliente varios archivos usando un MultiPartResult
+        // Demostracion de como devolver al cliente varios archivos y la posibilidad de devolver FormData usando un MultiPartResult
         // Esta Action devuelve un MultiPartResult entero sin Streaming
         // El navegador Firefox descargara los archivos separados con su Content-Type y Filename, mientras que los demas navegadores descargaran un unico archivo sin formato
-        // En caso del cliente ser una aplicacion puedes leer el response con el metodo AsMultiPartAsync() y tratar los archivos separadamente
-        // Como Leerlo en el HttpClient -> https://stackoverflow.com/questions/15088390/how-to-read-multipartcontent-from-httpresponsemessage/37117511
-        // HttpClient client = new HttpClient();
-        // HttpResponseMessage response = await client.PostAsyc("{send the request to api}");
-        // var content = await response.Content.ReadAsMultipartAsync();
-        // var stringContent = await content.Contents[0].ReadAsStringAsync();
-        // var streamContent = await content.Contents[1].ReadAsStreamAsync();
-        [HttpGet]
+        // En caso del cliente puede ser una aplicacion que lea el response con el metodo ReadAsMultiPartAsync() y tratar los Files y Form Data separadamente
+        // Para habilitar el ReadAsMultiPartAsync() en el Cliente, agregar el Assembly necesario o el Nuget de Formatting.Extensions
+        // Aprovechar Custom la implementacion del MemoryStreamProvider "InMemoryMultipartFormDataStreamProvider" para separas los Files y Form Data y que sea mas comodo 
         public IHttpActionResult TestGetMultipartFileAsStreamNoStreaming()
         {
             // Recupera el archivo como Stream, si lo recuperas como Byte estaras matando todo lo que se quiere lograr
             // Ya que habras cargado todo en memoria, trabaja full en Stream para minimizar le uso de memoria 
             // Especialmente en archivos grandes
-            Stream stream = File.Open(@"C:\Users\bryan.sanchez\Documents\Visual Studio 2017\1.jpeg", FileMode.Open);
-            Stream stream2 = File.Open(@"C:\Users\bryan.sanchez\Documents\Visual Studio 2017\2.jpeg", FileMode.Open);
+            FileStream stream = File.Open(@"C:\Users\bryan.sanchez\Documents\Visual Studio 2017\1.jpeg", FileMode.Open);
+            FileStream stream2 = File.Open(@"C:\Users\bryan.sanchez\Documents\Visual Studio 2017\2.jpeg", FileMode.Open);
 
             // Creas la lista de archivos que quieres devolver, con su Stream, Content Type y demas
-            List<MultipartActionResult.MultipartItem> multipartContents = new List<MultipartActionResult.MultipartItem>
+            var multipartContents = new List<MultipartActionResult.MultipartFileItem>
             {
-                new MultipartActionResult.MultipartItem()
+                new MultipartActionResult.MultipartFileItem()
                 {
-                    ContentType = "image/jpeg",
+                    ContentType = MimeMapping.GetMimeMapping(Path.GetExtension(stream.Name)),
                     FileName = "1.jpeg",
                     Stream = stream
                 },
-                new MultipartActionResult.MultipartItem()
+                new MultipartActionResult.MultipartFileItem()
                 {
-                    ContentType = "image/jpeg",
+                    ContentType = MimeMapping.GetMimeMapping(Path.GetExtension(stream2.Name)),
                     FileName = "2.jpeg",
                     Stream = stream2
                 }
             };
-            
+
+            var multiPartFormDataItem = new MultipartActionResult.MultipartFormDataItem()
+            {
+                ParameterName = "parameter",
+                ObjectData = new TestModel
+                {
+                    Edad = 22,
+                    Nombre ="pepito"
+                }
+            };
+
             // Pasas la lista al Action Result que la tratara y creara el Content
-            return new MultipartActionResult(multipartContents);
+            return new MultipartActionResult(multiPartFormDataItem, multipartContents);
         }
     }
 }
