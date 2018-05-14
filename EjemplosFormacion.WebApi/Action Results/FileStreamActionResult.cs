@@ -86,7 +86,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
         }
 
         // Escribimos en el Stream de salida el rango de bytes solicitado de mi Source Stream
-        public void WriteToStreamRange(Stream outputStream, HttpContent content, TransportContext context, long start, long end)
+        private void WriteToStreamRange(Stream outputStream, HttpContent content, TransportContext context, long start, long end)
         {
             try
             {

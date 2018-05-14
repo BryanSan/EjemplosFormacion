@@ -134,12 +134,13 @@
     <Compile Include="Controllers\Test Built In Attributes\TestHttpVerbAttributeController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestRoutePrefixAttributeController.cs" />
     <Compile Include="Controllers\Test Custom Routes Configuration\TestTypedDirectRouteFactoryController.cs" />
+    <Compile Include="Controllers\Test Files\TestFileController.cs" />
     <Compile Include="Controllers\Test Filters\TestAuthorizationFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestAuthenticationFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestExceptionFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestOverrideFilterController.cs" />
     <Compile Include="Controllers\Test HttpModule\TestHttpModuleController.cs" />
-    <Compile Include="Controllers\Test Images\TestImageController.cs" />
+    <Compile Include="Controllers\Test Files\TestMultiPartFileController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestExceptionHandlerController.cs" />

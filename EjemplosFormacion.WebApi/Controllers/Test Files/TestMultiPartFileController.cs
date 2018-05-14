@@ -1,6 +1,7 @@
 ﻿using EjemplosFormacion.WebApi.ActionResults;
 using EjemplosFormacion.WebApi.Models;
 using EjemplosFormacion.WebApi.MultipartStreamProviders;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -10,10 +11,28 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
-namespace EjemplosFormacion.WebApi.Controllers.TestImages
+namespace EjemplosFormacion.WebApi.Controllers.TestFiles
 {
-    public class TestImageController : ApiController
+    // Recordar siempre configurar en el Web.Config el maximo de los archivos
+    //<configuration>
+    //    <system.web>
+    //        <httpRuntime targetFramework = "4.7.1" maxRequestLength="2097152"/>
+    //    </system.web>
+    //    <system.webServer>
+    //        <security>
+    //            <requestFiltering>
+    //                <requestLimits maxAllowedContentLength = "2147483648" />
+    //            </requestFiltering>
+    //        </security>
+    //    </system.webServer>
+    //</ configuration >
+    public class TestMultiPartFileController : ApiController
     {
+        // ================================================================================================
+        //                                          UPLOAD
+        // ================================================================================================
+
+
         // Demostracion de como cargar Imagenes junto con Form Data en un Action del Web Api
         // El problema es que no tienes manera de saber cual es File y cual es Form Data de manera facil y te toca guiarte del orden que fueron agregados
         // Mejor usar la implementacion del InMemoryMultipartFormDataStreamProvider que hace el trabajo de separar el Form Data y File en colecciones separadas y que sea mas comodo
@@ -72,51 +91,11 @@ namespace EjemplosFormacion.WebApi.Controllers.TestImages
             }
         }
 
-        // Demostracion de como cargar solo Imagenes sin Form Data en un Action del Web Api
-        // Al leer todo el Stream del Request y no poder separar datos, solo te sirve para leer de 1 en 1 como un Todo
-        // Esta accion solo lee el Stream del Request sin cargar todo en memoria siendo efectiva par archivos largos
-        // Usar el header para saber el content type del archivo (el formato mime)
-        public async Task<IHttpActionResult> TestUploadOnlyImagesAsStreamNoAllInMemory()
-        {
-            // Usa el archivo para guardarlo en una bd con FileStream, o en archivos con un FileStream de .Net o lo que quieras
-            // Pero aqui no cargas todo en memoria
-            Stream stream = await Request.Content.ReadAsStreamAsync();
-            string contentType = Request.Content.Headers.ContentType.MediaType;
 
-            return Ok();
-        }
+        // ================================================================================================
+        //                                          GET
+        // ================================================================================================
 
-        // Demostracion de como devolver al cliente un archivo usando un stream
-        // Este Action devuelve el Stream del archivo entero sin streaming 
-        // Devolviendo todos los bytes al cliente de manera que el cliente debe esperar que se complete la peticion para usar el Stream
-        public async Task<IHttpActionResult> TestGetOnlyImagesAsStreamNoStreaming()
-        {
-            // Recupera el archivo como Stream, si lo recuperas como Byte estaras matando todo lo que se quiere lograr
-            // Ya que habras cargado todo en memoria, trabaja full en Stream para minimizar le uso de memoria 
-            // Especialmente en archivos grandes
-            Stream stream = await Request.Content.ReadAsStreamAsync();
-            string contentType = Request.Content.Headers.ContentType.MediaType;
-
-            // Devuelve el stream del archivo que quieres devolver con el Content Type del archivo
-            return new FileStreamActionResult(stream, contentType);
-        }
-
-        // Demostracion de como devolver al cliente un archivo usando un stream
-        // Este Action devuelve el Stream del archivo entero con streaming 
-        // Devuelve solo la porcion de bytes que se piden en el header Range de manera que el cliente puede empezar a usarlos a medida que la peticion se va descargando del Stream
-        public async Task<IHttpActionResult> TestGetOnlyImagesAsStreamWithStreaming()
-        {
-            // Recupera el archivo como Stream, si lo recuperas como Byte estaras matando todo lo que se quiere lograr
-            // Ya que habras cargado todo en memoria, trabaja full en Stream para minimizar le uso de memoria 
-            // Especialmente en archivos grandes
-            Stream stream = await Request.Content.ReadAsStreamAsync();
-            string contentType = Request.Content.Headers.ContentType.MediaType;
-
-            // Devuelve el stream del archivo que quieres devolver con el Content Type del archivo junto con el header del Range que quieres devolver
-            // El header Range no puede estar nulo y transmitira todo el Stream sin hacer streaming
-            // Ya que le header Range es el que dice de que byte a que byte se va a leer (el chunk)
-            return new FileStreamActionResult(stream, contentType, Request.Headers.Range);
-        }
 
         // Extraido de -> https://stackoverflow.com/questions/38069730/how-to-create-a-multipart-http-response-with-asp-net-core
         // Demostracion de como devolver al cliente varios archivos y la posibilidad de devolver FormData usando un MultiPartResult
@@ -156,12 +135,17 @@ namespace EjemplosFormacion.WebApi.Controllers.TestImages
                 ObjectData = new TestModel
                 {
                     Edad = 22,
-                    Nombre ="pepito"
+                    Nombre = "pepito"
                 }
             };
 
             // Pasas la lista al Action Result que la tratara y creara el Content
             return new MultipartActionResult(multiPartFormDataItem, multipartContents);
+        }
+
+        public IHttpActionResult TestGetMultipartFileAsStreamWithStreaming()
+        {
+            throw new NotImplementedException("Aun no se sabe como hacerlo!.");
         }
     }
 }
