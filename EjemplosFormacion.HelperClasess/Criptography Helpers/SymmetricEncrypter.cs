@@ -5,7 +5,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace EjemplosFormacion.HelperClasess
+namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 {
     public class SymmetricEncrypter<TCrypt, THasher> : ISymmetricEncrypter<TCrypt, THasher>
         where TCrypt : SymmetricAlgorithm, new()

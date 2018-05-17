@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers;
 using EjemplosFormacion.WebApi.Controllers.TestCustomRoutesConfiguration;
 using EjemplosFormacion.WebApi.DirectRouteProviders;
 using EjemplosFormacion.WebApi.ExceptionHandlers;
