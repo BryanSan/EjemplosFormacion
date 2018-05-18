@@ -76,7 +76,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFiles
             // Devuelve el stream del archivo que quieres devolver con el Content Type del archivo junto con el header del Range que quieres devolver
             // El header Range no puede estar nulo y transmitira todo el Stream sin hacer streaming
             // Ya que le header Range es el que dice de que byte a que byte se va a leer (el chunk)
-            return new FileStreamActionResult(stream, contentType, rangeHeader);
+            return new FileStreamRangeActionResult(stream, contentType, rangeHeader);
         }
     }
 }

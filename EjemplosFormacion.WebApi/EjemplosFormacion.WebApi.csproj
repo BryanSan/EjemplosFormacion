@@ -47,6 +47,9 @@
     <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.8.5\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.11.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.11.0\lib\net20\DotNetZip.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -126,6 +129,8 @@
     <Compile Include="Action Results\AddChallengeOnUnauthorizedActionResult.cs" />
     <Compile Include="Action Results\AuthenticationFailureActionResult.cs" />
     <Compile Include="Action Results\FileStreamActionResult.cs" />
+    <Compile Include="Action Results\FileStreamRangeActionResult.cs" />
+    <Compile Include="Action Results\FileStreamZipActionResult.cs" />
     <Compile Include="Action Results\MultipartActionResult.cs" />
     <Compile Include="Action Results\TextPlainErrorActionResult.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
@@ -135,6 +140,7 @@
     <Compile Include="Controllers\Test Built In Attributes\TestRoutePrefixAttributeController.cs" />
     <Compile Include="Controllers\Test Custom Routes Configuration\TestTypedDirectRouteFactoryController.cs" />
     <Compile Include="Controllers\Test Files\TestFileController.cs" />
+    <Compile Include="Controllers\Test Files\TestZipController.cs" />
     <Compile Include="Controllers\Test Filters\TestAuthorizationFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestAuthenticationFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestExceptionFilterController.cs" />
