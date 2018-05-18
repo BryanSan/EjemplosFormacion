@@ -13,7 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EjemplosFormacion.Mvc", "Ej
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EjemplosFormacion.Wfc", "EjemplosFormacion.Wfc\EjemplosFormacion.Wfc.csproj", "{075B3299-9509-4FF3-9763-6CE4CF0D54DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EjemplosFormacion.HelperClasess", "EjemplosFormacion.HelperClasess\EjemplosFormacion.HelperClasess.csproj", "{B5AC0B11-EEEC-4BA6-BBE3-04546B7E6850}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EjemplosFormacion.HelperClasess", "EjemplosFormacion.HelperClasess\EjemplosFormacion.HelperClasess.csproj", "{B5AC0B11-EEEC-4BA6-BBE3-04546B7E6850}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EjemplosFormacion.HelperClasess.FullDotNet", "EjemplosFormacion.HelperClasess.FullDotNet\EjemplosFormacion.HelperClasess.FullDotNet.csproj", "{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{B5AC0B11-EEEC-4BA6-BBE3-04546B7E6850}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5AC0B11-EEEC-4BA6-BBE3-04546B7E6850}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5AC0B11-EEEC-4BA6-BBE3-04546B7E6850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
