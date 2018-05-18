@@ -131,6 +131,7 @@
     <Compile Include="Action Results\FileStreamActionResult.cs" />
     <Compile Include="Action Results\FileStreamRangeActionResult.cs" />
     <Compile Include="Action Results\FileStreamZipActionResult.cs" />
+    <Compile Include="Action Results\FileStreamZipRangeActionResult.cs" />
     <Compile Include="Action Results\MultipartActionResult.cs" />
     <Compile Include="Action Results\TextPlainErrorActionResult.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />

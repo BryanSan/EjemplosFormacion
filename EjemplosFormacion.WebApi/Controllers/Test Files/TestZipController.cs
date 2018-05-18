@@ -22,7 +22,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFiles
     //</ configuration >
     public class TestZipController : ApiController
     {
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> TestGetZipNoStreaming()
         {
             var fileNamesAndUrls = new Dictionary<string, string>
             {
@@ -49,6 +49,35 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFiles
             }
 
             return new FileStreamZipActionResult(listFiles, "MyZipFile");
+        }
+
+        public async Task<IHttpActionResult> TestGetZipWithStreaming()
+        {
+            var fileNamesAndUrls = new Dictionary<string, string>
+            {
+                { "README.md", "https://raw.githubusercontent.com/StephenClearyExamples/AsyncDynamicZip/master/README.md" },
+                { ".gitignore", "https://raw.githubusercontent.com/StephenClearyExamples/AsyncDynamicZip/master/.gitignore" },
+            };
+
+            var listFiles = new List<FileStreamZipRangeActionResult.FileStreamZipItem>();
+            using (HttpClient client = new HttpClient())
+            {
+                foreach (var item in fileNamesAndUrls)
+                {
+                    using (Stream stream = await client.GetStreamAsync(item.Value))
+                    {
+                        var file = new FileStreamZipRangeActionResult.FileStreamZipItem
+                        {
+                            File = stream,
+                            FileNameWithExtension = item.Key
+                        };
+
+                        listFiles.Add(file);
+                    }
+                }
+            }
+
+            return new FileStreamZipRangeActionResult(listFiles, "MyZipFile");
         }
     }
 }
