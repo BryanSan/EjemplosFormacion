@@ -26,19 +26,19 @@ namespace EjemplosFormacion.WebApi.ActionResults
         readonly List<MultipartFileItem> _multiPartListFileItem;
 
         // Validamos que los datos pasados esten correctos
-        public MultipartActionResult(MultipartFormDataItem multiFormDataItem, List<MultipartFileItem> multiPartListFileItem, string subtype = _subType, string boundary = null)
+        public MultipartActionResult(MultipartFormDataItem multiPartFormDataItem, List<MultipartFileItem> multiPartListFileItem, string subtype = _subType, string boundary = null)
         {
-            if (multiFormDataItem == null && (multiPartListFileItem == null || multiPartListFileItem.Count <= 0)) throw new ArgumentException("multiFormDataItem y multiPartListFileItem invalidos!.");
+            if (multiPartFormDataItem == null && (multiPartListFileItem == null || multiPartListFileItem.Count <= 0)) throw new ArgumentException("multiFormDataItem y multiPartListFileItem invalidos!.");
             else if (multiPartListFileItem != null && !multiPartListFileItem.TrueForAll(x => x.Stream != null && !string.IsNullOrWhiteSpace(x.FileName) && !string.IsNullOrWhiteSpace(x.ContentType)))
             {
                 throw new ArgumentException("Alguna de las propiedades de los items de multiPartListFileItem estan invalidos!.");
             }
-            else if (multiFormDataItem != null && (string.IsNullOrWhiteSpace(multiFormDataItem.ParameterName) || multiFormDataItem.ObjectData == null))
+            else if (multiPartFormDataItem != null && (string.IsNullOrWhiteSpace(multiPartFormDataItem.ParameterName) || multiPartFormDataItem.ObjectData == null))
             {
                 throw new ArgumentException("Alguna de las propiedades de los items de multiFormDataItem estan invalidos!.");
             }
 
-            _multiFormDataItem = multiFormDataItem;
+            _multiFormDataItem = multiPartFormDataItem;
             _multiPartListFileItem = multiPartListFileItem;
 
             if (boundary == null)
@@ -51,7 +51,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
             }
         }
 
-        public MultipartActionResult(MultipartFormDataItem multiFormDataItem, string subtype = _subType, string boundary = null) : this(multiFormDataItem, null, subtype, boundary)
+        public MultipartActionResult(MultipartFormDataItem multiPartFormDataItem, string subtype = _subType, string boundary = null) : this(multiPartFormDataItem, null, subtype, boundary)
         {
             
         }
