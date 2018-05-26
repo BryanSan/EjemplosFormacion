@@ -171,6 +171,8 @@
     <Compile Include="Filters\Authorization Filters\TestExtendedAuthorizeFilterAttribute.cs" />
     <Compile Include="Filters\Authorization Filters\TestAuthorizationFilterAttribute.cs" />
     <Compile Include="Filters\Authorization Filters\TestIAuthorizationFilterAttribute.cs" />
+    <Compile Include="Filters\Authorization Filters\TestRedirectHttpToHttpsAttribute.cs" />
+    <Compile Include="Filters\Authorization Filters\TestRequireHttpsFilterAttribute.cs" />
     <Compile Include="Filters\Exception Filters\TestExceptionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestIActionFilterAttribute.cs" />

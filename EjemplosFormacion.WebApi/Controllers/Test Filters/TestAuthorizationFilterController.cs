@@ -39,5 +39,17 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
         {
             return Ok();
         }
+
+        [TestRedirectHttpToHttpsFilter]
+        public IHttpActionResult TestRedirectHttpToHttpsFilter()
+        {
+            return Ok();
+        }
+
+        [TestRequireHttpsFilter]
+        public IHttpActionResult TestRequireHttpsFilter()
+        {
+            return Ok();
+        }
     }
 }
