@@ -2,7 +2,7 @@
 
 namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versioning.V1
 {
-    public class TestVersionControllerVersusNameWithHttpControllerSelectorV1Controller : ApiController
+    public class TestVersionControllerVersusNameWithHttpControllerSelectorController : ApiController
     {
         // Action usado para la seleccion del controller con el uso de un Custom Http Controller Selector
         // Que usara el nombre de este controller contra la version solicitada por el Request en diferentes maneras
