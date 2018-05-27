@@ -13,6 +13,7 @@ using EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
 using EjemplosFormacion.WebApi.FiltersProviders;
 using EjemplosFormacion.WebApi.HostBufferPolicySelectors;
+using EjemplosFormacion.WebApi.HttpControllerSelector;
 using EjemplosFormacion.WebApi.MessagingHandlers;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -67,6 +68,12 @@ namespace EjemplosFormacion.WebApi
             config.Services.Replace(typeof(IExceptionHandler), new TestExceptionHandler());
 
             config.Services.Replace(typeof(IHostBufferPolicySelector), new NoWebHostBufferPolicySelector());
+
+            // Custom Http Controller Selector para seleccionar un controller segun la version solicitada por el Request segun diferentes maneras
+            // Query, Accept Header, Media Type Header
+            // Usando el nombre del controller para comparar con la version solicitada
+            // TestV1Controller y TestV2Controller son dos tipos que seran resueltos segun la version que venga 1 o 2
+            config.Services.Replace(typeof(IHttpControllerSelector), new TestVersionControllerVersusControllerNameHttpControllerSelector(config));
 
             // =========================================================
             //                  Multi-Services
@@ -162,7 +169,7 @@ namespace EjemplosFormacion.WebApi
             config.Filters.Add(new TestIAuthorizationFilterAttribute()); // Authorize Filter 
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 1)); // Authorize Filter 
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 2)); // Authorize Filter 
-            config.Filters.Add(new TestRedirectHttpToHttpsFilterAttribute()); // Authorize Filter
+            config.Filters.Add(new TestRedirectHttpToHttpsAuthorizationFilterAttribute()); // Authorize Filter
 
             // Se necesita que el Dependency Resolver resuelta y construya el tipo ya que se tiene una Dependencia al WrapperLoger dentro del ActionFilter
             config.Filters.Add(config.DependencyResolver.GetService(typeof(TestLoggingActionFilterAttribute)) as IFilter); // Action Filter with Dependency Property Injection

@@ -40,14 +40,20 @@ namespace EjemplosFormacion.WebApi.Controllers.TestFilters
             return Ok();
         }
 
-        [TestRedirectHttpToHttpsFilter]
+        [TestRedirectHttpToHttpsAuthorizationFilter]
         public IHttpActionResult TestRedirectHttpToHttpsFilter()
         {
             return Ok();
         }
 
-        [TestRequireHttpsFilter]
+        [TestRequireHttpsAuthorizationFilter]
         public IHttpActionResult TestRequireHttpsFilter()
+        {
+            return Ok();
+        }
+
+        [TestReadClientCertificateAuthorizationFilter]
+        public IHttpActionResult TestReadClientCertificateAuthorizationFilter()
         {
             return Ok();
         }

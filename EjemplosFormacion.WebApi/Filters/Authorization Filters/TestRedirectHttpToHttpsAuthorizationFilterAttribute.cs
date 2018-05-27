@@ -7,14 +7,14 @@ using System.Web.Http.Filters;
 namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
 {
     /// <summary>
-    /// Action Filter usado para verificar que el Request se este realizando un Schema de Https
+    /// Authorization Filter usado para verificar que el Request se este realizando un Schema de Https
     /// Si no es asi lee el Uri del Request para crear una copia que tenga con Https 
     /// Devuelve un Response con el HttpStatusCode Found y un Header Location con la Uri creada con Https
     /// Esto hace que el Browser o Debugger o lo que sea cuando vea este HttpStatusCode de Foun junto con un Location Header
     /// Realizara una nueva peticion automaticamente a la Uri descrita en el Header Location
     /// Digamos que es como un Auto Redirect
     /// </summary>
-    class TestRedirectHttpToHttpsFilterAttribute : AuthorizationFilterAttribute
+    class TestRedirectHttpToHttpsAuthorizationFilterAttribute : AuthorizationFilterAttribute
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
@@ -31,7 +31,7 @@ namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
                 // Construimos un UriBuilder con el RequestUri para modificar las propiedades del Uri
                 var uriBuilder = new UriBuilder(request.RequestUri);
                 uriBuilder.Scheme = Uri.UriSchemeHttps; // Cambiamos el Schema de Http a Https
-                uriBuilder.Port = 443; // Cambiamos el puerto si es necesario por el que use el SSL
+                uriBuilder.Port = 44389; // Cambiamos el puerto si es necesario por el que use el SSL
 
                 // Asignamos al header Location la nueva Uri con el Schema Https 
                 // Para que el navegador cuando vea que tiene el HttpStatusCode de Found redireccione a esta Uri que estamos indicando

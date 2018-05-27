@@ -7,10 +7,10 @@ using System.Web.Http.Filters;
 namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
 {
     /// <summary>
-    /// Action Filter usado para verificar que el Request se este realizando un Schema de Https
+    /// Authorization Filter usado para verificar que el Request se este realizando un Schema de Https
     /// Si no es asi devuelve un BadRequest hasta que se realize con Http
     /// </summary>
-    public class TestRequireHttpsFilterAttribute : AuthorizationFilterAttribute
+    public class TestRequireHttpsAuthorizationFilterAttribute : AuthorizationFilterAttribute
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {

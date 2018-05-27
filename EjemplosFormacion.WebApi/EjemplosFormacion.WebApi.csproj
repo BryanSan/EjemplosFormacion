@@ -17,7 +17,7 @@
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44389</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -146,6 +146,8 @@
     <Compile Include="Controllers\Test Filters\TestAuthenticationFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestExceptionFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestOverrideFilterController.cs" />
+    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V1\TestVersionControllerVersusNameWithHttpControllerSelectorV1Controller.cs" />
+    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V2\TestVersionControllerVersusNameWithHttpControllerSelectorV2Controller.cs" />
     <Compile Include="Controllers\Test HttpModule\TestHttpModuleController.cs" />
     <Compile Include="Controllers\Test Files\TestMultiPartFileController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
@@ -171,8 +173,9 @@
     <Compile Include="Filters\Authorization Filters\TestExtendedAuthorizeFilterAttribute.cs" />
     <Compile Include="Filters\Authorization Filters\TestAuthorizationFilterAttribute.cs" />
     <Compile Include="Filters\Authorization Filters\TestIAuthorizationFilterAttribute.cs" />
-    <Compile Include="Filters\Authorization Filters\TestRedirectHttpToHttpsAttribute.cs" />
-    <Compile Include="Filters\Authorization Filters\TestRequireHttpsFilterAttribute.cs" />
+    <Compile Include="Filters\Authorization Filters\TestReadClientCertificateAuthorizationFilterAttribute.cs" />
+    <Compile Include="Filters\Authorization Filters\TestRedirectHttpToHttpsAuthorizationFilterAttribute.cs" />
+    <Compile Include="Filters\Authorization Filters\TestRequireHttpsAuthorizationFilterAttribute.cs" />
     <Compile Include="Filters\Exception Filters\TestExceptionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestActionFilterAttribute.cs" />
     <Compile Include="Filters\Action Filters\TestIActionFilterAttribute.cs" />
@@ -192,6 +195,7 @@
     </Compile>
     <Compile Include="Dependency Resolvers\UnityDependencyResolver.cs" />
     <Compile Include="Host Buffer Policy Selectors\NoWebHostBufferPolicySelector.cs" />
+    <Compile Include="Http Controller Selector\TestVersionControllerVersusControllerNameHttpControllerSelector.cs" />
     <Compile Include="Http Handler Factories\TestHttpHandlerFactory.cs" />
     <Compile Include="Http Handlers\TestAsyncHttpHandler.cs" />
     <Compile Include="Http Handlers\TestSyncHttpHandler.cs" />
