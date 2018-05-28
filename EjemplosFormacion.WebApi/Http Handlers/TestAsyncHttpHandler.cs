@@ -28,6 +28,7 @@ namespace EjemplosFormacion.WebApi.HttpHandlers
             }
         }
 
+        // Metodo llamado para iniciar el proceso de la peticion que ha sido asignado al Httphandler (de manera asincronica con el AsyncResult pattern si es el caso)
         public IAsyncResult BeginProcessRequest(HttpContext context, AsyncCallback cb, object extraData)
         {
             _context = context;
@@ -40,6 +41,7 @@ namespace EjemplosFormacion.WebApi.HttpHandlers
             return asynch;
         }
 
+        // Metodo llamado para finalizar el proceso de la peticion que ha sido asignado al HttpHandler (de manera asincronica con el AsyncResult pattern si es el caso)
         public void EndProcessRequest(IAsyncResult result)
         {
             _context.Response.Write("EndProcessRequest called.");

@@ -22,6 +22,7 @@ namespace EjemplosFormacion.WebApi.HttpHandlers
             get { return false; }
         }
 
+        // Metodo llamado para procesar la peticion que ha sido asignado al Httphandler de manera sincronica
         public void ProcessRequest(HttpContext context)
         {
             // This handler is called whenever a file ending 

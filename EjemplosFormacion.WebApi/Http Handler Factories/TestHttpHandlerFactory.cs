@@ -12,6 +12,7 @@ namespace EjemplosFormacion.WebApi.HttpHandlerFactories
     /// </summary>
     class TestHttpHandlerFactory : IHttpHandlerFactory
     {
+        // Metodo que sera llamado para que devuelva un IHttpHandler, debes evaluar los parametros pasados y pasar un IHttpHandler segun sea el caso
         public IHttpHandler GetHandler(HttpContext context, string requestType, String url, String pathTranslated)
         {
             IHttpHandler handlerToReturn;
