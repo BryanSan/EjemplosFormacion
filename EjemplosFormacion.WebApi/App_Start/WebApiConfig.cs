@@ -169,7 +169,6 @@ namespace EjemplosFormacion.WebApi
             config.Filters.Add(new TestIAuthorizationFilterAttribute()); // Authorize Filter 
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 1)); // Authorize Filter 
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 2)); // Authorize Filter 
-            config.Filters.Add(new TestRedirectHttpToHttpsAuthorizationFilterAttribute()); // Authorize Filter
 
             // Se necesita que el Dependency Resolver resuelta y construya el tipo ya que se tiene una Dependencia al WrapperLoger dentro del ActionFilter
             config.Filters.Add(config.DependencyResolver.GetService(typeof(TestLoggingActionFilterAttribute)) as IFilter); // Action Filter with Dependency Property Injection
