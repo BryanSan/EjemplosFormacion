@@ -2,7 +2,7 @@
 
 namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versioning.V2
 {
-    public class TestVersionControllerVersusNamespaceV2Controller : ApiController
+    public class TestVersionControllerVersusNameSpaceV2Controller : ApiController
     {
         public IHttpActionResult TestVersion()
         {

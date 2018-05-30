@@ -172,10 +172,10 @@
     <Compile Include="Controllers\Test Filters\TestAuthenticationFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestExceptionFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestOverrideFilterController.cs" />
-    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V1\TestVersionControllerVersusNamespaceController.cs" />
+    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V1\TestVersionControllerVersusNameSpaceController.cs" />
     <Compile Include="Controllers\Test Http Controller Selector\Versioning\V1\TestVersionControllerVersusNameOfControllerController.cs" />
     <Compile Include="Controllers\Test Http Controller Selector\Versioning\V2\TestVersionControllerVersusNameOfControllerV2Controller.cs" />
-    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V2\TestVersionControllerVersusNamespaceV2Controller.cs" />
+    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V2\TestVersionControllerVersusNameSpaceV2Controller.cs" />
     <Compile Include="Controllers\Test HttpModule\TestHttpModuleController.cs" />
     <Compile Include="Controllers\Test Files\TestMultiPartFileController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
@@ -224,6 +224,7 @@
     <Compile Include="Dependency Resolvers\UnityDependencyResolver.cs" />
     <Compile Include="Host Buffer Policy Selectors\NoWebHostBufferPolicySelector.cs" />
     <Compile Include="Http Controller Selector\TestVersionControllerVersusControllerNameHttpControllerSelector.cs" />
+    <Compile Include="Http Controller Selector\TestVersionControllerVersusControllerNameSpaceHttpControllerSelector.cs" />
     <Compile Include="Http Handler Factories\TestHttpHandlerFactory.cs" />
     <Compile Include="Http Handlers\TestAsyncHttpHandler.cs" />
     <Compile Include="Http Handlers\TestSyncHttpHandler.cs" />
