@@ -9,7 +9,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versio
         // Query, Accept Header, Media Type Header
         // TestV1Controller y TestV2Controller son dos tipos que seran resueltos segun la version que venga 1 o 2
         // Ejemplos
-        // Url -> api/TestVersionControllerVersusNameWithHttpControllerSelectorV1/TestVersion?v=2
+        // Url -> api/TestVersionControllerVersusNameOfControllerV2/TestVersion?v=2
         // Header -> X-EjemplosFormacion-Version con valor 2
         // Header -> application/json; version=2
         // La "," separa los mime type el ";" define los parametros del anterior Mime Type

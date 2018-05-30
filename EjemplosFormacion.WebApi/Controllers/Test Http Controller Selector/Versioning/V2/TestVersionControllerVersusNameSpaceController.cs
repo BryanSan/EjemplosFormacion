@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versioning.V1
+namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versioning.V2
 {
     public class TestVersionControllerVersusNameSpaceController : ApiController
     {
@@ -15,7 +15,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versio
         // La "," separa los mime type el ";" define los parametros del anterior Mime Type
         public IHttpActionResult TestVersion()
         {
-            return Ok("Version 1");
+            return Ok("Version 2");
         }
     }
 }

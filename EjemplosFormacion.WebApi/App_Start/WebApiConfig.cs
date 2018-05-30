@@ -75,6 +75,12 @@ namespace EjemplosFormacion.WebApi
             // TestV1Controller y TestV2Controller son dos tipos que seran resueltos segun la version que venga 1 o 2
             config.Services.Replace(typeof(IHttpControllerSelector), new TestVersionControllerVersusControllerNameHttpControllerSelector(config));
 
+            // Custom Http Controller Selector para seleccionar un controller segun la version solicitada por el Request segun diferentes maneras
+            // Query, Accept Header, Media Type Header
+            // Usando el NameSpace del controller para comparar con la version solicitada
+            // TestController (NameSpace V1.TestController) y TestController (NameSpace V2.TestController) son dos tipos que seran resueltos segun la version que venga 1 o 2 y sus NameSpaces
+            config.Services.Replace(typeof(IHttpControllerSelector), new TestVersionControllerVersusControllerNameSpaceHttpControllerSelector(config));
+            
             // =========================================================
             //                  Multi-Services
             // =========================================================
@@ -169,6 +175,12 @@ namespace EjemplosFormacion.WebApi
             config.Filters.Add(new TestIAuthorizationFilterAttribute()); // Authorize Filter 
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 1)); // Authorize Filter 
             config.Filters.Add(new TestOrderedAuthorizationFilterAttribute(order: 2)); // Authorize Filter 
+
+            // Authorization Filter para requerir solo Https
+            //config.Filters.Add(new TestRequireHttpsAuthorizationFilterAttribute());
+
+            // Authorization Filter para rederigir toda Request en Http a Https
+            //config.Filters.Add(new TestRedirectHttpToHttpsAuthorizationFilterAttribute());
 
             // Se necesita que el Dependency Resolver resuelta y construya el tipo ya que se tiene una Dependencia al WrapperLoger dentro del ActionFilter
             config.Filters.Add(config.DependencyResolver.GetService(typeof(TestLoggingActionFilterAttribute)) as IFilter); // Action Filter with Dependency Property Injection

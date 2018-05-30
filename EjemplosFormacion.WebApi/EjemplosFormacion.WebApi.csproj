@@ -173,9 +173,9 @@
     <Compile Include="Controllers\Test Filters\TestExceptionFilterController.cs" />
     <Compile Include="Controllers\Test Filters\TestOverrideFilterController.cs" />
     <Compile Include="Controllers\Test Http Controller Selector\Versioning\V1\TestVersionControllerVersusNameSpaceController.cs" />
-    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V1\TestVersionControllerVersusNameOfControllerController.cs" />
+    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V1\TestVersionControllerVersusNameOfControllerV1Controller.cs" />
     <Compile Include="Controllers\Test Http Controller Selector\Versioning\V2\TestVersionControllerVersusNameOfControllerV2Controller.cs" />
-    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V2\TestVersionControllerVersusNameSpaceV2Controller.cs" />
+    <Compile Include="Controllers\Test Http Controller Selector\Versioning\V2\TestVersionControllerVersusNameSpaceController.cs" />
     <Compile Include="Controllers\Test HttpModule\TestHttpModuleController.cs" />
     <Compile Include="Controllers\Test Files\TestMultiPartFileController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />

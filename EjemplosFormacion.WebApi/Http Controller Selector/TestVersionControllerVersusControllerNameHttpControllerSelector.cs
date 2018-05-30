@@ -45,36 +45,28 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             // Obtenemos el valor del controller solicitado
             string controllerNameOfRequest = (string)routeDataOfRequest.Values["controller"];
 
-            // Obtenemos el Controller base sin prefijos de ningun tipo (Version 1)
-            HttpControllerDescriptor controllerDescriptorUnVersioned;
-            if (discoveredControllers.TryGetValue(controllerNameOfRequest, out controllerDescriptorUnVersioned))
+            // Buscamos la version
+            string version = GetVersion(request);
+
+            // Armamos el nombre del controller con la version solicitada
+            string controllerNameVersioned = string.Concat(controllerNameOfRequest, "V", version);
+
+            // Intenamos recuperar el controller segun la version solicitada
+            HttpControllerDescriptor controllerDescriptorVersioned;
+            if (discoveredControllers.TryGetValue(controllerNameVersioned, out controllerDescriptorVersioned))
             {
-                // Buscamos la version
-                string version = GetVersion(request);
-
-                // Si tenemos version proseguimos
-                if (!string.IsNullOrWhiteSpace(version))
-                {
-                    // Armamos el nombre del controller con la version solicitada
-                    string controllerNameVersioned = string.Concat(controllerNameOfRequest, "V", version);
-
-                    // Intenamos recuperar el controller segun la version solicitada
-                    HttpControllerDescriptor controllerDescriptorVersioned;
-                    if (discoveredControllers.TryGetValue(controllerNameVersioned, out controllerDescriptorVersioned))
-                    {
-                        // Si lo tengo lo devuelvo
-                        return controllerDescriptorVersioned;
-                    }
-                }
-
-                // Si no tengo version o no lo consegui, devuelvo el Controller base (Version 1)
-                return controllerDescriptorUnVersioned;
+                // Si lo tengo lo devuelvo
+                return controllerDescriptorVersioned;
             }
-
-            // Si no consigo ningun Controller ni siquiera el base, devuelvo null y dara un error que no se consigue un Controller que atienda el Request
-            return null;
+            else
+            {
+                // Si no consigo ningun Controller ni siquiera el base, devuelvo null y dara un error que no se consigue un Controller que atienda el Request
+                return null;
+            }
         }
 
+        // Metodo para obtener la version en el Request de diversas maneras (Query String, Header y Custom Header) 
+        // Hace default a version 1 si no encuentra ninguna en el Request
         private string GetVersion(HttpRequestMessage request)
         {
             // Obtener la version por Query String
@@ -102,7 +94,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
                 return versionFromAcceptHeaderVersionParameter;
             }
 
-            return null;
+            return "1";
         }
 
         // Ejemplo -> api/controllerName/actionName?v=2
