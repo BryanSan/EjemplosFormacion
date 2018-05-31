@@ -125,6 +125,20 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
                 return versionFromAcceptHeaderVersionParameter;
             }
 
+            // Obtener la version por el Route Data
+            // Ejemplo -> api/v2/controllerName/actionName
+            // Debe estar definido en el RouteTemplate el valor {version}
+            IHttpRouteData routeDataOfRequest = request.GetRouteData();
+            IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
+            if (subRouteData != null)
+            {
+                string versionFromRoute = subRouteData.Values["version"] as string;
+                if (!string.IsNullOrWhiteSpace(versionFromRoute))
+                {
+                    return versionFromRoute;
+                }
+            }
+
             return "1";
         }
 
