@@ -77,24 +77,6 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
         #endregion
 
 
-        private static string GetControllerNameOfRequest(IHttpRouteData routeDataOfRequest)
-        {
-            string controllerName = (string)routeDataOfRequest.Values["controller"];
-            if (string.IsNullOrWhiteSpace(controllerName))
-            {
-                IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
-                HttpActionDescriptor[] httpActionDescriptors = (HttpActionDescriptor[])subRouteData.Route.DataTokens["actions"];
-                controllerName = httpActionDescriptors.FirstOrDefault()?.ControllerDescriptor.ControllerType.Name;
-            }
-            else
-            {
-                controllerName += "controller";
-            }
-
-            return controllerName;
-        }
-
-
         #region Get Version From Request
         // Metodo para obtener la version en el Request de diversas maneras (Query String, Header y Custom Header) 
         // Hace default a version 1 si no encuentra ninguna en el Request
@@ -128,15 +110,10 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             // Obtener la version por el Route Data
             // Ejemplo -> api/v2/controllerName/actionName
             // Debe estar definido en el RouteTemplate el valor {version}
-            IHttpRouteData routeDataOfRequest = request.GetRouteData();
-            IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
-            if (subRouteData != null)
+            string versionFromRoute = GetVersionFromRouteData(request);
+            if (!string.IsNullOrWhiteSpace(versionFromRoute))
             {
-                string versionFromRoute = subRouteData.Values["version"] as string;
-                if (!string.IsNullOrWhiteSpace(versionFromRoute))
-                {
-                    return versionFromRoute;
-                }
+                return versionFromRoute;
             }
 
             return "1";
@@ -195,8 +172,43 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
 
             return null;
         }
+
+        // Obtener la version por el Route Data
+        // Ejemplo -> api/v2/controllerName/actionName
+        // Debe estar definido en el RouteTemplate el valor {version}
+        public static string GetVersionFromRouteData(HttpRequestMessage request)
+        {
+            IHttpRouteData routeDataOfRequest = request.GetRouteData();
+            IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
+            if (subRouteData != null)
+            {
+                string versionFromRoute = subRouteData.Values["version"] as string;
+                return versionFromRoute;
+            }
+            else
+            {
+                return null;
+            }
+        }
         #endregion
 
+
+        private static string GetControllerNameOfRequest(IHttpRouteData routeDataOfRequest)
+        {
+            string controllerName = (string)routeDataOfRequest.Values["controller"];
+            if (string.IsNullOrWhiteSpace(controllerName))
+            {
+                IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
+                HttpActionDescriptor[] httpActionDescriptors = (HttpActionDescriptor[])subRouteData.Route.DataTokens["actions"];
+                controllerName = httpActionDescriptors.FirstOrDefault()?.ControllerDescriptor.ControllerType.Name;
+            }
+            else
+            {
+                controllerName += "controller";
+            }
+
+            return controllerName;
+        }
 
         // Metodo que recupera todos los Controllers posibles en el Web Api (Estos Controllers seran mapeados luego por las Request)
         private Dictionary<string, HttpControllerDescriptor> InitializeControllerDictionary()
@@ -216,7 +228,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             // Puedes armar el Dictionary como quieras, queda de tu parte ver como lo trabajas aqui y luego con las Request
             // Eso si si no esta aqui entonces no se mapeara a las Request
             foreach (Type controllerType in controllerTypes)
-            {    
+            {
                 // Obtenemos todo el Full Name del Controller y separamos los segmentos (.)
                 string[] fullNameSplitted = controllerType.FullName.ToLowerInvariant().Split('.');
 
