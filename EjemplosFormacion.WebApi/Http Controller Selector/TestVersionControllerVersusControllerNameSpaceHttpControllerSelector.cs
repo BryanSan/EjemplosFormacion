@@ -35,6 +35,8 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             _discoveredControllers = new Lazy<Dictionary<string, HttpControllerDescriptor>>(InitializeControllerDictionary);
         }
 
+
+        #region Metodos Contrato
         // Dictionario de todos los controller disponibles en la aplicacion (Todos toditos)
         public IDictionary<string, HttpControllerDescriptor> GetControllerMapping()
         {
@@ -51,13 +53,13 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             IHttpRouteData routeDataOfRequest = request.GetRouteData();
 
             // Obtenemos el valor del controller solicitado
-            string controllerNameOfRequest = (string)routeDataOfRequest.Values["controller"];
+            string controllerNameOfRequest = GetControllerNameOfRequest(routeDataOfRequest);
 
             // Buscamos la version
             string version = GetVersion(request);
 
             // Armamos el nombre del controller con la version solicitada
-            string controllerNameVersioned = string.Format("v{0}.{1}controller", version, controllerNameOfRequest);
+            string controllerNameVersioned = string.Format("v{0}.{1}", version, controllerNameOfRequest);
 
             // Intenamos recuperar el controller segun la version solicitada
             HttpControllerDescriptor controllerDescriptorVersioned;
@@ -72,7 +74,28 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
                 return null;
             }
         }
+        #endregion
 
+
+        private static string GetControllerNameOfRequest(IHttpRouteData routeDataOfRequest)
+        {
+            string controllerName = (string)routeDataOfRequest.Values["controller"];
+            if (string.IsNullOrWhiteSpace(controllerName))
+            {
+                IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
+                HttpActionDescriptor[] httpActionDescriptors = (HttpActionDescriptor[])subRouteData.Route.DataTokens["actions"];
+                controllerName = httpActionDescriptors.FirstOrDefault()?.ControllerDescriptor.ControllerType.Name;
+            }
+            else
+            {
+                controllerName += "controller";
+            }
+
+            return controllerName;
+        }
+
+
+        #region Get Version From Request
         // Metodo para obtener la version en el Request de diversas maneras (Query String, Header y Custom Header) 
         // Hace default a version 1 si no encuentra ninguna en el Request
         private string GetVersion(HttpRequestMessage request)
@@ -158,6 +181,8 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
 
             return null;
         }
+        #endregion
+
 
         // Metodo que recupera todos los Controllers posibles en el Web Api (Estos Controllers seran mapeados luego por las Request)
         private Dictionary<string, HttpControllerDescriptor> InitializeControllerDictionary()
@@ -177,8 +202,8 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             // Puedes armar el Dictionary como quieras, queda de tu parte ver como lo trabajas aqui y luego con las Request
             // Eso si si no esta aqui entonces no se mapeara a las Request
             foreach (Type controllerType in controllerTypes)
-            {
-                // Obtenemos todo el Full Name del Controller y separamos los segmenos (.)
+            {    
+                // Obtenemos todo el Full Name del Controller y separamos los segmentos (.)
                 string[] fullNameSplitted = controllerType.FullName.ToLowerInvariant().Split('.');
 
                 // El nombre del controller es el ultimo por obligacion

@@ -14,6 +14,7 @@ using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
 using EjemplosFormacion.WebApi.FiltersProviders;
 using EjemplosFormacion.WebApi.HostBufferPolicySelectors;
 using EjemplosFormacion.WebApi.HttpControllerSelector;
+using EjemplosFormacion.WebApi.HttpRouteConstraints;
 using EjemplosFormacion.WebApi.MessagingHandlers;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -22,6 +23,7 @@ using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Filters;
 using System.Web.Http.Hosting;
+using System.Web.Http.Routing;
 
 namespace EjemplosFormacion.WebApi
 {
@@ -111,13 +113,21 @@ namespace EjemplosFormacion.WebApi
         /// </summary>
         private static void ConfigureRoutes(HttpConfiguration config)
         {
+            // Clase usada para registrar los custom HttpRouteConstraint que hallas hecho, 
+            // Y hacer la configuracion del match 1:1 con el nombre a usar en el Template Route con la custom HttpRouteConstraint hecha
+            var constraintResolver = new DefaultInlineConstraintResolver();
+            constraintResolver.ConstraintMap.Add("intRange", typeof(TestIntRangeHttpRouteConstraint));
+            constraintResolver.ConstraintMap.Add("isSpecificValue", typeof(TestIsSpecificValueHttpRouteConstraint));
+            constraintResolver.ConstraintMap.Add("nonZero", typeof(TestNonZeroHttpRouteConstraint));
+
             // Habilita el reconocimiento de rutas definidas como attributos en los controllers y actions
-            // Las rutas definidas como atributos las configuras con el atributo [RoutePrefix("ruta")]
+            // Las rutas definidas como atributos las configuras con el atributo [Route("ruta")] 
+            // Y opcionalmente con prefijo con [RoutePrefix("prefijo")] quedando RoutePrefix + Route
             // Recordar que las rutas definidas en attributos se evaluan primero y sobreescriben las rutas definidas aqui en el global config
             // Este Custom Direct Route Provider agrega el string que le pases (api en este caso) a la ruta entregada por el attributo Route Prefix
-            config.MapHttpAttributeRoutes(new TestDirectRouteProvider("api"));
+            config.MapHttpAttributeRoutes(constraintResolver, new TestDirectRouteProvider("api"));
             // Puedes usar Route Constraints de igual manera en esta ruta, recordar que solo es un template  
-            //config.MapHttpAttributeRoutes(new TestDirectRouteProvider("api/v{version:int}"));
+            //config.MapHttpAttributeRoutes(constraintResolver, new TestDirectRouteProvider("api/v{version:int}"));
 
             // Se usa un Custom Direct Route Factory junto con el Custom Direct Route Provider y el metodo de extension RegisterTypedRoute 
             // Para crear Rutas de manera Type Safe y dejarlo de hacer con strings
@@ -125,6 +135,12 @@ namespace EjemplosFormacion.WebApi
             config.RegisterTypedRoute("TypedDirectRouteFactory/{id:int}", c => c.Action<TestTypedDirectRouteFactoryController>(x => x.TestTypedDirectRouteFactoryWithParams(default(int))));
 
             // Ruta para que tome en cuenta el nombre del action a la hora de evaluar y hacer match con la url del request
+            config.Routes.MapHttpRoute(
+                name: "RouteWithVersionAndActionName",
+                routeTemplate: "api/v{version:int}/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
             config.Routes.MapHttpRoute(
                 name: "RouteWithActionName",
                 routeTemplate: "api/{controller}/{action}/{id}",

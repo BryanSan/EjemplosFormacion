@@ -2,7 +2,7 @@
 
 namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versioning.V2
 {
-    public class TestVersionControllerVersusNameSpaceController : ApiController
+    public class TestVersionControllerVersusNameSpaceOfControllerController : ApiController
     {
         // Action usado para la seleccion del controller con el uso de un Custom Http Controller Selector
         // Que usara el NameSpace de este controller contra la version solicitada por el Request en diferentes maneras
@@ -14,6 +14,12 @@ namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versio
         // Header -> application/json; version=1
         // La "," separa los mime type el ";" define los parametros del anterior Mime Type
         public IHttpActionResult TestVersion()
+        {
+            return Ok("Version 2");
+        }
+
+        [Route("v{version:isSpecificValue(2)}/TestVersionControllerVersusNameSpaceOfController/TestVersionWithRouteAttribute")]
+        public IHttpActionResult TestVersionWithRouteAttribute()
         {
             return Ok("Version 2");
         }
