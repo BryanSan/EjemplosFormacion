@@ -81,7 +81,7 @@ namespace EjemplosFormacion.WebApi
             // Query, Accept Header, Media Type Header
             // Usando el NameSpace del controller para comparar con la version solicitada
             // TestController (NameSpace V1.TestController) y TestController (NameSpace V2.TestController) son dos tipos que seran resueltos segun la version que venga 1 o 2 y sus NameSpaces
-            //config.Services.Replace(typeof(IHttpControllerSelector), new TestVersionControllerVersusControllerNameSpaceHttpControllerSelector(config));
+            config.Services.Replace(typeof(IHttpControllerSelector), new TestVersionControllerVersusControllerNameSpaceHttpControllerSelector(config));
             
             // =========================================================
             //                  Multi-Services

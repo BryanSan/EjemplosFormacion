@@ -6,13 +6,13 @@ namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versio
     {
         // Action usado para la seleccion del controller con el uso de un Custom Http Controller Selector
         // Que usara el NameSpace de este controller contra la version solicitada por el Request en diferentes maneras
-        // Query, Accept Header, Media Type Header
+        // Query String, Custom Header, Accept Header Parameter y Route Data
         // TestController (NameSpace V1.TestController) y TestController (NameSpace V2.TestController) son dos tipos que seran resueltos segun la version que venga 1 o 2 y sus NameSpaces
         // Ejemplos
-        // Url -> api/TestVersionControllerVersusNameSpace/TestVersion?v=1
-        // Header -> X-EjemplosFormacion-Version con valor 1
-        // Header -> application/json; version=1
-        // La "," separa los mime type el ";" define los parametros del anterior Mime Type
+        // Query String -> api/controllerName/actionName?v=2
+        // Custom Header -> X-EjemplosFormacion-Version con valor 2
+        // Accept Header Parameter -> application/json; version=2 ( La "," separa los mime type el ";" define los parametros del anterior Mime Type )
+        // Route Data -> api/v2/controllerName/actionName
         public IHttpActionResult TestVersion()
         {
             return Ok("Version 2");

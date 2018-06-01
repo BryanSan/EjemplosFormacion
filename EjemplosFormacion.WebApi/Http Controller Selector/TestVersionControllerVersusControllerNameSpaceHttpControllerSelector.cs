@@ -1,10 +1,8 @@
-﻿using System;
+﻿using EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods;
+using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
@@ -14,14 +12,14 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
 {
     /// <summary>
     /// Custom Http Controller Selector para seleccionar un controller segun la version solicitada por el Request segun diferentes maneras
-    /// Query, Accept Header, Media Type Header
+    /// Query String, Custom Header, Accept Header Parameter y Route Data
     /// Usando el NameSpace del controller para comparar con la version solicitada
     /// TestController (NameSpace V1.TestController) y TestController (NameSpace V2.TestController) son dos tipos que seran resueltos segun la version que venga 1 o 2 y sus NameSpaces
     /// Ejemplos
-    /// Url -> api/controllerName/actionName?v=2
-    /// Header -> X-EjemplosFormacion-Version con valor 2
-    /// Header -> application/json; version=2
-    /// La "," separa los mime type el ";" define los parametros del anterior Mime Type
+    /// Query String -> api/controllerName/actionName?v=2
+    /// Custom Header -> X-EjemplosFormacion-Version con valor 2
+    /// Accept Header Parameter -> application/json; version=2 ( La "," separa los mime type el ";" define los parametros del anterior Mime Type )
+    /// Route Data -> api/v2/controllerName/actionName
     /// </summary>
     public class TestVersionControllerVersusControllerNameSpaceHttpControllerSelector : IHttpControllerSelector
     {
@@ -52,10 +50,10 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             // Si la route define un {id}, entonces tambien tendra un key "id" aparte de "controller"
             IHttpRouteData routeDataOfRequest = request.GetRouteData();
 
-            // Obtenemos el valor del controller solicitado
+            // Metodo para inspeccionar el RouteData y sacar el nombre del Controller teniendo en cuenta si es Route convencional o Attribute Routing
             string controllerNameOfRequest = GetControllerNameOfRequest(routeDataOfRequest);
 
-            // Buscamos la version
+            // Metodo para obtener la version en el Request de diversas maneras (Query String, Custom Header, Accept Header Parameter y Route Data) 
             string version = GetVersion(request);
 
             // Armamos el nombre del controller con la version solicitada
@@ -70,21 +68,19 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             }
             else
             {
-                // Si no consigo ningun Controller ni siquiera el base, devuelvo null y dara un error que no se consigue un Controller que atienda el Request
+                // Si no consigo ningun Controller devuelvo null y dara un error que no se consigue un Controller que atienda el Request
                 return null;
             }
         }
         #endregion
 
 
-        #region Get Version From Request
-        // Metodo para obtener la version en el Request de diversas maneras (Query String, Header y Custom Header) 
-        // Hace default a version 1 si no encuentra ninguna en el Request
+        // Metodo para obtener la version en el Request de diversas maneras (Query String, Custom Header, Accept Header Parameter y Route Data) 
         private string GetVersion(HttpRequestMessage request)
         {
             // Obtener la version por Query String
             // Ejemplo -> api/controllerName/actionName?v=2
-            string versionFromQueryString = GetVersionFromQueryString(request);
+            string versionFromQueryString = request.GetValueFromQueryStringParameter("v");
             if (!string.IsNullOrWhiteSpace(versionFromQueryString))
             {
                 return versionFromQueryString;
@@ -92,7 +88,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
 
             // Obtener la version por Custom Header
             // Ejemplo -> X-EjemplosFormacion-Version con valor 2
-            string versionFromHeader = GetVersionFromHeader(request);
+            string versionFromHeader = request.GetValueFromHeader("X-EjemplosFormacion-Version");
             if (!string.IsNullOrWhiteSpace(versionFromHeader))
             {
                 return versionFromHeader;
@@ -101,7 +97,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             // Obtener la version por Accept Header
             // Ejemplo -> application/json; version=2
             // La "," separa los mime type el ";" define los parametros del anterior Mime Type
-            string versionFromAcceptHeaderVersionParameter = GetVersionFromAcceptHeaderVersionParameter(request);
+            string versionFromAcceptHeaderVersionParameter = request.GetParameterValueFromAcceptHeader("version");
             if (!string.IsNullOrWhiteSpace(versionFromAcceptHeaderVersionParameter))
             {
                 return versionFromAcceptHeaderVersionParameter;
@@ -109,8 +105,8 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
 
             // Obtener la version por el Route Data
             // Ejemplo -> api/v2/controllerName/actionName
-            // Debe estar definido en el RouteTemplate el valor {version}
-            string versionFromRoute = GetVersionFromRouteData(request);
+            // Debe estar definido en el RouteTemplate el valor {version} sea en el Attribute Routing o Route Table
+            string versionFromRoute = request.GetValueFromRouteData("version");
             if (!string.IsNullOrWhiteSpace(versionFromRoute))
             {
                 return versionFromRoute;
@@ -119,94 +115,26 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             return "1";
         }
 
-        // Ejemplo -> api/controllerName/actionName?v=2
-        private static string GetVersionFromQueryString(HttpRequestMessage request)
-        {
-            // Parseamos el Query String
-            NameValueCollection query = HttpUtility.ParseQueryString(request.RequestUri.Query);
-
-            // Buscamos en el Query String el valor de la version solicitada, en este caso el valor de "v"
-            // Tambien puedes cambiarlo por "version" o cualquier nombre que quieras, pero que sea el definido por la aplicacion
-            string version = query["v"];
-
-            return version;
-        }
-
-        // Ejemplo -> X-EjemplosFormacion-Version con valor 2
-        private static string GetVersionFromHeader(HttpRequestMessage request)
-        {
-            const string HeaderName = "X-EjemplosFormacion-Version";
-
-            // Buscamos si esta el Custom Header en el Request
-            if (request.Headers.Contains(HeaderName))
-            {
-                // Si lo esta recuperamos el Valor y lo devolvemos
-                string headerValue = request.Headers.GetValues(HeaderName).FirstOrDefault();
-                return headerValue;
-            }
-
-            return null;
-        }
-
-        // Ejemplo -> application/json; version=2
-        // La "," separa los mime type el ";" define los parametros del anterior Mime Type
-        private static string GetVersionFromAcceptHeaderVersionParameter(HttpRequestMessage request)
-        {
-            // Buscamos el Accept Header
-            HttpHeaderValueCollection<MediaTypeWithQualityHeaderValue> acceptHeader = request.Headers.Accept;
-
-            // Iteramos en todos los Mime Type que tenga el Accept Header
-            foreach (MediaTypeWithQualityHeaderValue mimeTypeInAcceptHeader in acceptHeader)
-            {
-                // Consultamos si el Mime Type tiene el parametro version
-                if (mimeTypeInAcceptHeader.Parameters.Any(x => x.Name.Equals("version", StringComparison.OrdinalIgnoreCase)))
-                {
-                    // Si lo tiene entonces obtenemos su valor y lo devolvemos
-                    NameValueHeaderValue mimeParameterVersion = mimeTypeInAcceptHeader.Parameters
-                                                                       .Where(x => x.Name.Equals("version", StringComparison.OrdinalIgnoreCase))
-                                                                       .FirstOrDefault();
-
-                    return mimeParameterVersion.Value;
-                }
-            }
-
-            return null;
-        }
-
-        // Obtener la version por el Route Data
-        // Ejemplo -> api/v2/controllerName/actionName
-        // Debe estar definido en el RouteTemplate el valor {version}
-        public static string GetVersionFromRouteData(HttpRequestMessage request)
-        {
-            IHttpRouteData routeDataOfRequest = request.GetRouteData();
-            string versionFromRoute = routeDataOfRequest.Values["version"] as string;
-
-            if (string.IsNullOrWhiteSpace(versionFromRoute))
-            {
-                IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
-                if (subRouteData != null)
-                {
-                    string versionFromSubRoute = subRouteData.Values["version"] as string;
-                    return versionFromSubRoute;
-                }
-            }
-
-            return versionFromRoute;
-        }
-        #endregion
-
-
+        // Metodo para inspeccionar el RouteData y sacar el nombre del Controller teniendo en cuenta si es Route convencional o Attribute Routing
         private static string GetControllerNameOfRequest(IHttpRouteData routeDataOfRequest)
         {
+            // Buscamos si la Route tiene la llave controller
             string controllerName = (string)routeDataOfRequest.Values["controller"];
+
             if (string.IsNullOrWhiteSpace(controllerName))
             {
+                // Buscamos la SubRoute
                 IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
+
+                // Buscamos el Action al que la Route esta asociada (A que Action esta asociada el Attribute Routing)
                 HttpActionDescriptor[] httpActionDescriptors = (HttpActionDescriptor[])subRouteData.Route.DataTokens["actions"];
+
+                // Hallamos el nombre del Controller de ese Action 
                 controllerName = httpActionDescriptors.FirstOrDefault()?.ControllerDescriptor.ControllerType.Name;
             }
             else
             {
+                // Añadimos el Controller al final para que haga match con el Dictionary de posibles Controllers
                 controllerName += "controller";
             }
 
