@@ -137,8 +137,9 @@ namespace EjemplosFormacion.WebApi
             // Ruta para que tome en cuenta el nombre del action a la hora de evaluar y hacer match con la url del request
             config.Routes.MapHttpRoute(
                 name: "RouteWithVersionAndActionName",
-                routeTemplate: "api/v{version:int}/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/v{version}/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: new{ version = @"\d+" }
             );
 
             config.Routes.MapHttpRoute(

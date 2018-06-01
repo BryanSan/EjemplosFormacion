@@ -179,16 +179,19 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
         public static string GetVersionFromRouteData(HttpRequestMessage request)
         {
             IHttpRouteData routeDataOfRequest = request.GetRouteData();
-            IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
-            if (subRouteData != null)
+            string versionFromRoute = routeDataOfRequest.Values["version"] as string;
+
+            if (string.IsNullOrWhiteSpace(versionFromRoute))
             {
-                string versionFromRoute = subRouteData.Values["version"] as string;
-                return versionFromRoute;
+                IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
+                if (subRouteData != null)
+                {
+                    string versionFromSubRoute = subRouteData.Values["version"] as string;
+                    return versionFromSubRoute;
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return versionFromRoute;
         }
         #endregion
 

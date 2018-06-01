@@ -2,7 +2,6 @@
 
 namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versioning.V1
 {
-    [RoutePrefix("v{version:isSpecificValue(1)}")]
     public class TestVersionControllerVersusNameSpaceOfControllerController : ApiController
     {
         // Action usado para la seleccion del controller con el uso de un Custom Http Controller Selector
@@ -19,7 +18,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestHttpControllerSelector.Versio
             return Ok("Version 1");
         }
 
-        [Route("TestVersionControllerVersusNameSpaceOfController/TestVersionWithRouteAttribute")]
+        [Route("v{version:isSpecificValue(1)}/TestVersionControllerVersusNameSpaceOfController/TestVersionWithRouteAttribute")]
         public IHttpActionResult TestVersionWithRouteAttribute()
         {
             return Ok("Version 1");
