@@ -268,6 +268,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EjemplosFormacion.HelperClasess.FullDotNet\EjemplosFormacion.HelperClasess.FullDotNet.csproj">
+      <Project>{9ae79f2e-b2b1-466b-b5b9-2ec25f461b10}</Project>
+      <Name>EjemplosFormacion.HelperClasess.FullDotNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EjemplosFormacion.HelperClasess\EjemplosFormacion.HelperClasess.csproj">
       <Project>{B5AC0B11-EEEC-4BA6-BBE3-04546B7E6850}</Project>
       <Name>EjemplosFormacion.HelperClasess</Name>

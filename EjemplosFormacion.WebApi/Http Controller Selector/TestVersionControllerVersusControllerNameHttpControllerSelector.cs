@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -23,39 +24,26 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
     /// Header -> application/json; version=2
     /// La "," separa los mime type el ";" define los parametros del anterior Mime Type
     /// </summary>
-    public class TestVersionControllerVersusControllerNameHttpControllerSelector : IHttpControllerSelector
+    public class TestVersionControllerVersusControllerNameHttpControllerSelector : DefaultHttpControllerSelector
     {
-        // Diccionario de todos los Controllers en la aplicacion, seran usados para mapear las Request luego
-        private readonly Lazy<Dictionary<string, HttpControllerDescriptor>> _discoveredControllers;
-        private readonly HttpConfiguration _config;
-
-        public TestVersionControllerVersusControllerNameHttpControllerSelector(HttpConfiguration config)
+        public TestVersionControllerVersusControllerNameHttpControllerSelector(HttpConfiguration config) : base(config)
         {
-            _config = config;
-            _discoveredControllers = new Lazy<Dictionary<string, HttpControllerDescriptor>>(InitializeControllerDictionary);
-        }
-
-
-        #region Metodos Contrato
-        // Dictionario de todos los controller disponibles en la aplicacion (Todos toditos)
-        public IDictionary<string, HttpControllerDescriptor> GetControllerMapping()
-        {
-            return _discoveredControllers.Value;
+            
         }
 
         // Metodo que sera llamado para devolver el Http Controller Descriptor solicitado por la Request
         // El controller que sea devuelto es el que se usara para atender el Request
-        public HttpControllerDescriptor SelectController(HttpRequestMessage request)
+        public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
         {
-            // Obtenemos el valor del controller solicitado
-            string controllerNameOfRequest = GetControllerNameOfRequest(request);
+            // Lista de todos los Controllers que la aplicacion puede usar (Todos toditos)
+            IDictionary<string, HttpControllerDescriptor> discoveredControllers = GetControllerMapping();
 
-            // Armamos el nombre del controller con la version solicitada
-            string controllerNameVersioned = string.Concat(controllerNameOfRequest);
+            // Obtenemos el valor del controller solicitado (Teniendo en cuenta si es Route convencional o Attribute Routing)
+            string controllerNameOfRequest = GetControllerNameOfRequest(request);
 
             // Intenamos recuperar el controller segun la version solicitada
             HttpControllerDescriptor controllerDescriptorVersioned;
-            if (_discoveredControllers.Value.TryGetValue(controllerNameVersioned, out controllerDescriptorVersioned))
+            if (discoveredControllers.TryGetValue(controllerNameOfRequest, out controllerDescriptorVersioned))
             {
                 // Si lo tengo lo devuelvo
                 return controllerDescriptorVersioned;
@@ -66,7 +54,6 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
                 return null;
             }
         }
-        #endregion
 
 
         #region Get Version From Request
@@ -76,7 +63,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
         {
             // Obtener la version por Query String
             // Ejemplo -> api/controllerName/actionName?v=2
-            string versionFromQueryString = GetVersionFromQueryString(request);
+            string versionFromQueryString = request.GetValueFromQueryStringParameter("v");
             if (!string.IsNullOrWhiteSpace(versionFromQueryString) && versionFromQueryString != "1")
             {
                 return "V" + versionFromQueryString;
@@ -84,7 +71,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
 
             // Obtener la version por Custom Header
             // Ejemplo -> X-EjemplosFormacion-Version con valor 2
-            string versionFromHeader = GetVersionFromHeader(request);
+            string versionFromHeader = request.GetValueFromHeader("X-EjemplosFormacion-Version");
             if (!string.IsNullOrWhiteSpace(versionFromHeader) && versionFromHeader != "1")
             {
                 return "V" + versionFromHeader;
@@ -93,7 +80,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             // Obtener la version por Accept Header
             // Ejemplo -> application/json; version=2
             // La "," separa los mime type el ";" define los parametros del anterior Mime Type
-            string versionFromAcceptHeaderVersionParameter = GetVersionFromAcceptHeaderVersionParameter(request);
+            string versionFromAcceptHeaderVersionParameter = request.GetParameterValueFromAcceptHeader("version");
             if (!string.IsNullOrWhiteSpace(versionFromAcceptHeaderVersionParameter) && versionFromAcceptHeaderVersionParameter != "1")
             {
                 return "V" + versionFromAcceptHeaderVersionParameter;
@@ -102,7 +89,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             // Obtener la version por el Route Data
             // Ejemplo -> api/v2/controllerName/actionName
             // Debe estar definido en el RouteTemplate el valor {version}
-            string versionFromRoute = GetVersionFromRouteData(request);
+            string versionFromRoute = request.GetValueFromRouteData("version");
             if (!string.IsNullOrWhiteSpace(versionFromRoute) && versionFromRoute != "1")
             {
                 return "V" + versionFromRoute;
@@ -191,50 +178,37 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
         private string GetControllerNameOfRequest(HttpRequestMessage request)
         {
             // Route Data del Request donde tiene los valores usados para hacer match 
-            // Siempre tendra la key "controller", tendra mas keys segun lo definido en la Route
-            // Si la route define un {id}, entonces tambien tendra un key "id" aparte de "controller"
+            // Si la Route no viene de Attribute Routing siempre tendra la key "controller" y mas keys segun lo definido en la Route
+            // Si la Route define un {id}, entonces tambien tendra un key "id" aparte de "controller"
+            // Si la Route viene de Attribute Routing entonces se debe leer el Action al que esta registrado y de ahi subir al Controller de ese Action
             IHttpRouteData routeDataOfRequest = request.GetRouteData();
 
+            // Buscamos si la Route principal tiene la llave controller, si no la tienes que vengo de Attribute Routing
             string controllerName = (string)routeDataOfRequest.Values["controller"];
+
             if (string.IsNullOrWhiteSpace(controllerName))
             {
+                // Buscamos la SubRoute
                 IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
+
+                // Buscamos el Action al que la Route esta asociada (A que Action esta asociada el Attribute Routing)
                 HttpActionDescriptor[] httpActionDescriptors = (HttpActionDescriptor[])subRouteData.Route.DataTokens["actions"];
-                controllerName = httpActionDescriptors.FirstOrDefault()?.ControllerDescriptor.ControllerType.Name;
+
+                // Hallamos el nombre del Controller de ese Action (Ya vendra con version ya que es el nombre de la clase sin la palabra final "controller")
+                // Por lo que no es necesario agregarle la version
+                controllerName = httpActionDescriptors.FirstOrDefault()?.ControllerDescriptor.ControllerName;
             }
             else
             {
+                // Como tenemos el nombre puro buscamos si tiene una version el Request
                 string version = GetVersion(request);
-                controllerName = string.Concat(controllerName, version, "controller");
+
+                // Si tiene una version (No es version 1) se la añadimos al final
+                controllerName = string.Concat(controllerName, version);
             }
 
             return controllerName;
         }
 
-        // Metodo que recupera todos los Controllers posibles en el Web Api (Estos Controllers seran mapeados luego por las Request)
-        private Dictionary<string, HttpControllerDescriptor> InitializeControllerDictionary()
-        {
-            var dictionary = new Dictionary<string, HttpControllerDescriptor>(StringComparer.OrdinalIgnoreCase);
-
-            // Obtenemos el resolver del Assembly
-            IAssembliesResolver assembliesResolver = _config.Services.GetAssembliesResolver();
-
-            // Obtenemos el resolver de los Controllers
-            IHttpControllerTypeResolver controllersResolver = _config.Services.GetHttpControllerTypeResolver();
-
-            // Resolvemos todos los Controllers del Assembly
-            ICollection<Type> controllerTypes = controllersResolver.GetControllerTypes(assembliesResolver);
-
-            // Recorremos cada Controller y los registramos en el Dictionary para su posterior mapeo con las Request
-            // Puedes armar el Dictionary como quieras, queda de tu parte ver como lo trabajas aqui y luego con las Request
-            // Eso si si no esta aqui entonces no se mapeara a las Request
-            foreach (Type controllerType in controllerTypes)
-            {
-                // Registramos el Controller con la unique key
-                dictionary[controllerType.Name] = new HttpControllerDescriptor(_config, controllerType.Name, controllerType);
-            }
-
-            return dictionary;
-        }
     }
 }
