@@ -56,12 +56,17 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             // Metodo para obtener la version en el Request de diversas maneras (Query String, Custom Header, Accept Header Parameter y Route Data) 
             string version = GetVersion(request);
 
-            // Armamos el nombre del controller con la version solicitada
-            string controllerNameVersioned = string.Format("v{0}.{1}", version, controllerNameOfRequest);
+            // Armamos el nombre del controller con la version solicitada, si no tiene un numero de version lo dejamos como esta
+            // Esto para no molestar los otros Controllers de la Solucion de Formacion que no tienen version
+            string controllerNameToMatch = controllerNameOfRequest;
+            if (!string.IsNullOrWhiteSpace(version))
+            {
+                controllerNameToMatch = string.Format("v{0}.{1}", version, controllerNameOfRequest);
+            }
 
             // Intenamos recuperar el controller segun la version solicitada
             HttpControllerDescriptor controllerDescriptorVersioned;
-            if (_discoveredControllers.Value.TryGetValue(controllerNameVersioned, out controllerDescriptorVersioned))
+            if (_discoveredControllers.Value.TryGetValue(controllerNameToMatch, out controllerDescriptorVersioned))
             {
                 // Si lo tengo lo devuelvo
                 return controllerDescriptorVersioned;
@@ -112,7 +117,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
                 return versionFromRoute;
             }
 
-            return "1";
+            return null;
         }
 
         // Metodo para inspeccionar el RouteData y sacar el nombre del Controller teniendo en cuenta si es Route convencional o Attribute Routing
@@ -135,7 +140,7 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
             else
             {
                 // Añadimos el Controller al final para que haga match con el Dictionary de posibles Controllers
-                controllerName += "controller";
+                controllerName += "Controller";
             }
 
             return controllerName;
@@ -170,7 +175,12 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelector
                 string versionController = fullNameSplitted[fullNameSplitted.Length - 2];
 
                 // Creamos una unique key para el Controller
-                string key = versionController + "." + controllerName;
+                // Esto para no molestar los otros Controllers de la Solucion de Formacion que no tienen version
+                string key = controllerName;
+                if (versionController.StartsWith("v", StringComparison.OrdinalIgnoreCase))
+                {
+                    key = versionController + "." + key;
+                }
 
                 // Registramos el Controller con la unique key
                 dictionary[key] = new HttpControllerDescriptor(_config, controllerType.Name, controllerType);

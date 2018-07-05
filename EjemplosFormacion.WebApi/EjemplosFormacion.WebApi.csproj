@@ -18,8 +18,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44384</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -163,6 +163,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="Controllers\Test Authentication\TestBasicAuthenticationController.cs" />
+    <Compile Include="Controllers\Test Authentication\TestWindowAuthenticationController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestHttpVerbAttributeController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestRoutePrefixAttributeController.cs" />
     <Compile Include="Controllers\Test Custom Routes Configuration\TestTypedDirectRouteFactoryController.cs" />
