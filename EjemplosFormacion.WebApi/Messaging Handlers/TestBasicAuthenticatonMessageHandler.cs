@@ -78,6 +78,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
                 HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
 
                 // Si no fue autorizada el Request, entonces añadimos el header de WwwAuthenticate para que el cliente sepa con que Schema se valido
+                // El browser al ver este WWWAuthenticate Header mostrara un alert donde pedira el usuario y password para volver a intentar authenticarse
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     AddChallengeOnUnauthorizedActionResult challengeOnUnauthorized = new AddChallengeOnUnauthorizedActionResult(AuthenticationSchemes.Basic, response);

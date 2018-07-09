@@ -327,6 +327,16 @@ namespace EjemplosFormacion.WebApi
                 handler: new TestBasicAuthenticatonMessageHandler(new HttpControllerDispatcher(config)) // Message Handler for this Route
             );
 
+            // Test Basic Authentication Message Handler that show a dialog box asking for credentials
+            config.Routes.MapHttpRoute(
+                name: "RouteTestBasicAuthenticatonMessageHandlerShowDialogBox",
+                routeTemplate: "api/TestMessagingHandler/TestBasicAuthenticatonMessageHandlerShowDialogBox/",
+                defaults: new { controller = "TestMessagingHandler", action = "TestBasicAuthenticatonMessageHandlerShowDialogBox", },
+                constraints: null,
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestBasicAuthenticatonMessageHandlerShowDialogBox(new HttpControllerDispatcher(config)) // Message Handler for this Route
+            );
+
             // Test Decrypt Json Request and Encrypt Response to Json Response
             config.Routes.MapHttpRoute(
                 name: "RouteTestJsonEncrypterMessageHandler",

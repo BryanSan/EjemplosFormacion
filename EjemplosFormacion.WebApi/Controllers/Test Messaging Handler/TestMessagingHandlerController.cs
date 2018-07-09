@@ -75,6 +75,12 @@ namespace EjemplosFormacion.WebApi.Controllers.TestMessagingHandler
             return Ok();
         }
 
+        [HttpGet]
+        public IHttpActionResult TestBasicAuthenticatonMessageHandlerShowDialogBox()
+        {
+            return Ok();
+        }
+
         // Recordar enviar el Request encriptado
         // Mensaje para testear --->>> vAgrUyJeVaA5RAyNHh3yOtTW+z/HR4yL+euHWG9TuM1N2A4ACl0Z34OAGuU/qdqJ
         // Test Message Handler creado especificamente para esta ruta que Desencripta el Request y Encripta el Response
