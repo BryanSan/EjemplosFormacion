@@ -234,6 +234,7 @@
     <Compile Include="Http Route Constraints\TestIsSpecificValueHttpRouteConstraint.cs" />
     <Compile Include="Http Route Constraints\TestNonZeroHttpRouteConstraint.cs" />
     <Compile Include="Http Route Constraints\TestIntRangeHttpRouteConstraint.cs" />
+    <Compile Include="Media Type Formatters\TestAtomMediaTypeFormatter.cs" />
     <Compile Include="Messaging Handlers\TestAddHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestBasicAuthenticatonMessageHandlerShowDialogBox.cs" />
     <Compile Include="Messaging Handlers\TestBasicAuthenticatonMessageHandler.cs" />

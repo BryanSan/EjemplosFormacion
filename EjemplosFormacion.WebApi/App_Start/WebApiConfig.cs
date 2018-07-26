@@ -15,6 +15,7 @@ using EjemplosFormacion.WebApi.FiltersProviders;
 using EjemplosFormacion.WebApi.HostBufferPolicySelectors;
 using EjemplosFormacion.WebApi.HttpControllerSelector;
 using EjemplosFormacion.WebApi.HttpRouteConstraints;
+using EjemplosFormacion.WebApi.MediaTypeFormatters;
 using EjemplosFormacion.WebApi.MessagingHandlers;
 using EjemplosFormacion.WebApi.TraceWriters;
 using System.Net.Http;
@@ -37,7 +38,8 @@ namespace EjemplosFormacion.WebApi
     {
         public static void Register(HttpConfiguration config)
         {
-            // Configuración y servicios de API web
+            // Registro de Media Type Formatters
+            ConfigureMediaTypeFormatters(config);
 
             // Registro de servicios
             ConfigureServices(config);
@@ -50,6 +52,11 @@ namespace EjemplosFormacion.WebApi
 
             // Registro de rutas que reconocera el Web Api
             ConfigureRoutes(config);
+        }
+
+        private static void ConfigureMediaTypeFormatters(HttpConfiguration config)
+        {
+            config.Formatters.Add(new TestAtomMediaTypeFormatter());
         }
 
         /// <summary>
