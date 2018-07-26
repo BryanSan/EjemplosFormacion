@@ -182,6 +182,7 @@
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestExceptionHandlerController.cs" />
+    <Compile Include="Controllers\Test Web Api Services\TestTraceWriterController.cs" />
     <Compile Include="Direct Route Factories\TestTypedDirectRouteFactory.cs" />
     <Compile Include="Direct Route Providers\TestDirectRouteProvider.cs" />
     <Compile Include="Exception Handlers\TestExceptionHandler.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="SignalR\TestSignalRHub.cs" />
     <Compile Include="Stubs\Abstract\ITestDependency.cs" />
     <Compile Include="Stubs\Implementation\TestDependency.cs" />
+    <Compile Include="Trace Writers\TestTraceWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config" />

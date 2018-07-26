@@ -16,6 +16,7 @@ using EjemplosFormacion.WebApi.HostBufferPolicySelectors;
 using EjemplosFormacion.WebApi.HttpControllerSelector;
 using EjemplosFormacion.WebApi.HttpRouteConstraints;
 using EjemplosFormacion.WebApi.MessagingHandlers;
+using EjemplosFormacion.WebApi.TraceWriters;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Web.Http;
@@ -24,6 +25,7 @@ using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Filters;
 using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
+using System.Web.Http.Tracing;
 
 namespace EjemplosFormacion.WebApi
 {
@@ -82,6 +84,13 @@ namespace EjemplosFormacion.WebApi
             // Usando el NameSpace del controller para comparar con la version solicitada
             // TestController (NameSpace V1.TestController) y TestController (NameSpace V2.TestController) son dos tipos que seran resueltos segun la version que venga 1 o 2 y sus NameSpaces
             config.Services.Replace(typeof(IHttpControllerSelector), new TestVersionControllerVersusControllerNameSpaceHttpControllerSelector(config));
+
+            // Custom Implementacion del servicio Web Api ITraceWriter para hacerle Trace a cada etapa del messaging pipeline
+            // Web Api llamara el metodo Trace antes y despues de cada etapa del message pipeline, pasandole los parametros que el considere
+            // Usalo para hacerle Trace (el de System.Diagnostics) a esta informacion y que los TraceListener lo persistan como consideren oportuno
+            // O simplemente no le hagas Trace y persistelo tu mismo
+            // POR DEFECTO WEB API NO TIENE UN ITRACEWRITER CONFIGURADO Y NO TRACEARA NADA, DEBES DAR TU PROPIA IMPLEMENTACION PARA QUE SE ACTIVE EL TRACING
+            config.Services.Replace(typeof(ITraceWriter), new TestTraceWriter());
             
             // =========================================================
             //                  Multi-Services
