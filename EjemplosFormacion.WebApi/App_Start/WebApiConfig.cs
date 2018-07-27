@@ -13,6 +13,7 @@ using EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
 using EjemplosFormacion.WebApi.FiltersProviders;
 using EjemplosFormacion.WebApi.HostBufferPolicySelectors;
+using EjemplosFormacion.WebApi.HttpActionSelector;
 using EjemplosFormacion.WebApi.HttpControllerSelector;
 using EjemplosFormacion.WebApi.HttpRouteConstraints;
 using EjemplosFormacion.WebApi.MediaTypeFormatters;
@@ -21,6 +22,7 @@ using EjemplosFormacion.WebApi.TraceWriters;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Filters;
@@ -98,7 +100,10 @@ namespace EjemplosFormacion.WebApi
             // O simplemente no le hagas Trace y persistelo tu mismo
             // POR DEFECTO WEB API NO TIENE UN ITRACEWRITER CONFIGURADO Y NO TRACEARA NADA, DEBES DAR TU PROPIA IMPLEMENTACION PARA QUE SE ACTIVE EL TRACING
             config.Services.Replace(typeof(ITraceWriter), new TestTraceWriter());
-            
+
+            // Custom Implementacion del servicio Web Api IHttpActionSelector para customizar como se selecciona el Action segun la Route que ha llegado
+            config.Services.Replace(typeof(IHttpActionSelector), new TestHttpNotFoundActionSelector());
+
             // =========================================================
             //                  Multi-Services
             // =========================================================
