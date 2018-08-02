@@ -84,7 +84,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods
             if (string.IsNullOrWhiteSpace(versionFromRoute))
             {
                 IHttpRouteData subRouteData = routeDataOfRequest.GetSubRoutes()?.FirstOrDefault();
-                if (subRouteData != null)
+                if (subRouteData != null && subRouteData.Values.ContainsKey(routeDataName))
                 {
                     string versionFromSubRoute = subRouteData.Values[routeDataName] as string;
                     return versionFromSubRoute;

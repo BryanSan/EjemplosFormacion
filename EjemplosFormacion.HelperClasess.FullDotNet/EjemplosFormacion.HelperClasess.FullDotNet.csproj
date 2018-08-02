@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension Methods\DynamicExtensions.cs" />
     <Compile Include="Extension Methods\HttpRequestMessageExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrappers\WrapperDotNetZip.cs" />

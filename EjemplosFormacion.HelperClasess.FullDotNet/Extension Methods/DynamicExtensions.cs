@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Xml.Linq;
 
-namespace EjemplosFormacion.HelperClasess.Extensions
+namespace EjemplosFormacion.HelperClasess.FullDotNet.Extensions
 {
     /// <summary>
     /// Helper Methods para trabajar con dynamic objects, 

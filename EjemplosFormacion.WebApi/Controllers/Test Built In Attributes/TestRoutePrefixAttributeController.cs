@@ -12,14 +12,22 @@ namespace EjemplosFormacion.WebApi.Controllers.TestBuiltInAttributes
     // RoutePrefix debe ser usado en conjuncion con el atributo [Route] para definir una ruta completa
     // Si usas un RoutePrefix solo te dara error y no hallara el Action
     // Quedando la ruta (RoutePrefix + Route) con posibilidad de tener algo o despues si hay un Direct Route Provider como es en este caso que tiene un "api" configurado
+    // RECORDAR QUE HAY UN PREFIX DEFINIDO GLOBALMENTE QUE SERA PREFIJO DE ESTE ROUTE PREFIX
     // (DirectRouteProviderPrefix + RoutePrefix + Route)
-    [RoutePrefix("RouteAndRoutePrefix")] // Para llegar a este Action usar api/RoutePrefix/TestRoutePrefixAttribute (LEER ARRIBA)
+    [RoutePrefix("RouteAndRoutePrefix")] 
     public class TestRouteAndRoutePrefixAttributeController : ApiController
     {
-        // Para llegar a este Action usar api/RoutePrefix/TestRoutePrefixAttribute
+        // Para llegar a este Action usar api/RouteAndRoutePrefix/TestRouteAttribute (LEER ARRIBA)
         // (DirectRouteProviderPrefix + RoutePrefix + Route)
         [Route(nameof(TestRouteAttribute))]
         public IHttpActionResult TestRouteAttribute()
+        {
+            return Ok();
+        }
+
+        [Route("{name}")]
+        [HttpGet]
+        public IHttpActionResult TestRouteAttributeNoOptional(string name)
         {
             return Ok();
         }
