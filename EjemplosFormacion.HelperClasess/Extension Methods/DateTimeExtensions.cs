@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EjemplosFormacion.HelperClasess.Extensions
+namespace EjemplosFormacion.HelperClasess.ExtensionMethods
 {
     public static class DateTimeExtensions
     {

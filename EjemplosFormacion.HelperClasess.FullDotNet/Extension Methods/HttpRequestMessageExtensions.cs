@@ -9,7 +9,7 @@ using System.Web.Http.Routing;
 
 namespace EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods
 {
-    public static class HttpRequestMessageExtension
+    public static class HttpRequestMessageExtensions
     {
         // Ejemplo -> api/controllerName/actionName?v=2
         public static string GetValueFromQueryStringParameter(this HttpRequestMessage request, string queryStringParameterName)

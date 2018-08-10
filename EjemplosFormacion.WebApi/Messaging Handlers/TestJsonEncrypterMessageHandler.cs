@@ -1,5 +1,5 @@
 ﻿using EjemplosFormacion.HelperClasess.Abstract;
-using EjemplosFormacion.HelperClasess.Extensions;
+using EjemplosFormacion.HelperClasess.ExtensionMethods;
 using EjemplosFormacion.WebApi.Models;
 using Newtonsoft.Json;
 using System;

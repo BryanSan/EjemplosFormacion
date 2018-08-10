@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Mime;
 using System.Text.RegularExpressions;
 
-namespace EjemplosFormacion.HelperClasess.Extensions
+namespace EjemplosFormacion.HelperClasess.ExtensionMethods
 {
     public static class StringExtensions
     {
@@ -54,7 +52,7 @@ namespace EjemplosFormacion.HelperClasess.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Extension Method para saber que un FileName tiene un caracter invalido
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
@@ -65,29 +63,21 @@ namespace EjemplosFormacion.HelperClasess.Extensions
             return invalidFileNameChars.Intersect(fileName).Any();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ext"></param>
-        /// <returns></returns>
-        public static MediaTypeHeaderValue GetMimeTypeNameFromExtension(this string ext)
+
+        static readonly char[] _specialChars = new char[] { ',', '\n', '\r', '"' };
+        public static string EscapeInvalidCharacters(this string source)
         {
-            var mimeNames = new Dictionary<string, string>();
-
-            mimeNames.Add(".mp3", "audio/mpeg");    // List all supported media types; 
-            mimeNames.Add(".mp4", "video/mp4");
-            mimeNames.Add(".ogg", "application/ogg");
-            mimeNames.Add(".ogv", "video/ogg");
-            mimeNames.Add(".oga", "audio/ogg");
-            mimeNames.Add(".wav", "audio/x-wav");
-            mimeNames.Add(".webm", "video/webm");
-
-            string value;
-
-            if (mimeNames.TryGetValue(ext.ToLowerInvariant(), out value))
-                return new MediaTypeHeaderValue(value);
-            else
-                return new MediaTypeHeaderValue(MediaTypeNames.Application.Octet);
+            if (source == null)
+            {
+                return "";
+            }
+            string field = source.ToString();
+            if (field.IndexOfAny(_specialChars) != -1)
+            {
+                // Delimit the entire field with quotes and replace embedded quotes with "".
+                return String.Format("\"{0}\"", field.Replace("\"", "\"\""));
+            }
+            else return field;
         }
     }
 }

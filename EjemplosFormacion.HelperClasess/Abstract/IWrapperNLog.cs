@@ -2,7 +2,7 @@
 
 namespace EjemplosFormacion.HelperClasess.Abstract
 {
-    public interface IWrapperLogger
+    public interface IWrapperNLog
     {
         void Debug(string message, Exception exception = null);
 

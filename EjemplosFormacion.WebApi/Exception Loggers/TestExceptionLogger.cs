@@ -16,7 +16,7 @@ namespace EjemplosFormacion.WebApi.ExceptionLoggers
     class TestExceptionLogger : IExceptionLogger
     {
         [Dependency]
-        public IWrapperLogger Logger { get; set; }
+        public IWrapperNLog Logger { get; set; }
 
         // Metodo del contrato de IExceptionLogger que se debe implementar
         // Aqui puedes revisar la informacion del ExceptionLoggerContext para obtener toda la informacion acerca de la excepcion y loggear segun sea el caso

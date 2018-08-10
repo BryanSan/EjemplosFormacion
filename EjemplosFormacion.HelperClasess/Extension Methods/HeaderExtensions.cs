@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace EjemplosFormacion.HelperClasess.Extensions
+namespace EjemplosFormacion.HelperClasess.ExtensionMethods
 {
     public static class HeaderExtensions
     {

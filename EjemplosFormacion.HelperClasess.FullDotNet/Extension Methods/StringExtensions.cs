@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Web;
 
-namespace EjemplosFormacion.WebApi.ExtensionMethods
+namespace EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods
 {
-    public static class StringExtension
+    public static class StringExtensions
     {
         public static string GetMimeContentType(this string source)
         {

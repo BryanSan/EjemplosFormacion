@@ -43,7 +43,7 @@ namespace EjemplosFormacion.WebApi
         {
             container.AddNewExtension<Interception>();
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
-            container.RegisterType<IWrapperLogger, WrapperNLogger>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IWrapperNLog, WrapperNLogger>(new ContainerControlledLifetimeManager());
         }
     }
 }

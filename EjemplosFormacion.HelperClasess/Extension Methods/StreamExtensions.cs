@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace EjemplosFormacion.HelperClasess.Extensions
+namespace EjemplosFormacion.HelperClasess.ExtensionMethods
 {
     public static class StreamExtensions
     {

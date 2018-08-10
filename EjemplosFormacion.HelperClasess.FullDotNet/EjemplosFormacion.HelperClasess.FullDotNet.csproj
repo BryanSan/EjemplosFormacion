@@ -51,13 +51,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension Methods\DynamicExtensions.cs" />
-    <Compile Include="Extension Methods\HttpRequestMessageExtension.cs" />
+    <Compile Include="Extension Methods\HttpRequestMessageExtensions.cs" />
+    <Compile Include="Extension Methods\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wrappers\WrapperDotNetZip.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Wrappers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

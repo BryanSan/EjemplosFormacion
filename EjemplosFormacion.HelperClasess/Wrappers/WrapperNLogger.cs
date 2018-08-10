@@ -4,7 +4,7 @@ using System;
 
 namespace EjemplosFormacion.HelperClasess.Wrappers
 {
-    public class WrapperNLogger : IWrapperLogger
+    public class WrapperNLogger : IWrapperNLog
     {
         private readonly Logger _logger;
 
@@ -12,7 +12,6 @@ namespace EjemplosFormacion.HelperClasess.Wrappers
         {
             _logger = LogManager.GetCurrentClassLogger();
         }
-
 
         public void Debug(string message, Exception exception = null)
         {

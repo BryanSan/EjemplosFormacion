@@ -12,7 +12,7 @@ namespace EjemplosFormacion.WebApi.Filters.ActionFilters
     class TestLoggingActionFilterAttribute : ActionFilterAttribute
     {
         [Dependency]
-        public IWrapperLogger Logger { get; set; }
+        public IWrapperNLog Logger { get; set; }
 
         private const string StopwatchKey = "StopwatchFilter.Value";
 

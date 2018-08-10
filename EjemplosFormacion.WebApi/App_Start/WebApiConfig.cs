@@ -56,9 +56,20 @@ namespace EjemplosFormacion.WebApi
             ConfigureRoutes(config);
         }
 
+        // Custom Media Type Formatters para trabajar con Request que tengan en el Accept Header y/o Content Type Header
+        // Un MIME Type no soportado por Default por el Web API, añadiendo al servicio la posibilidad de aceptar mas formatos
+        // O de hacer override a las implementaciones que Web API tiene por default para los MIME Type que soporta Web API por default
+        // Que son json y xml
         private static void ConfigureMediaTypeFormatters(HttpConfiguration config)
         {
+            // Media Type Formatter para trabajar con Requeste con el formato application/atom+xml
             config.Formatters.Add(new TestAtomMediaTypeFormatter());
+
+            // Media Type Formatter para trabajar con Requeste con el formato text/csv
+            config.Formatters.Add(new TestCSVBufferedMediaTypeFormatter());
+
+            // Media Type Formatter para trabajar con Requeste con el formato text/csv junto los encodings iso-8859-1 y UTF-8
+            config.Formatters.Add(new TestCSVWithEncodingsBufferedMediaTypeFormatter());
         }
 
         /// <summary>
@@ -67,6 +78,7 @@ namespace EjemplosFormacion.WebApi
         /// Si haces un Add piensa bien si necesitas ambos servicios corriendo juntos
         /// Testea si es necesario para ver si la logica se ejecuta varias veces y no dañes el performance
         /// O que por ejecutar la logica o pasar dos veces el servicio se dañen cosas
+        /// Estos son puntos de extensibilidad para configurar a gusto el comportamiento y pipeline de Web API
         /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/configuring-aspnet-web-api
         /// </summary>
         private static void ConfigureServices(HttpConfiguration config)
@@ -177,6 +189,11 @@ namespace EjemplosFormacion.WebApi
             );
         }
 
+        // Configuracion de Filtros que seran aplicados a todo el servicio Web API
+        // Pueden ser tanto de Authentication, Authorization, Exception 
+        // O Action Filters normales para hacer un pre/post procesamiento de todas las Request recibidar por el Web API
+        // Los Filters son parecidos a los Message Handlers pero se ejecutan despues en el Web API Pipeline
+        // Segun sea los requerimientos o el gusto, puedes eleguir uno u otro
         private static void ConfigureGlobalFilters(HttpConfiguration config)
         {
             // Orden de filtros a ejecutar
@@ -228,6 +245,10 @@ namespace EjemplosFormacion.WebApi
         }
 
         // Registro de Messaging Handlers
+        // Message Handlers son aplicador a todas las Request que lleguen al servicio Web API
+        // Te permiten realizar pre/post procesamiento de todas las Request recibidas por el Web API
+        // Los Message Handlers son parecidos a los Filters pero se ejecutan antes en el Web API Pipeline
+        // Segun sea los requerimientos o el gusto, puedes eleguir uno u otro
         private static void ConfigureMessagingHandlers(HttpConfiguration config)
         {
             // Registro de Message Handler para todas las Request
