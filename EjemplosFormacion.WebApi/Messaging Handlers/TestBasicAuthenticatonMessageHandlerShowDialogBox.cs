@@ -1,12 +1,8 @@
-﻿using EjemplosFormacion.WebApi.ActionResults;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace EjemplosFormacion.WebApi.MessagingHandlers
 {
@@ -28,6 +24,10 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
 
         }
 
+        // Metodo llamado por el Web Api cuando un Request es recibida y cuando un Response sera devuelta
+        // Se diferencia por el antes y despues de la llamada al metodo base.SendAsync()
+        // Antes del base.SendAsync() sera el Request, despues del base.SendAsync() sera el Response
+        // Los Message Handler son parte del Pipeline de Asp.Net y te dan el chance de customizar, validar, etc el Response o Request
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             // Create a Unauthorized response with the header WWW-Authenticate and the schema used to authorizing

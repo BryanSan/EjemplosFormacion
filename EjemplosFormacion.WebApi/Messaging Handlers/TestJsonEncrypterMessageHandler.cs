@@ -1,6 +1,5 @@
 ﻿using EjemplosFormacion.HelperClasess.Abstract;
 using EjemplosFormacion.HelperClasess.ExtensionMethods;
-using EjemplosFormacion.WebApi.Models;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -35,6 +34,10 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
             _symmetricEncrypter = symmetricEncrypter ?? throw new ArgumentException("symmetricEncrypter vacio!.");
         }
 
+        // Metodo llamado por el Web Api cuando un Request es recibida y cuando un Response sera devuelta
+        // Se diferencia por el antes y despues de la llamada al metodo base.SendAsync()
+        // Antes del base.SendAsync() sera el Request, despues del base.SendAsync() sera el Response
+        // Los Message Handler son parte del Pipeline de Asp.Net y te dan el chance de customizar, validar, etc el Response o Request
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             await ProcessRequest(request);
@@ -97,6 +100,14 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
 
             // Lo asignamos al Content del Response para que pueda seguir su camino al cliente
             response.Content = new StringContent(responseEncrypted, Encoding.UTF8, "application/json");
+        }
+
+        /// <summary>
+        /// Entidad usada para hostear los mensajes encriptados
+        /// </summary>
+        class MessageEncrypted
+        {
+            public string Message { get; set; }
         }
     }
 }

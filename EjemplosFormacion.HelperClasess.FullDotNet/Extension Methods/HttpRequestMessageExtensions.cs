@@ -11,7 +11,13 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods
 {
     public static class HttpRequestMessageExtensions
     {
-        // Ejemplo -> api/controllerName/actionName?v=2
+        /// <summary>
+        /// Extension Method para hallar el valor de un parametro del Query String segun el nombre especificado
+        /// Ejemplo -> api/controllerName/actionName?v=2
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="queryStringParameterName"></param>
+        /// <returns></returns>
         public static string GetValueFromQueryStringParameter(this HttpRequestMessage request, string queryStringParameterName)
         {
             // Parseamos el Query String
@@ -24,12 +30,25 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods
             return version;
         }
 
+        /// <summary>
+        /// Extension Method para hallar el valor de un Header segun el nombre especificado
+        /// Ejemplo -> X-EjemplosFormacion-Version con valor 2
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="headerName"></param>
+        /// <returns></returns>
         public static string GetValueFromHeader(this HttpRequestMessage request, string headerName)
         {
             return GetValuesFromHeader(request, headerName)?.FirstOrDefault();
         }
 
-        // Ejemplo -> X-EjemplosFormacion-Version con valor 2
+        /// <summary>
+        /// Extension Method para hallar los valores de un Header segun el nombre especificado
+        /// Ejemplo -> X-EjemplosFormacion-Version con valor 2
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="headerName"></param>
+        /// <returns></returns>
         public static IEnumerable<string> GetValuesFromHeader(this HttpRequestMessage request, string headerName)
         {
             // Buscamos si esta el Custom Header en el Request
@@ -43,13 +62,27 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods
             return null;
         }
 
+        /// <summary>
+        /// Extension Method para hallar el valor de un parametro del Accept Header segun el nombre especificado
+        /// Recordar que la "," separa los mime type y el ";" define los parametros del anterior Mime Type
+        /// Ejemplo -> application/json; version=2
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="headerName"></param>
+        /// <returns></returns>
         public static string GetParameterValueFromAcceptHeader(this HttpRequestMessage request, string parameterName)
         {
             return GetParameterValuesFromAcceptHeader(request, parameterName)?.FirstOrDefault();
         }
 
-        // Ejemplo -> application/json; version=2
-        // La "," separa los mime type el ";" define los parametros del anterior Mime Type
+        /// <summary>
+        /// Extension Method para hallar los valores de un parametro del Accept Header segun el nombre especificado
+        /// Recordar que la "," separa los mime type y el ";" define los parametros del anterior Mime Type
+        /// Ejemplo -> application/json; version=2
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="headerName"></param>
+        /// <returns></returns>
         public static IEnumerable<string> GetParameterValuesFromAcceptHeader(this HttpRequestMessage request, string parameterName)
         {
             // Buscamos el Accept Header
@@ -73,9 +106,16 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods
             return null;
         }
 
-        // Obtener la version por el Route Data
-        // Ejemplo -> api/v2/controllerName/actionName
-        // Debe estar definido en el RouteTemplate el valor {version}
+        /// <summary>
+        /// Extension Method para hallar el valor otorgado por el Web API al Route Data segun el nombre especificado
+        /// Ejemplo ->
+        /// Si especificas que quieres el route data "version" y tienes una ruta definida como api/{version}/controllerName/actionName
+        /// Lo que el Web API le asigne al {version}, sera el valor que recuperaras
+        /// Debe estar definido en el RouteTemplate el valor {version} para poder recuperar su valor
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="routeDataName"></param>
+        /// <returns></returns>
         public static string GetValueFromRouteData(this HttpRequestMessage request, string routeDataName)
         {
             IHttpRouteData routeDataOfRequest = request.GetRouteData();

@@ -242,7 +242,6 @@
     <Compile Include="Messaging Handlers\TestReadHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestReturnResponseMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestReadQueryStringMessagingHandler.cs" />
-    <Compile Include="Models\MessageEncrypted.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Models\TestModelError.cs" />
     <Compile Include="Multipart Stream Providers\InMemoryMultipartFormDataStreamProvider.cs" />

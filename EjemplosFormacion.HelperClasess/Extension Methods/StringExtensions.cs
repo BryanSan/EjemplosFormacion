@@ -65,6 +65,11 @@ namespace EjemplosFormacion.HelperClasess.ExtensionMethods
 
 
         static readonly char[] _specialChars = new char[] { ',', '\n', '\r', '"' };
+        /// <summary>
+        /// Extension Method para escapar caracteres invalidos en un string
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static string EscapeInvalidCharacters(this string source)
         {
             if (source == null)

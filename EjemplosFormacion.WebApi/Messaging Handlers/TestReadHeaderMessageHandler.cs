@@ -25,6 +25,10 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
 
         }
 
+        // Metodo llamado por el Web Api cuando un Request es recibida y cuando un Response sera devuelta
+        // Se diferencia por el antes y despues de la llamada al metodo base.SendAsync()
+        // Antes del base.SendAsync() sera el Request, despues del base.SendAsync() sera el Response
+        // Los Message Handler son parte del Pipeline de Asp.Net y te dan el chance de customizar, validar, etc el Response o Request
         async protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             // El Request tiene varias propiedades para leer Headers que son comunes, como Accept, Authorization, etc...
