@@ -1,5 +1,4 @@
-﻿using System.Web.Http;
-using System.Web.Http.Controllers;
+﻿using System.Web.Http.Controllers;
 
 namespace EjemplosFormacion.WebApi.HttpActionSelector
 {
@@ -10,15 +9,7 @@ namespace EjemplosFormacion.WebApi.HttpActionSelector
     {
         public override HttpActionDescriptor SelectAction(HttpControllerContext controllerContext)
         {
-            HttpActionDescriptor decriptor = null;
-            try
-            {
-                decriptor = base.SelectAction(controllerContext);
-            }
-            catch (HttpResponseException ex)
-            {
-                throw ex;
-            }
+            HttpActionDescriptor decriptor = base.SelectAction(controllerContext);
 
             return decriptor;
         }
