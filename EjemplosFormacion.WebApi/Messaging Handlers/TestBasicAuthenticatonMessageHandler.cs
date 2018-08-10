@@ -11,7 +11,7 @@ using System.Web;
 namespace EjemplosFormacion.WebApi.MessagingHandlers
 {
     /// <summary>
-    /// Message Handler para Autenticar Request con el Schema Basic, usando las credencialas pasadas en el Header de Authorization 
+    /// Message Handler para Autenticar Request con el Schema Basic, usando las credenciales pasadas en el Header de Authorization 
     /// Si no tiene header, o credenciales deja pasar sin problemas mas no lo marca como autenticado (asigna el IPrincipal)
     /// Si tiene header y credenciales y no son validas, tanto en formato como en Autenticacion devuelve un error junto con el Challenger Header para exponer contra que se esta validando
     /// </summary>

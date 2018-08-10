@@ -52,6 +52,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
             HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
 
             // Set the session ID as a cookie in the response message.
+            // Si la cookie ya existe la sobreescribira no la seteara doble
             response.Headers.AddCookies(new CookieHeaderValue[] { new CookieHeaderValue(SessionIdToken, sessionId) });
 
             return response;
