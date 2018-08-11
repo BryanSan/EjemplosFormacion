@@ -19,6 +19,7 @@ using EjemplosFormacion.WebApi.HttpRouteConstraints;
 using EjemplosFormacion.WebApi.MediaTypeFormatters;
 using EjemplosFormacion.WebApi.MessagingHandlers;
 using EjemplosFormacion.WebApi.TraceWriters;
+using EjemplosFormacion.WebApi.ValueProviderFactories;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Web.Http;
@@ -29,6 +30,7 @@ using System.Web.Http.Filters;
 using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using System.Web.Http.Tracing;
+using System.Web.Http.ValueProviders;
 
 namespace EjemplosFormacion.WebApi
 {
@@ -129,6 +131,14 @@ namespace EjemplosFormacion.WebApi
             // Exception loggers are the solution to seeing all unhandled exception caught by Web API.
             // Se necesita que el Dependency Resolver resuelta y construya el tipo ya que se tiene una Dependencia al WrapperLoger dentro del ExceptionLogger
             config.Services.Add(typeof(IExceptionLogger), config.DependencyResolver.GetService(typeof(TestExceptionLogger)));
+
+            // Custom Value Provider Factory que crea un Custom ValueProvider para obtener valores desde otra sources que no sea el Body o la URl (con Route Data)
+            // Y posteriormente rellenar los parametros segun se requieran del Action que se va a invocar
+            // Puedes llenar, cero, uno, varios o todos los parametros, ya queda de tu parte decidir
+            // Como por ejemplo leer Headers y asignarle esos valores a los parametros del Action que se va a invocar
+            // Recordar marcar los parametros del Action que se quieren llevar con el Attribute [ModelBinder]
+            // Para indicarle al Web Api que ese parametro tiene un Custom ValueProvider y/o Custom Model Binder por atras que se encargara de llenarlo
+            config.Services.Insert(typeof(ValueProviderFactory), 0, new TestHeaderValueProviderFactory());
         }
 
         /// <summary>
@@ -148,6 +158,8 @@ namespace EjemplosFormacion.WebApi
         {
             // Clase usada para registrar los custom HttpRouteConstraint que hallas hecho, 
             // Y hacer la configuracion del match 1:1 con el nombre a usar en el Template Route con la custom HttpRouteConstraint hecha
+            // En pocas palabras estar registrando tu Custom Route Constraint en el Web Api con un nombre
+            // De manera que cuando en el attribute [Route("{id:intRange}")] uses el nombre de tu Route Constraint, Web Api sera capaz de resolverla
             var constraintResolver = new DefaultInlineConstraintResolver();
             constraintResolver.ConstraintMap.Add("intRange", typeof(TestIntRangeHttpRouteConstraint));
             constraintResolver.ConstraintMap.Add("isSpecificValue", typeof(TestIsSpecificValueHttpRouteConstraint));
