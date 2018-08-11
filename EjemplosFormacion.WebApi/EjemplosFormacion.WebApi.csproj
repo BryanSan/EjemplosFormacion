@@ -155,11 +155,13 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
+    <Compile Include="Controller Configurations\TestControllerConfigurationAttribute.cs" />
     <Compile Include="Controllers\Test Authentication\TestBasicAuthenticationController.cs" />
     <Compile Include="Controllers\Test Authentication\TestWindowAuthenticationController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestAcceptVerbsAttributeController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestHttpVerbAttributeController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestRoutePrefixAttributeController.cs" />
+    <Compile Include="Controllers\Test Controller Configuration\TestControllerConfigurationAttributeController.cs" />
     <Compile Include="Controllers\Test Custom Routes Configuration\TestTypedDirectRouteFactoryController.cs" />
     <Compile Include="Controllers\Test Files\TestFileController.cs" />
     <Compile Include="Controllers\Test Files\TestZipController.cs" />
@@ -219,9 +221,9 @@
     </Compile>
     <Compile Include="Dependency Resolvers\UnityDependencyResolver.cs" />
     <Compile Include="Host Buffer Policy Selectors\NoWebHostBufferPolicySelector.cs" />
-    <Compile Include="Http Action Selector\TestHttpNotFoundActionSelector.cs" />
-    <Compile Include="Http Controller Selector\TestVersionControllerVersusControllerNameHttpControllerSelector.cs" />
-    <Compile Include="Http Controller Selector\TestVersionControllerVersusControllerNameSpaceHttpControllerSelector.cs" />
+    <Compile Include="Http Action Selectors\TestHttpNotFoundActionSelector.cs" />
+    <Compile Include="Http Controller Selectors\TestVersionControllerVersusControllerNameHttpControllerSelector.cs" />
+    <Compile Include="Http Controller Selectors\TestVersionControllerVersusControllerNameSpaceHttpControllerSelector.cs" />
     <Compile Include="Http Handler Factories\TestHttpHandlerFactory.cs" />
     <Compile Include="Http Handlers\TestAsyncHttpHandler.cs" />
     <Compile Include="Http Handlers\TestSyncHttpHandler.cs" />
@@ -256,6 +258,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -287,7 +290,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>6719</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

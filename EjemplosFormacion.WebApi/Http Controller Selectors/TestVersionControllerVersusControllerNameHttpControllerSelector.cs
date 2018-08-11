@@ -7,7 +7,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing;
 
-namespace EjemplosFormacion.WebApi.HttpControllerSelector
+namespace EjemplosFormacion.WebApi.HttpControllerSelectors
 {
     /// <summary>
     /// Custom Http Controller Selector para seleccionar un controller segun la version solicitada por el Request segun diferentes maneras

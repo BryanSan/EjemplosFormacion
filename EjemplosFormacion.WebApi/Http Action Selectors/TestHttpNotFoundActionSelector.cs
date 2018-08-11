@@ -1,6 +1,6 @@
 ﻿using System.Web.Http.Controllers;
 
-namespace EjemplosFormacion.WebApi.HttpActionSelector
+namespace EjemplosFormacion.WebApi.HttpActionSelectors
 {
     /// <summary>
     /// // Custom Implementacion del servicio Web Api IHttpActionSelector para customizar como se selecciona el Action segun la Route que ha llegado

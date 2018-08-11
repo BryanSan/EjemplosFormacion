@@ -13,8 +13,8 @@ using EjemplosFormacion.WebApi.Filters.OrderedFilters.AuthorizationFilters;
 using EjemplosFormacion.WebApi.Filters.OrderedFilters.ExceptionFilters;
 using EjemplosFormacion.WebApi.FiltersProviders;
 using EjemplosFormacion.WebApi.HostBufferPolicySelectors;
-using EjemplosFormacion.WebApi.HttpActionSelector;
-using EjemplosFormacion.WebApi.HttpControllerSelector;
+using EjemplosFormacion.WebApi.HttpActionSelectors;
+using EjemplosFormacion.WebApi.HttpControllerSelectors;
 using EjemplosFormacion.WebApi.HttpRouteConstraints;
 using EjemplosFormacion.WebApi.MediaTypeFormatters;
 using EjemplosFormacion.WebApi.MessagingHandlers;
@@ -254,6 +254,7 @@ namespace EjemplosFormacion.WebApi
             // Registro de Message Handler para todas las Request
             // Puedes pasar un Message Handler vacio, osea no hay cadena de Handlers, 
             // Si quieres que otro handler se ejecute luego de este, pasalo en el constructor y se creara la cadena 
+            // O Agregalo a la coleccion de Message Handlers
 
             // Registro Messaging Handler sin cadena (Sin otro Messaging Handler que le siga)
             // Agregar uno a uno cada Message Handler
