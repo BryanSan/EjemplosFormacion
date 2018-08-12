@@ -14,6 +14,7 @@ namespace EjemplosFormacion.WebApi.ControllerConfigurations
     ///     Media-type formatters
     ///     Parameter binding rules
     ///     Services
+    /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/configuring-aspnet-web-api
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     class TestControllerConfigurationAttribute : Attribute, IControllerConfiguration

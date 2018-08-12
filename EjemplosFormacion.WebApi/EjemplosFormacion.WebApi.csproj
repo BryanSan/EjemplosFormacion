@@ -227,6 +227,7 @@
     <Compile Include="Http Action Selectors\TestHttpNotFoundActionSelector.cs" />
     <Compile Include="Http Controller Selectors\TestVersionControllerVersusControllerNameHttpControllerSelector.cs" />
     <Compile Include="Http Controller Selectors\TestVersionControllerVersusControllerNameSpaceHttpControllerSelector.cs" />
+    <Compile Include="Http Controller Type Resolver\TestIsDerivedFromBaseTypeHttpControllerTypeResolver.cs" />
     <Compile Include="Http Handler Factories\TestHttpHandlerFactory.cs" />
     <Compile Include="Http Handlers\TestAsyncHttpHandler.cs" />
     <Compile Include="Http Handlers\TestSyncHttpHandler.cs" />

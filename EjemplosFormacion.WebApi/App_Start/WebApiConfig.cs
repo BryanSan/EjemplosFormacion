@@ -16,6 +16,7 @@ using EjemplosFormacion.WebApi.FiltersProviders;
 using EjemplosFormacion.WebApi.HostBufferPolicySelectors;
 using EjemplosFormacion.WebApi.HttpActionSelectors;
 using EjemplosFormacion.WebApi.HttpControllerSelectors;
+using EjemplosFormacion.WebApi.HttpControllerTypeResolver;
 using EjemplosFormacion.WebApi.HttpRouteConstraints;
 using EjemplosFormacion.WebApi.MediaTypeFormatters;
 using EjemplosFormacion.WebApi.MessagingHandlers;
@@ -122,6 +123,11 @@ namespace EjemplosFormacion.WebApi
             // Custom Implementacion del servicio IAssembliesResolver en el cual Web Api se apoya para resolver cuales Assemblies son parte de su servicio
             // Por ejemplo a la hora de buscar los Controllers disponibles, Web Api se apoya en este servicio para obtener los Assembies en el cual buscar estos Controllers
             config.Services.Replace(typeof(IAssembliesResolver), new TestInternalAndExternalAssembliesResolver());
+
+            // Custom Http Controller Type Resolver que se encargara de evaluar y seleccionar que clase seran las elegidas para servir de Controller
+            // Puedes customizar tu criterio para elegir las clases que quieres que sirvan de Controller
+            // En este caso estamos adicionando a los criterios ya establecidos que debe heredar de una clase base en concreto
+            config.Services.Replace(typeof(IHttpControllerTypeResolver), new TestIsDerivedFromBaseTypeHttpControllerTypeResolver());
 
             // =========================================================
             //                  Multi-Services

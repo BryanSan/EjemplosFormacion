@@ -9,6 +9,7 @@ namespace EjemplosFormacion.WebApi.AssembliesResolver
     /// <summary>
     /// Custom Implementacion del servicio IAssembliesResolver en el cual Web Api se apoya para resolver cuales Assemblies son parte de su servicio
     /// Por ejemplo a la hora de buscar los Controllers disponibles, Web Api se apoya en este servicio para obtener los Assembies en el cual buscar estos Controllers
+    /// https://www.strathweb.com/2013/08/customizing-controller-discovery-in-asp-net-web-api/
     /// </summary>
     class TestInternalAndExternalAssembliesResolver : IAssembliesResolver
     {
