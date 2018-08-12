@@ -1,4 +1,5 @@
 ﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers;
+using EjemplosFormacion.WebApi.AssembliesResolver;
 using EjemplosFormacion.WebApi.Controllers.TestCustomRoutesConfiguration;
 using EjemplosFormacion.WebApi.DirectRouteProviders;
 using EjemplosFormacion.WebApi.ExceptionHandlers;
@@ -117,6 +118,10 @@ namespace EjemplosFormacion.WebApi
 
             // Custom Implementacion del servicio Web Api IHttpActionSelector para customizar como se selecciona el Action segun la Route que ha llegado
             config.Services.Replace(typeof(IHttpActionSelector), new TestHttpNotFoundActionSelector());
+
+            // Custom Implementacion del servicio IAssembliesResolver en el cual Web Api se apoya para resolver cuales Assemblies son parte de su servicio
+            // Por ejemplo a la hora de buscar los Controllers disponibles, Web Api se apoya en este servicio para obtener los Assembies en el cual buscar estos Controllers
+            config.Services.Replace(typeof(IAssembliesResolver), new TestInternalAndExternalAssembliesResolver());
 
             // =========================================================
             //                  Multi-Services

@@ -155,6 +155,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
+    <Compile Include="Assemblies Resolver\TestInternalAndExternalAssembliesResolver.cs" />
     <Compile Include="Controller Configurations\TestControllerConfigurationAttribute.cs" />
     <Compile Include="Controllers\Test Authentication\TestBasicAuthenticationController.cs" />
     <Compile Include="Controllers\Test Authentication\TestWindowAuthenticationController.cs" />
