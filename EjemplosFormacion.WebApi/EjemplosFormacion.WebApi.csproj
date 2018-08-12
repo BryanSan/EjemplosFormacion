@@ -174,11 +174,16 @@
     <Compile Include="Controllers\Test Http Controller Selector\Versioning\V1\TestVersionControllerVersusNameOfControllerV1Controller.cs" />
     <Compile Include="Controllers\Test Http Controller Selector\Versioning\V2\TestVersionControllerVersusNameOfControllerV2Controller.cs" />
     <Compile Include="Controllers\Test Http Controller Selector\Versioning\V2\TestVersionControllerVersusNameSpaceOfControllerController.cs" />
+    <Compile Include="Controllers\Test Http Route Constraints\TestIsSpecificValueHttpRouteConstraintController.cs" />
+    <Compile Include="Controllers\Test Http Route Constraints\TestNonZeroHttpRouteConstraintController.cs" />
     <Compile Include="Controllers\Test HttpModule\TestHttpModuleController.cs" />
     <Compile Include="Controllers\Test Files\TestMultiPartFileController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
+    <Compile Include="Controllers\Test Media Type Formatters\TestAtomMediaTypeFormatterController.cs" />
+    <Compile Include="Controllers\Test Media Type Formatters\TestCSVBufferedMediaTypeFormatterController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
     <Compile Include="Controllers\Test Http Route Constraints\TestHttpRouteConstraintController.cs" />
+    <Compile Include="Controllers\Test Type Converters\TestTypeConverterController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestExceptionHandlerController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestTraceWriterController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestValueProviderFactoryController.cs" />
@@ -236,7 +241,6 @@
     <Compile Include="Http Route Constraints\TestNonZeroHttpRouteConstraint.cs" />
     <Compile Include="Media Type Formatters\TestAtomMediaTypeFormatter.cs" />
     <Compile Include="Media Type Formatters\TestCSVBufferedMediaTypeFormatter.cs" />
-    <Compile Include="Media Type Formatters\TestCSVWithEncodingsBufferedMediaTypeFormatter.cs" />
     <Compile Include="Messaging Handlers\TestAddHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestBasicAuthenticatonMessageHandlerShowDialogBox.cs" />
     <Compile Include="Messaging Handlers\TestBasicAuthenticatonMessageHandler.cs" />
@@ -255,6 +259,7 @@
     <Compile Include="Stubs\Abstract\ITestDependency.cs" />
     <Compile Include="Stubs\Implementation\TestDependency.cs" />
     <Compile Include="Trace Writers\TestTraceWriter.cs" />
+    <Compile Include="Type Converters\TestTypeConverter.cs" />
     <Compile Include="Value Provider Factories\TestHeaderValueProviderFactory.cs" />
     <Compile Include="Value Providers\TestHeaderValueProvider.cs" />
   </ItemGroup>

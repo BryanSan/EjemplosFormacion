@@ -5,11 +5,12 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace EjemplosFormacion.WebApi.MediaTypeFormatters
 {
     /// <summary>
-    /// Custom Media Type Formatter para serializar un objeto a formato text/csv
+    /// Custom Media Type Formatter para serializar un objeto a formato text/csv usando un encoding especial
     /// Hereda de la clase BufferedMediaTypeFormatter para tener operaciones sincronas 
     /// Puedes hacer override a los metodos sincronicos segun necesites
     /// Si necesitas usar la contraparte Asincronica hereda directamente de la clase MediaTypeFormatter
@@ -27,6 +28,10 @@ namespace EjemplosFormacion.WebApi.MediaTypeFormatters
             // Web Api comparara los MIME Type que vendran del Request en el Accept Header y/o Content Type Header
             // Con los configurados en el MediaTypeFormatter para saber si es candidato para ser seleccionado para hacer la tarea o no
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/csv"));
+
+            // Agrega los Encoding soportados
+            SupportedEncodings.Add(new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+            SupportedEncodings.Add(Encoding.GetEncoding("iso-8859-1"));
         }
 
         // Metodo para evaluar si el type pasado es deserializable por este Media Type Formatter
@@ -62,8 +67,11 @@ namespace EjemplosFormacion.WebApi.MediaTypeFormatters
         // Metodo para serializar un objeto hacia un Stream, este metodo sera llamado si el metodo CanWriteType devolvio true
         public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            // Configuramos un StreamWriter para escribir al Stream destino 
-            using (var writer = new StreamWriter(writeStream))
+            // Recuperamos el encoding solicitado por el Request (Segun el header)
+            Encoding effectiveEncoding = SelectCharacterEncoding(content.Headers);
+
+            // Configuramos un StreamWriter para escribir al Stream destino configurando su Encoding
+            using (var writer = new StreamWriter(writeStream, effectiveEncoding))
             {
                 // Escribimos los items segun el formato
                 // Como es CSV escribimos el objeto segun nuestra logica y los requerimientos del formato

@@ -69,11 +69,8 @@ namespace EjemplosFormacion.WebApi
             // Media Type Formatter para trabajar con Requeste con el formato application/atom+xml
             config.Formatters.Add(new TestAtomMediaTypeFormatter());
 
-            // Media Type Formatter para trabajar con Requeste con el formato text/csv
+            // Media Type Formatter para trabajar con Request con el formato text/csv junto los encodings iso-8859-1 y UTF-8
             config.Formatters.Add(new TestCSVBufferedMediaTypeFormatter());
-
-            // Media Type Formatter para trabajar con Requeste con el formato text/csv junto los encodings iso-8859-1 y UTF-8
-            config.Formatters.Add(new TestCSVWithEncodingsBufferedMediaTypeFormatter());
         }
 
         /// <summary>
