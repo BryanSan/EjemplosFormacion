@@ -177,6 +177,7 @@
     <Compile Include="Controllers\Test Files\TestMultiPartFileController.cs" />
     <Compile Include="Controllers\Test IoC\TestDependencyResolverController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
+    <Compile Include="Controllers\Test Http Route Constraints\TestHttpRouteConstraintController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestExceptionHandlerController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestTraceWriterController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestValueProviderFactoryController.cs" />
@@ -215,12 +216,12 @@
     <Compile Include="Filters\Ordered Filters\Action Filters\TestOrderedActionFilterAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Test Filters\TestActionFilterController.cs" />
-    <Compile Include="Filters Providers\DependencyInjectionOrderedFilterProvider.cs" />
+    <Compile Include="Filters Providers\TestDependencyInjectionOrderedFilterProvider.cs" />
     <Compile Include="Filters\Override Filters\TestOverrideFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Dependency Resolvers\UnityDependencyResolver.cs" />
+    <Compile Include="Dependency Resolvers\TestUnityDependencyResolver.cs" />
     <Compile Include="Host Buffer Policy Selectors\NoWebHostBufferPolicySelector.cs" />
     <Compile Include="Http Action Selectors\TestHttpNotFoundActionSelector.cs" />
     <Compile Include="Http Controller Selectors\TestVersionControllerVersusControllerNameHttpControllerSelector.cs" />
@@ -231,7 +232,6 @@
     <Compile Include="Http Modules\TestHttpModule.cs" />
     <Compile Include="Http Route Constraints\TestIsSpecificValueHttpRouteConstraint.cs" />
     <Compile Include="Http Route Constraints\TestNonZeroHttpRouteConstraint.cs" />
-    <Compile Include="Http Route Constraints\TestIntRangeHttpRouteConstraint.cs" />
     <Compile Include="Media Type Formatters\TestAtomMediaTypeFormatter.cs" />
     <Compile Include="Media Type Formatters\TestCSVBufferedMediaTypeFormatter.cs" />
     <Compile Include="Media Type Formatters\TestCSVWithEncodingsBufferedMediaTypeFormatter.cs" />

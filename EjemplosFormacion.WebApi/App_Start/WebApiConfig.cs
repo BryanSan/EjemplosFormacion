@@ -124,7 +124,7 @@ namespace EjemplosFormacion.WebApi
 
             // Custom action filter provider which does ordering
             // Se necesita que el Dependency Resolver resuelta y construya el tipo ya que se tiene una Dependencia al UnityContainer dentro del FilterProvider
-            config.Services.Add(typeof(IFilterProvider), config.DependencyResolver.GetService(typeof(DependencyInjectionOrderedFilterProvider)));
+            config.Services.Add(typeof(IFilterProvider), config.DependencyResolver.GetService(typeof(TestDependencyInjectionOrderedFilterProvider)));
 
             // If an exception occurs, the IExceptionLogger will be called first,
             // Then the controller ExceptionFilters and if still unhandled, the IExceptionHandler implementation.
@@ -157,11 +157,10 @@ namespace EjemplosFormacion.WebApi
         private static void ConfigureRoutes(HttpConfiguration config)
         {
             // Clase usada para registrar los custom HttpRouteConstraint que hallas hecho, 
-            // Y hacer la configuracion del match 1:1 con el nombre a usar en el Template Route con la custom HttpRouteConstraint hecha
-            // En pocas palabras estar registrando tu Custom Route Constraint en el Web Api con un nombre
-            // De manera que cuando en el attribute [Route("{id:intRange}")] uses el nombre de tu Route Constraint, Web Api sera capaz de resolverla
+            // Y hacer la configuracion del match 1:1 con el nombre a usar en el Template Route ([Route("")]) con la custom HttpRouteConstraint hecha
+            // En pocas palabras estar registrando tu Custom Route Constraint en el Web Api con un nombre para usarlo en el [Route("{id:intRange(1,10)}")]
+            // De manera que cuando en el attribute [Route("{id:intRange(1,10)}")] uses el nombre de tu Route Constraint, Web Api sera capaz de resolverla
             var constraintResolver = new DefaultInlineConstraintResolver();
-            constraintResolver.ConstraintMap.Add("intRange", typeof(TestIntRangeHttpRouteConstraint));
             constraintResolver.ConstraintMap.Add("isSpecificValue", typeof(TestIsSpecificValueHttpRouteConstraint));
             constraintResolver.ConstraintMap.Add("nonZero", typeof(TestNonZeroHttpRouteConstraint));
 
@@ -170,6 +169,7 @@ namespace EjemplosFormacion.WebApi
             // Y opcionalmente con prefijo con [RoutePrefix("prefijo")] quedando RoutePrefix + Route
             // Recordar que las rutas definidas en attributos se evaluan primero y sobreescriben las rutas definidas aqui en el global config
             // Este Custom Direct Route Provider agrega el string que le pases (api en este caso) a la ruta entregada por el attributo Route Prefix
+            // Adicionalmente puedes pasar un InlineConstraintResolver para agregar tus Custom Http Route Constraints hechas por ti
             config.MapHttpAttributeRoutes(constraintResolver, new TestDirectRouteProvider("api"));
             // Puedes usar Route Constraints de igual manera en esta ruta, recordar que solo es un template  
             //config.MapHttpAttributeRoutes(constraintResolver, new TestDirectRouteProvider("api/v{version:int}"));

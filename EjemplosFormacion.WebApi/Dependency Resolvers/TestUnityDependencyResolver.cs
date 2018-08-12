@@ -14,11 +14,11 @@ namespace EjemplosFormacion.WebApi.DependencyResolvers
     /// If GetService returns null, Web API looks for a parameterless constructor on the controller class.
     /// No retornar errores si no se puede resolver las dependencias, simplemente devolver null
     /// </summary>
-    class UnityDependencyResolver : IDependencyResolver
+    class TestUnityDependencyResolver : IDependencyResolver
     {
         protected readonly IUnityContainer _container;
 
-        public UnityDependencyResolver(IUnityContainer container)
+        public TestUnityDependencyResolver(IUnityContainer container)
         {
             _container = container ?? throw new ArgumentException("container vacio!.");
         }
@@ -67,7 +67,7 @@ namespace EjemplosFormacion.WebApi.DependencyResolvers
         public IDependencyScope BeginScope()
         {
             IUnityContainer childContainer = _container.CreateChildContainer();
-            return new UnityDependencyResolver(childContainer);
+            return new TestUnityDependencyResolver(childContainer);
         }
 
         /// <summary>
