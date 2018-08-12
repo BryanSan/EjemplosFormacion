@@ -26,5 +26,14 @@ namespace EjemplosFormacion.WebApi.Controllers.TestWebApiServices
         {
             return string.Format(@"User agent: {0}", userAgent);
         }
+
+        // Metodo que usa un Custom Value Provider para llenar el userAgent con los valores de Header que tengan el mismo nombre
+        // De esta manera puedes llenar valores del parametro del Action con otras sources que consideres pertinente, incluso haciendo una combinacion de ellas
+        // En este caso a diferencia del anterior, estas especificando que Value Provider Factory sera usado para obtener el Value Provider que sera el encargado de obtener el valor para este parametro
+        // En el anterior se usan los configurados para el Servicio y/o Controller, aqui lo especificamos InLine
+        public object TestCookieValueProviderFactory([ValueProvider(typeof(TestCookieValueProviderFactory))] string userAgent)
+        {
+            return string.Format(@"User agent: {0}", userAgent);
+        }
     }
 }

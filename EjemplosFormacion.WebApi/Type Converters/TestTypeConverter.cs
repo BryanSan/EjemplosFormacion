@@ -9,6 +9,7 @@ namespace EjemplosFormacion.WebApi.TypeConverters
     /// http://localhost:6719/api/TestTypeConverter/TestTypeConverter?location=47.678558,-122.130989
     /// Custom Type Converter para hallar el valor de un parametro, en este caso location
     /// En este caso obtendra el valor de un parametro del Query String, separandolo por "," y hallando el valor para todas sus propiedades
+    /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-binding/parameter-binding-in-aspnet-web-api
     /// </summary>
     public class TestTypeConverter : TypeConverter
     {

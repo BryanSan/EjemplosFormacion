@@ -183,6 +183,7 @@
     <Compile Include="Controllers\Test Media Type Formatters\TestCSVBufferedMediaTypeFormatterController.cs" />
     <Compile Include="Controllers\Test Messaging Handler\TestMessagingHandlerController.cs" />
     <Compile Include="Controllers\Test Http Route Constraints\TestHttpRouteConstraintController.cs" />
+    <Compile Include="Controllers\Test Model Binders\TestModelBinderController.cs" />
     <Compile Include="Controllers\Test Type Converters\TestTypeConverterController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestExceptionHandlerController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestTraceWriterController.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Messaging Handlers\TestReadHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestReturnResponseMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestReadQueryStringMessagingHandler.cs" />
+    <Compile Include="Model Binder\TestModelBinder.cs" />
     <Compile Include="Models\TestModel.cs" />
     <Compile Include="Models\TestModelError.cs" />
     <Compile Include="Multipart Stream Providers\InMemoryMultipartFormDataStreamProvider.cs" />
@@ -260,7 +262,9 @@
     <Compile Include="Stubs\Implementation\TestDependency.cs" />
     <Compile Include="Trace Writers\TestTraceWriter.cs" />
     <Compile Include="Type Converters\TestTypeConverter.cs" />
+    <Compile Include="Value Provider Factories\TestCookieValueProviderFactory.cs" />
     <Compile Include="Value Provider Factories\TestHeaderValueProviderFactory.cs" />
+    <Compile Include="Value Providers\TestCookieValueProvider.cs" />
     <Compile Include="Value Providers\TestHeaderValueProvider.cs" />
   </ItemGroup>
   <ItemGroup>

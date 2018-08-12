@@ -20,6 +20,7 @@ using EjemplosFormacion.WebApi.HttpControllerTypeResolver;
 using EjemplosFormacion.WebApi.HttpRouteConstraints;
 using EjemplosFormacion.WebApi.MediaTypeFormatters;
 using EjemplosFormacion.WebApi.MessagingHandlers;
+using EjemplosFormacion.WebApi.ModelBinder;
 using EjemplosFormacion.WebApi.TraceWriters;
 using EjemplosFormacion.WebApi.ValueProviderFactories;
 using System.Net.Http;
@@ -30,6 +31,8 @@ using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Filters;
 using System.Web.Http.Hosting;
+using System.Web.Http.ModelBinding;
+using System.Web.Http.ModelBinding.Binders;
 using System.Web.Http.Routing;
 using System.Web.Http.Tracing;
 using System.Web.Http.ValueProviders;
@@ -146,7 +149,25 @@ namespace EjemplosFormacion.WebApi
             // Como por ejemplo leer Headers y asignarle esos valores a los parametros del Action que se va a invocar
             // Recordar marcar los parametros del Action que se quieren llevar con el Attribute [ModelBinder]
             // Para indicarle al Web Api que ese parametro tiene un Custom ValueProvider y/o Custom Model Binder por atras que se encargara de llenarlo
-            config.Services.Insert(typeof(ValueProviderFactory), 0, new TestHeaderValueProviderFactory());
+            config.Services.Add(typeof(ValueProviderFactory), new TestHeaderValueProviderFactory());
+            config.Services.Add(typeof(ValueProviderFactory), new TestCookieValueProviderFactory());
+
+            // Custom Model Binder para rellenar un parametro Complex Type de un Action de un Controller con una custom logica
+            // Como en este caso que se tiene un parametro con dos valores en el Query String separado por , que seran usado para llenar dos propiedades del Complext Type
+            // Para registrar el Model Binder para un tipo puedes
+            //     Colocarle al tipo que quieres soportar el Attribute ->
+            //         [ModelBinder(typeof(TestModelBinder))]
+            //     Colocar en el Action del Controller un Attribute junto con el Model Binder a usar ->
+            //         [ModelBinder(typeof(TestModelBinder))] TestModelBinder.GeoPoint location
+            //     Registrar el Model Binder en los Servicios del Web Api, insertandolo de PRIMERO ya que si lo insertas luego del Default, nunca sera llamado ya que el Default Model Binder ataja a todos los Types
+            //     Y especificar en el Action del Controller que ese parametro sera llenado por un Model Binder o Value Provider ->
+            //                     En el WebApiConfig.cs ->
+            //                         var provider = new SimpleModelBinderProvider(typeof(TestModelBinder.GeoPoint), new TestModelBinder());
+            //                         config.Services.Insert(typeof(ModelBinderProvider), 0, provider);
+            //                     En el Controller ->
+            //                         [ModelBinder] TestModelBinder.GeoPoint location        
+            var provider = new SimpleModelBinderProvider(typeof(TestModelBinder.GeoPoint), new TestModelBinder());
+            config.Services.Insert(typeof(ModelBinderProvider), 0, provider); // De primero o el Default Model Binder oscurece a todos tus Model Binder ya que ataja a todos los Types
         }
 
         /// <summary>
