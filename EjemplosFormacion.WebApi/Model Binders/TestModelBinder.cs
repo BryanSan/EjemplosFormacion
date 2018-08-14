@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Web.Http.Controllers;
+﻿using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ValueProviders;
 
-namespace EjemplosFormacion.WebApi.ModelBinder
+namespace EjemplosFormacion.WebApi.ModelBinders
 {
     /// <summary>
     /// A model binder gets raw input values from a value provider. This design separates two distinct functions:

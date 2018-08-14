@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.WebApi.ModelBinder;
+﻿using EjemplosFormacion.WebApi.ModelBinders;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 

@@ -1,14 +1,13 @@
-﻿using System.Threading.Tasks;
-using EjemplosFormacion.WebApi.Models;
+﻿using EjemplosFormacion.WebApi.Stubs.Models;
 using Microsoft.AspNet.SignalR;
+using System.Threading.Tasks;
 
 namespace EjemplosFormacion.WebApi.SignalR
 {
     public class TestSignalRHub : Hub
     {
         
-        // Este metodo sera publico para que cualquier cliente que se conecte a nuestro Hub pueda llamar Cliente -> Servidor
-        public void TestMethodCallInServer()
+        public void TestMethodCallInServerToClient()
         {
             // El metodo "TestMethodCallInClient" sera invocado por el servidor hacia el cliente Servidor - Cliente
             // En palabras sencillas cuando este metodo sea llamado, los clientes que se hallan registrado para escuchar este metodo "TestMethodCallInClient" 

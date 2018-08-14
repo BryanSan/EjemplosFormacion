@@ -2,7 +2,7 @@
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 
-namespace EjemplosFormacion.WebApi.HttpControllerTypeResolver
+namespace EjemplosFormacion.WebApi.HttpControllerTypeResolvers
 {
     /// <summary>
     /// Custom Http Controller Type Resolver que se encargara de evaluar y seleccionar que clase seran las elegidas para servir de Controller

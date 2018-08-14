@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EjemplosFormacion.WebApi.Models
+namespace EjemplosFormacion.WebApi.Stubs.Models
 {
     class TestModelError
     {

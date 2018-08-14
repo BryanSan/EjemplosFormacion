@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.WebApi.Models;
+﻿using EjemplosFormacion.WebApi.Stubs.Models;
 using System.Web.Http;
 
 namespace EjemplosFormacion.WebApi.Controllers.TestMessagingHandler

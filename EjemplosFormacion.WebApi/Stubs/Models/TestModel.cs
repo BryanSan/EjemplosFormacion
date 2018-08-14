@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EjemplosFormacion.WebApi.Models
+namespace EjemplosFormacion.WebApi.Stubs.Models
 {
     /// <summary>
     /// Entidad usada como modelo para los Action que reciban objetos

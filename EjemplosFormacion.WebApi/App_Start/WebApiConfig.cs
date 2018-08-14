@@ -16,13 +16,17 @@ using EjemplosFormacion.WebApi.FiltersProviders;
 using EjemplosFormacion.WebApi.HostBufferPolicySelectors;
 using EjemplosFormacion.WebApi.HttpActionSelectors;
 using EjemplosFormacion.WebApi.HttpControllerSelectors;
-using EjemplosFormacion.WebApi.HttpControllerTypeResolver;
+using EjemplosFormacion.WebApi.HttpControllerTypeResolvers;
+using EjemplosFormacion.WebApi.HttpParametersBindings;
 using EjemplosFormacion.WebApi.HttpRouteConstraints;
 using EjemplosFormacion.WebApi.MediaTypeFormatters;
 using EjemplosFormacion.WebApi.MessagingHandlers;
-using EjemplosFormacion.WebApi.ModelBinder;
+using EjemplosFormacion.WebApi.ModelBinders;
+using EjemplosFormacion.WebApi.Stubs.Enums;
+using EjemplosFormacion.WebApi.Stubs.Models;
 using EjemplosFormacion.WebApi.TraceWriters;
 using EjemplosFormacion.WebApi.ValueProviderFactories;
+using System;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Web.Http;
@@ -50,6 +54,9 @@ namespace EjemplosFormacion.WebApi
             // Registro de Media Type Formatters
             ConfigureMediaTypeFormatters(config);
 
+            // Parameter Binding Rules
+            ConfigureParameterBindingRules(config);
+
             // Registro de servicios
             ConfigureServices(config);
 
@@ -63,10 +70,14 @@ namespace EjemplosFormacion.WebApi
             ConfigureRoutes(config);
         }
 
-        // Custom Media Type Formatters para trabajar con Request que tengan en el Accept Header y/o Content Type Header
-        // Un MIME Type no soportado por Default por el Web API, añadiendo al servicio la posibilidad de aceptar mas formatos
-        // O de hacer override a las implementaciones que Web API tiene por default para los MIME Type que soporta Web API por default
-        // Que son json y xml
+        /// <summary>
+        /// Custom Media Type Formatters para trabajar con Request que tengan en el Accept Header y/o Content Type Header
+        /// Un MIME Type no soportado por Default por el Web API, añadiendo al servicio la posibilidad de aceptar mas formatos
+        /// O de hacer override a las implementaciones que Web API tiene por default para los MIME Type que soporta Web API por default
+        /// Que son json y xml
+        /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-binding/media-formatters
+        /// </summary>
+        /// <param name="config"></param>
         private static void ConfigureMediaTypeFormatters(HttpConfiguration config)
         {
             // Media Type Formatter para trabajar con Requeste con el formato application/atom+xml
@@ -74,6 +85,25 @@ namespace EjemplosFormacion.WebApi
 
             // Media Type Formatter para trabajar con Request con el formato text/csv junto los encodings iso-8859-1 y UTF-8
             config.Formatters.Add(new TestCSVBufferedMediaTypeFormatter());
+        }
+
+        /// <summary>
+        /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-binding/parameter-binding-in-aspnet-web-api
+        /// </summary>
+        private static void ConfigureParameterBindingRules(HttpConfiguration config)
+        {
+            config.ParameterBindingRules.Add(parameterDescriptor =>
+            {
+                if (parameterDescriptor.ParameterType == typeof(TestETagModel)
+                    && parameterDescriptor.ActionDescriptor.SupportedHttpMethods.Contains(HttpMethod.Get))
+                {
+                    return new TestETagHttpParameterBinding(parameterDescriptor, TestETagMatchEnum.IfNoneMatch);
+                }
+                else
+                {
+                    return null;
+                }
+            });
         }
 
         /// <summary>
@@ -182,6 +212,7 @@ namespace EjemplosFormacion.WebApi
         /// Los pedazos de ruta que no sean {controller} y {action} como {id} se anexaran al request 
         /// Seran recuperados por parametros que se llamen igual o parametros que sean objetos que tengan propiedades que se llamen igual 
         /// Ejemplo para {id} lo recuperas con int id o con un objeto con una propiedad que se llame id
+        /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/web-api-routing-and-actions/routing-and-action-selection
         /// </summary>
         private static void ConfigureRoutes(HttpConfiguration config)
         {
@@ -285,11 +316,15 @@ namespace EjemplosFormacion.WebApi
             //config.Filters.Add(new AuthorizeAttribute()); // Authorize Filter 
         }
 
-        // Registro de Messaging Handlers
-        // Message Handlers son aplicador a todas las Request que lleguen al servicio Web API
-        // Te permiten realizar pre/post procesamiento de todas las Request recibidas por el Web API
-        // Los Message Handlers son parecidos a los Filters pero se ejecutan antes en el Web API Pipeline
-        // Segun sea los requerimientos o el gusto, puedes eleguir uno u otro
+        /// <summary>
+        /// Registro de Messaging Handlers
+        /// Message Handlers son aplicador a todas las Request que lleguen al servicio Web API
+        /// Te permiten realizar pre/post procesamiento de todas las Request recibidas por el Web API
+        /// Los Message Handlers son parecidos a los Filters pero se ejecutan antes en el Web API Pipeline
+        /// Segun sea los requerimientos o el gusto, puedes eleguir uno u otro
+        /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/http-message-handlers
+        /// </summary>
+        /// <param name="config"></param>
         private static void ConfigureMessagingHandlers(HttpConfiguration config)
         {
             // Registro de Message Handler para todas las Request
