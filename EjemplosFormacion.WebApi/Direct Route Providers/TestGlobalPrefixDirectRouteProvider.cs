@@ -15,12 +15,12 @@ namespace EjemplosFormacion.WebApi.DirectRouteProviders
     /// Tambien tiene el comportamiento de dar soporte a rutas tipadas mediante un diccionario estatico que se va llenando con la ayuda de Extension Methods del HttpConfiguration para posteriormente registrar estas rutas
     /// El Direct Route Provider will simply walk through all of the available controllers and harvest all routes declared through the use of RouteAttribute and register them. Of course, it is all not surprising – after all, this is the typical attribute routing behavior
     /// </summary>
-    class TestDirectRouteProvider : DefaultDirectRouteProvider
+    class TestGlobalPrefixDirectRouteProvider : DefaultDirectRouteProvider
     {
-        internal static readonly ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>> Routes = new ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>>();
+        internal static readonly ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>> routesDictionary = new ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>>();
         private readonly string _centralizedPrefix;
 
-        public TestDirectRouteProvider(string centralizedPrefix)
+        public TestGlobalPrefixDirectRouteProvider(string centralizedPrefix)
         {
             if (string.IsNullOrWhiteSpace(centralizedPrefix)) throw new ArgumentException("centralizedPrefix vacio!.");
 
@@ -36,6 +36,8 @@ namespace EjemplosFormacion.WebApi.DirectRouteProviders
 
         // Traera toda la informacion de los Controllers disponibles registrados con un RouteAttribute o RoutePrefix [Route("ruta")], 
         // Leera la configuracion y registrara la ruta para la cual haran match
+        // En este caso si no tiene un prefix le asignamos el prefix pasado en el constructor
+        // Si ya tiene un prefix lo dejamos tal cual es
         protected override string GetRoutePrefix(HttpControllerDescriptor controllerDescriptor)
         {
             string existingPrefix = base.GetRoutePrefix(controllerDescriptor);
@@ -56,9 +58,9 @@ namespace EjemplosFormacion.WebApi.DirectRouteProviders
         {
             List<IDirectRouteFactory> factories = base.GetActionRouteFactories(actionDescriptor).ToList();
 
-            if (Routes.ContainsKey(actionDescriptor.ControllerDescriptor.ControllerType))
+            if (routesDictionary.ContainsKey(actionDescriptor.ControllerDescriptor.ControllerType))
             {
-                Dictionary<string, TestTypedDirectRouteFactory> controllerLevelDictionary = Routes[actionDescriptor.ControllerDescriptor.ControllerType];
+                Dictionary<string, TestTypedDirectRouteFactory> controllerLevelDictionary = routesDictionary[actionDescriptor.ControllerDescriptor.ControllerType];
                 if (controllerLevelDictionary.ContainsKey(actionDescriptor.ActionName))
                 {
                     factories.Add(controllerLevelDictionary[actionDescriptor.ActionName]);

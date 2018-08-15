@@ -190,7 +190,7 @@
     <Compile Include="Controllers\Test Web Api Services\TestTraceWriterController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestValueProviderFactoryController.cs" />
     <Compile Include="Direct Route Factories\TestTypedDirectRouteFactory.cs" />
-    <Compile Include="Direct Route Providers\TestDirectRouteProvider.cs" />
+    <Compile Include="Direct Route Providers\TestGlobalPrefixDirectRouteProvider.cs" />
     <Compile Include="Exception Handlers\TestExceptionHandler.cs" />
     <Compile Include="Exception Loggers\TestExceptionLogger.cs" />
     <Compile Include="Extension Methods\HttpConfigurationExtensions.cs" />

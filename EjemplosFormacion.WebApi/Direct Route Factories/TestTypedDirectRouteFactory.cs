@@ -9,81 +9,61 @@ namespace EjemplosFormacion.WebApi.DirectRouteFactories
     /// <summary>
     /// Custom Direct Route Factory (Es lo equivalente al RouteAttribute), se usa para albergar custom informacion sobre una Direct Route para un Action
     /// En este caso esta implementacion se usa para albergar informacion que sera usada para implementar unas Custom Direct Route de manera Tipada 
-    /// Con la ayuda de un Extension Method del HttpConfiguration que llenara esta informacion y el Direct Route Provider que leera esta informacion para registrar la Route
+    /// Con la ayuda de un Extension Method del HttpConfiguration que llenara esta informacion 
+    /// El Direct Route Provider que leera esta informacion para registrar la Route
     /// </summary>
     class TestTypedDirectRouteFactory : IDirectRouteFactory
     {
         public Type ControllerType { get; private set; }
 
-        public string RouteName { get; private set; }
-
-        public string Template { get; private set; }
-
-        public string ControllerName
-        {
-            get { return ControllerType != null ? ControllerType.FullName : string.Empty; }
-        }
-
         public string ActionName { get; private set; }
 
-        public MethodInfo ActionMember { get; private set; }
+        private readonly int? _order;
+        private readonly string _routeName;
+        private readonly string _routeTemplate;
 
-        public TestTypedDirectRouteFactory(string template)
+        public TestTypedDirectRouteFactory(string routeTemplate, string routeName = null, int? order = null)
         {
-            if (string.IsNullOrWhiteSpace(template)) throw new ArgumentException("template vacio!.");
+            if (string.IsNullOrWhiteSpace(routeTemplate)) throw new ArgumentException("route template vacio!.");
 
-            Template = template;
+            _order = order;
+            _routeName = routeName;
+            _routeTemplate = routeTemplate;
         }
 
+        // Metodo llamado por Web Api para crear un RouteEntry segun el template entregado y un Route Name si existe
         RouteEntry IDirectRouteFactory.CreateRoute(DirectRouteFactoryContext context)
         {
-            IDirectRouteBuilder builder = context.CreateBuilder(Template);
+            IDirectRouteBuilder routeBuilder = context.CreateBuilder(_routeTemplate);
+            routeBuilder.Name = _routeName;
+            if (_order.HasValue)
+            {
+                routeBuilder.Order = _order.Value;
+            }
 
-            builder.Name = RouteName;
-            return builder.Build();
+            return routeBuilder.Build();
         }
 
-        public TestTypedDirectRouteFactory Controller<TController>() where TController : IHttpController
+        // Metodo llamado por nosotros para configurar el Type del Controller y el nombre del Action
+        // De esta manera nuestro custom Direct Route Provider leera estas propiedas y asignara esta Route al Controller y Action que hemos configurado en este metodo
+        public void ConfigureRoute<T>(Expression<Action<T>> expression) where T : IHttpController
         {
-            ControllerType = typeof(TController);
-            return this;
-        }
-
-        public TestTypedDirectRouteFactory Action<T, U>(Expression<Func<T, U>> expression)
-        {
-            ActionMember = GetMethodInfoInternal(expression);
-            ControllerType = ActionMember.DeclaringType;
-            ActionName = ActionMember.Name;
-            return this;
-        }
-
-        public TestTypedDirectRouteFactory Action<T>(Expression<Action<T>> expression)
-        {
-            ActionMember = GetMethodInfoInternal(expression);
-            ControllerType = ActionMember.DeclaringType;
-            ActionName = ActionMember.Name;
-            return this;
-        }
-
-        public TestTypedDirectRouteFactory Name(string name)
-        {
-            RouteName = name;
-            return this;
-        }
-
-        public TestTypedDirectRouteFactory Action(string actionName)
-        {
-            ActionName = actionName;
-            return this;
+            MethodInfo actionMember = GetMethodInfoInternal(expression);
+            ControllerType = actionMember.DeclaringType;
+            ActionName = actionMember.Name;
         }
 
         private static MethodInfo GetMethodInfoInternal(LambdaExpression expressionBody)
         {
             var method = expressionBody.Body as MethodCallExpression;
             if (method != null)
+            {
                 return method.Method;
-
-            throw new ArgumentException("Expression is incorrect!");
+            }
+            else
+            {
+                throw new ArgumentException("Expression is incorrect!");
+            }
         }
     }
 }

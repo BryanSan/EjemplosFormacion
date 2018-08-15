@@ -88,19 +88,26 @@ namespace EjemplosFormacion.WebApi
         }
 
         /// <summary>
+        /// Custom Http Parameter Binding Rules que puedes usar para bindear un parametro de un Action con una Custom Logica
+        /// Puedes usar el parameterDescriptor para revisar propiedades como el tipo del parametro y el HttpMethod usado por el Request y decidir que Http Parameter Binding usar
         /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-binding/parameter-binding-in-aspnet-web-api
         /// </summary>
         private static void ConfigureParameterBindingRules(HttpConfiguration config)
         {
             config.ParameterBindingRules.Add(parameterDescriptor =>
             {
+                // Revisamos que el type del parametro del action sea del tipo soportado por el HttpParameterBinding que queremos usar
+                // Y adicionalmente que el HttpMethod del Request sea Post
                 if (parameterDescriptor.ParameterType == typeof(TestETagModel)
                     && parameterDescriptor.ActionDescriptor.SupportedHttpMethods.Contains(HttpMethod.Post))
                 {
+                    // Retornamos nuestra instancia de HttpParameterBinding para que Web Api la use para bindear el parametro que se esta evaluando
                     return new TestETagHttpParameterBinding(parameterDescriptor, TestETagMatchEnum.IfMatch);
                 }
                 else
                 {
+                    // Si no cumple nuestras condiciones o no queremos usar un Custom HttpParameterBinding para este parametro
+                    // Devuelve null y asi Web Api sabra que no hay un Custom HttpParameterBinding para el parametro
                     return null;
                 }
             });
@@ -230,14 +237,14 @@ namespace EjemplosFormacion.WebApi
             // Recordar que las rutas definidas en attributos se evaluan primero y sobreescriben las rutas definidas aqui en el global config
             // Este Custom Direct Route Provider agrega el string que le pases (api en este caso) a la ruta entregada por el attributo Route Prefix
             // Adicionalmente puedes pasar un InlineConstraintResolver para agregar tus Custom Http Route Constraints hechas por ti
-            config.MapHttpAttributeRoutes(constraintResolver, new TestDirectRouteProvider("api"));
+            config.MapHttpAttributeRoutes(constraintResolver, new TestGlobalPrefixDirectRouteProvider("api"));
             // Puedes usar Route Constraints de igual manera en esta ruta, recordar que solo es un template  
             //config.MapHttpAttributeRoutes(constraintResolver, new TestDirectRouteProvider("api/v{version:int}"));
 
             // Se usa un Custom Direct Route Factory junto con el Custom Direct Route Provider y el metodo de extension RegisterTypedRoute 
             // Para crear Rutas de manera Type Safe y dejarlo de hacer con strings
-            config.RegisterTypedRoute("TypedDirectRouteFactory", c => c.Action<TestTypedDirectRouteFactoryController>(x => x.TestTypedDirectRouteFactoryNoParams()));
-            config.RegisterTypedRoute("TypedDirectRouteFactory/{id:int}", c => c.Action<TestTypedDirectRouteFactoryController>(x => x.TestTypedDirectRouteFactoryWithParams(default(int))));
+            config.RegisterTypedRoute("TestTypedDirectRouteFactory", c => c.ConfigureRoute<TestTypedDirectRouteFactoryController>(x => x.TestTypedDirectRouteFactoryNoParams()));
+            config.RegisterTypedRoute("TestTypedDirectRouteFactory/{id:int}", c => c.ConfigureRoute<TestTypedDirectRouteFactoryController>(x => x.TestTypedDirectRouteFactoryWithParams(default(int))));
 
             // Ruta para que tome en cuenta el nombre del action a la hora de evaluar y hacer match con la url del request
             config.Routes.MapHttpRoute(

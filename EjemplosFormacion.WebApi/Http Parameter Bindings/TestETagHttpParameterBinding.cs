@@ -9,12 +9,18 @@ using System.Web.Http.Metadata;
 
 namespace EjemplosFormacion.WebApi.HttpParametersBindings
 {
+    /// <summary>
+    /// Custom Http Parameter Binding usado para bindear un parametro de un Action con el valor del Header If-Match o If-NoneMatch
+    /// Cual Header se bindee estara controlado con el Enum que se usa en el constructor
+    /// Para usar este HttpParameterBinding crea una Rule en el WebApiConfig config.ParameterBindingRules.Add(parameterDescriptor =>
+    /// O simplemente crea un ParameterBindingAttribute que hara de Factory para crear este HttpParameterBinding
+    /// El ParameterBindingAttribute adornara un paramater de un Action y Web Api sabra que ese parametro usara el HttpParameterBinding retornado por el ParameterBindingAttribute
+    /// </summary>
     class TestETagHttpParameterBinding : HttpParameterBinding
     {
         TestETagMatchEnum _match;
 
-        public TestETagHttpParameterBinding(HttpParameterDescriptor parameter, TestETagMatchEnum match)
-            : base(parameter)
+        public TestETagHttpParameterBinding(HttpParameterDescriptor parameter, TestETagMatchEnum match) : base(parameter)
         {
             _match = match;
         }
