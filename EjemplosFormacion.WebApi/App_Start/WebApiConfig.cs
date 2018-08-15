@@ -95,9 +95,9 @@ namespace EjemplosFormacion.WebApi
             config.ParameterBindingRules.Add(parameterDescriptor =>
             {
                 if (parameterDescriptor.ParameterType == typeof(TestETagModel)
-                    && parameterDescriptor.ActionDescriptor.SupportedHttpMethods.Contains(HttpMethod.Get))
+                    && parameterDescriptor.ActionDescriptor.SupportedHttpMethods.Contains(HttpMethod.Post))
                 {
-                    return new TestETagHttpParameterBinding(parameterDescriptor, TestETagMatchEnum.IfNoneMatch);
+                    return new TestETagHttpParameterBinding(parameterDescriptor, TestETagMatchEnum.IfMatch);
                 }
                 else
                 {
