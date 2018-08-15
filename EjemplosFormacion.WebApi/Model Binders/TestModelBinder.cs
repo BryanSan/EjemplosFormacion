@@ -20,6 +20,9 @@ namespace EjemplosFormacion.WebApi.ModelBinders
     ///                     En el WebApiConfig.cs ->
     ///                         var provider = new SimpleModelBinderProvider(typeof(TestModelBinder.GeoPoint), new TestModelBinder());
     ///                         config.Services.Insert(typeof(ModelBinderProvider), 0, provider);
+    ///                         
+    ///                         // Nueva manera de crear un ModelBinder para un tipo en concreto
+    ///                         config.BindParameter(typeof(TestModelBinder.GeoPoint), new TestModelBinder());
     ///                     En el Controller ->
     ///                         [ModelBinder] TestModelBinder.GeoPoint location                    
     /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-binding/parameter-binding-in-aspnet-web-api

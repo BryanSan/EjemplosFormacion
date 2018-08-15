@@ -26,7 +26,6 @@ using EjemplosFormacion.WebApi.Stubs.Enums;
 using EjemplosFormacion.WebApi.Stubs.Models;
 using EjemplosFormacion.WebApi.TraceWriters;
 using EjemplosFormacion.WebApi.ValueProviderFactories;
-using System;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Web.Http;
@@ -205,6 +204,9 @@ namespace EjemplosFormacion.WebApi
             //                         [ModelBinder] TestModelBinder.GeoPoint location        
             var provider = new SimpleModelBinderProvider(typeof(TestModelBinder.GeoPoint), new TestModelBinder());
             config.Services.Insert(typeof(ModelBinderProvider), 0, provider); // De primero o el Default Model Binder oscurece a todos tus Model Binder ya que ataja a todos los Types
+
+            // Nueva manera de crear un ModelBinder para un tipo en concreto
+            config.BindParameter(typeof(TestModelBinder.GeoPoint), new TestModelBinder());
         }
 
         /// <summary>
