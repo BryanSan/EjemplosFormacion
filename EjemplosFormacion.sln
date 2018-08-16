@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVC", "MVC", "{C7CDC115-5EE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WFC", "WFC", "{AFCDDCBD-1B03-4C8D-B227-1E511ED7BB05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EjemplosFormacion.WebApi.SelfHost", "EjemplosFormacion.WebApi.SelfHost\EjemplosFormacion.WebApi.SelfHost.csproj", "{332B94D9-0AC5-491D-AA1D-DC1116B49838}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{332B94D9-0AC5-491D-AA1D-DC1116B49838}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{332B94D9-0AC5-491D-AA1D-DC1116B49838}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{332B94D9-0AC5-491D-AA1D-DC1116B49838}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{332B94D9-0AC5-491D-AA1D-DC1116B49838}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{075B3299-9509-4FF3-9763-6CE4CF0D54DE} = {AFCDDCBD-1B03-4C8D-B227-1E511ED7BB05}
 		{B5AC0B11-EEEC-4BA6-BBE3-04546B7E6850} = {A46A2770-8D98-4D47-9C4B-BB465C60CE87}
 		{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10} = {A46A2770-8D98-4D47-9C4B-BB465C60CE87}
+		{332B94D9-0AC5-491D-AA1D-DC1116B49838} = {617E8496-6C07-4D0D-8991-B7B654939D2C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83BB25C-433D-4863-8233-2FC22D66A235}
