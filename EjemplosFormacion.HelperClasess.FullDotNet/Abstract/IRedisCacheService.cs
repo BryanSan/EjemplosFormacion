@@ -14,5 +14,15 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.Abstract
         Task RemoveAsync(string cacheKey);
 
         ICacheServiceTransaction CreateTransaction();
+
+        ICacheServiceBatch CreateBatch();
+
+        void Suscribe<T>(string key, Action<string, T> action) where T : class;
+
+        Task SuscribeAsync<T>(string key, Action<string, T> action) where T : class;
+
+        void Publish<T>(string key, T message) where T : class;
+
+        Task PublishAsync<T>(string key, T message) where T : class;
     }
 }

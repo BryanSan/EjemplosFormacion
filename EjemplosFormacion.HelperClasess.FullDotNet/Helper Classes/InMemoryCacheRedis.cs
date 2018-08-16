@@ -142,6 +142,62 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             return redisBatch;
         }
 
+        /// <summary>
+        /// Metodo para suscribirse a un channel de evento de manera sync
+        /// El channel al que te vas a conectar estara denotado por el parametor key 
+        /// Adicionalmente de recibir un Action que sera lo que se va a ejecutar cuando un message llegue
+        /// </summary>
+        public void Suscribe<T>(string key, Action<string, T> action) where T : class
+        {
+            ISubscriber subscriber = _redisConnection.GetSubscriber();
+
+            subscriber.Subscribe(key, (channel, message) => {
+                T entity = JsonConvert.DeserializeObject<T>(message);
+                action(channel, entity);
+            });
+        }
+
+        /// <summary>
+        /// Metodo para suscribirse a un channel de evento de manera async
+        /// El channel al que te vas a conectar estara denotado por el parametor key 
+        /// Adicionalmente de recibir un Action que sera lo que se va a ejecutar cuando un message llegue
+        /// </summary>
+        public async Task SuscribeAsync<T>(string key, Action<string, T> action) where T : class
+        {
+            ISubscriber subscriber = _redisConnection.GetSubscriber();
+
+            await subscriber.SubscribeAsync(key, (channel, message) => {
+                T entity = JsonConvert.DeserializeObject<T>(message);
+                action(channel, entity);
+            });
+        }
+
+        /// <summary>
+        /// Metodo para publicar un mensaje a un channel de manera sync
+        /// El channel al que vas a publicar un mensaje estara denotado por el parametor key 
+        /// </summary>
+        public void Publish<T>(string key, T message) where T : class
+        {
+            ISubscriber subscriber = _redisConnection.GetSubscriber();
+
+            string serializedEntity = JsonConvert.SerializeObject(message);
+
+            subscriber.Publish(key, serializedEntity);
+        }
+
+        /// <summary>
+        /// Metodo para publicar un mensaje a un channel de manera async
+        /// El channel al que vas a publicar un mensaje estara denotado por el parametor key 
+        /// </summary>
+        public async Task PublishAsync<T>(string key, T message) where T : class
+        {
+            ISubscriber subscriber = _redisConnection.GetSubscriber();
+
+            string serializedEntity = JsonConvert.SerializeObject(message);
+
+            await subscriber.PublishAsync(key, serializedEntity);
+        }
+
         public void Dispose()
         {
             Dispose(true);
