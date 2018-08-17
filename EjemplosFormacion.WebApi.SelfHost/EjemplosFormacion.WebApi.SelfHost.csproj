@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>EjemplosFormacion.WebApi.SelfHost</RootNamespace>
     <AssemblyName>EjemplosFormacion.WebApi.SelfHost</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -76,8 +77,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\TestSelfHostOwinController.cs" />
-    <Compile Include="Model\TestModel.cs" />
     <Compile Include="OwinMiddleware\OwinContextMiddleware.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

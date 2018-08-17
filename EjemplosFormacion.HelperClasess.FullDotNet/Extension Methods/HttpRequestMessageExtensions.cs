@@ -119,7 +119,9 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.ExtensionMethods
         public static string GetValueFromRouteData(this HttpRequestMessage request, string routeDataName)
         {
             IHttpRouteData routeDataOfRequest = request.GetRouteData();
-            string versionFromRoute = routeDataOfRequest.Values[routeDataName] as string;
+
+            routeDataOfRequest.Values.TryGetValue(routeDataName, out object objectversionFromRoute);
+            string versionFromRoute = objectversionFromRoute as string;
 
             if (string.IsNullOrWhiteSpace(versionFromRoute))
             {

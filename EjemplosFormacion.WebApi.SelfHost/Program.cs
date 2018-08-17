@@ -27,7 +27,7 @@ namespace EjemplosFormacion.WebApi.SelfHost
             // Recordad que el host debe mantenerse activo, por esta razon el Console.ReadKey mantiene abierto la consola para que el Server siga activo y reciba peticiones
             // Puedes configurar la instancia de Owin server directo en la llamada o con una instancia de la clase StartOptions
             using (WebApp.Start(startOptions))
-            //using (WebApp.Start<Startup>(uri))
+            using (WebApp.Start<Startup>(uri))
             {
                 Console.WriteLine("Web server on {0} starting.", uri);
                 Console.ReadKey();
