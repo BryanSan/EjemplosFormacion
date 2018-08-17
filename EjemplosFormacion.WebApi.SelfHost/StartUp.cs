@@ -65,18 +65,23 @@ namespace EjemplosFormacion.WebApi.SelfHost
         // Al terminar de configurar la instancia de HttpConfiguration pasala al extension method appBuilder.UseWebApi(httpConfiguration) para habilitar el Web Api
         private void RunWebApiConfiguration(IAppBuilder appBuilder)
         {
+            // Creamos nuestra propia instancia de HttpConfiguration para configurar nuestro servicio Web Api
             var httpConfiguration = new HttpConfiguration();
-            //httpConfiguration.Routes.MapHttpRoute(
-            //    name: "WebApi", 
-            //    routeTemplate: "{controller}/{id}", 
-            //    defaults: new { id = RouteParameter.Optional }
-            //);
 
+            // Como este proyecto es Self-Host, la clase que inicializa el Dependency Resolver en el otro proyecto
+            // Nunca sera llamada y nunca tendremos un Dependency Resolver con UnityContainer
+            // Por esta razon debemos crear a mano el Dependency Resolver junto con el UnityContainer y asignarlo manualmente a nuestra instancia de HttpConfiguration
+            // Para que asi el pueda tener todas las Dependency registradas para posteriormente configurar y trabajar correctamente
             var resolver = new TestUnityDependencyResolver(UnityConfig.Container);
+
+            // En este caso hacemos un truco y pasamos la instancia que acabamos de crear de HttpConfiguration al otro proyecto que tenemos mas completo para que configure la instancia de Web Api
+            // De esta manera logramos hostear en este pequeño proyecto Owin todo el otro proyecto de Web Api
             httpConfiguration.DependencyResolver = resolver;
 
+            // Mandamos a configurar nuestra insstancia de HttpConfiguration al otro proyecto mas completo asi hosteamos todo el otro proyecto en este proyecto Owin consola
             WebApiConfig.Register(httpConfiguration);
 
+            // Le pasamos a Owin nuestra instancia configurada de HttpConfiguration para que inicie nuestro servicio Web Api
             appBuilder.UseWebApi(httpConfiguration);
         }
     }

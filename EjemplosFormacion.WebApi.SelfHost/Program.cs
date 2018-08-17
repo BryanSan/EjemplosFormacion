@@ -1,6 +1,5 @@
 ﻿using Microsoft.Owin.Hosting;
 using System;
-using System.Collections.Generic;
 
 namespace EjemplosFormacion.WebApi.SelfHost
 {
