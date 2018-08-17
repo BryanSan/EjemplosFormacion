@@ -46,7 +46,7 @@ namespace EjemplosFormacion.WebApi
     /// Clase usada para configurar el Web Api, tanto sus Rutas, Filtros y Servicios
     /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/configuring-aspnet-web-api
     /// </summary>
-    static class WebApiConfig
+    public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
         {
