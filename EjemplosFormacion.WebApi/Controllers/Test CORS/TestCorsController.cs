@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using EjemplosFormacion.WebApi.CORSPolices;
+using System.Web.Http;
 using System.Web.Http.Cors;
 
 namespace EjemplosFormacion.WebApi.Controllers.TestCORS
@@ -29,7 +30,7 @@ namespace EjemplosFormacion.WebApi.Controllers.TestCORS
     //      EnableCors configurado completo y cerrado al nivel de Controller
     //[EnableCors(origins: "http://www.contoso.com , http://www.example.com", headers: "accept , content-type ", methods: "GET , POST", exposedHeaders: "X-Custom-Header", SupportsCredentials = true)]
     //      EnableCors configurado completo y abierto al nivel de Controller
-    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header" )]
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header")]
     // Si quieres deshabilitar el CORS para un Controller o Action en especifico simplemente adornalo con el DisableCors Attribute
     // [DisableCors]
     public class TestCorsController : ApiController
@@ -44,6 +45,12 @@ namespace EjemplosFormacion.WebApi.Controllers.TestCORS
         // Si quieres deshabilitar el CORS para un Controller o Action en especifico simplemente adornalo con el DisableCors Attribute
         [DisableCors]
         public IHttpActionResult DisableCorsPerAction()
+        {
+            return Ok();
+        }
+
+        [TestCorsPolicy]
+        public IHttpActionResult EnableCorsPerActionWithCustomPolicy()
         {
             return Ok();
         }

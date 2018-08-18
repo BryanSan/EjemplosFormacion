@@ -1,6 +1,7 @@
 ﻿using EjemplosFormacion.HelperClasess.Abstract;
 using EjemplosFormacion.WebApi.AssembliesResolver;
 using EjemplosFormacion.WebApi.Controllers.TestCustomRoutesConfiguration;
+using EjemplosFormacion.WebApi.CORSPolicyProviderFactories;
 using EjemplosFormacion.WebApi.ExceptionHandlers;
 using EjemplosFormacion.WebApi.ExceptionLoggers;
 using EjemplosFormacion.WebApi.ExtensionMethods;
@@ -506,6 +507,9 @@ namespace EjemplosFormacion.WebApi
 
         private static void ConfigureCors(HttpConfiguration config)
         {
+            // Enable CORS with a Custom CORS Policy Provider Factory
+            config.SetCorsPolicyProviderFactory(new TestCorsPolicyProviderFactory());
+
             //      EnableCors configurado completo y cerrado al nivel Global
             //var cors = new EnableCorsAttribute(origins: "www.example.com", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header");
             //cors.SupportsCredentials = true;

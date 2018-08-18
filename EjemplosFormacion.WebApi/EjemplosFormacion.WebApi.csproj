@@ -201,6 +201,8 @@
     <Compile Include="Controllers\Test Web Api Services\TestExceptionHandlerController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestTraceWriterController.cs" />
     <Compile Include="Controllers\Test Web Api Services\TestValueProviderFactoryController.cs" />
+    <Compile Include="CORS Polices\TestCorsPolicyAttribute.cs" />
+    <Compile Include="CORS Policy Provider Factories\TestCorsPolicyProviderFactory.cs" />
     <Compile Include="Direct Route Factories\TestTypedDirectRouteFactory.cs" />
     <Compile Include="Direct Route Providers\TestGlobalPrefixDirectRouteProvider.cs" />
     <Compile Include="Exception Handlers\TestExceptionHandler.cs" />
