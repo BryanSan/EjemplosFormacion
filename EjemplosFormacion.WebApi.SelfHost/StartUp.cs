@@ -18,7 +18,7 @@ namespace EjemplosFormacion.WebApi.SelfHost
 
             // Configuracion de Owin Middlewares
             RegisterOwinMiddlewares(appBuilder);
-
+            
             // Configuracion y registro de WebApi
             RunWebApiConfiguration(appBuilder);
 
@@ -65,6 +65,7 @@ namespace EjemplosFormacion.WebApi.SelfHost
             // Registro de Custom OwinMiddlewares creados heredando de la clase abstracta OwinMiddleware
             appBuilder.Use<TestSetOwinContextOwinMiddleware>();
             appBuilder.Use<TestRequestBufferingOwinMiddleware>();
+            appBuilder.Use<TestOwinMiddleware>();
 
             // Codigo para mostrar una pagina de bienvenida cuando llegue una Http Request
             // El orden es importante, por tanto primero se mostrara la pagina de bienvenida antes que el Response Hard Coded ya que esta de primero

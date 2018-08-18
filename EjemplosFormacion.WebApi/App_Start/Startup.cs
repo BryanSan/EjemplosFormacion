@@ -53,6 +53,7 @@ namespace EjemplosFormacion.WebApi.App_Start
             // Registro de Custom OwinMiddlewares creados heredando de la clase abstracta OwinMiddleware
             app.Use<TestSetOwinContextOwinMiddleware>();
             app.Use<TestRequestBufferingOwinMiddleware>();
+            app.Use<TestOwinMiddleware>();
         }
 
         private void PrintCurrentIntegratedPipelineStage(IOwinContext context, string msg)

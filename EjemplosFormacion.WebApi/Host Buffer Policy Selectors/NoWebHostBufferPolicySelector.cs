@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Web;
+﻿using System.Web;
 using System.Web.Http.WebHost;
 
 namespace EjemplosFormacion.WebApi.HostBufferPolicySelectors
@@ -12,20 +10,25 @@ namespace EjemplosFormacion.WebApi.HostBufferPolicySelectors
     /// </summary>
     public class NoWebHostBufferPolicySelector : WebHostBufferPolicySelector
     {
+        // Check incoming requests and modify their buffer policy
         public override bool UseBufferedInputStream(object hostContext)
         {
-            HttpContextBase context = hostContext as HttpContextBase;
+            HttpContextBase contextBase = hostContext as HttpContextBase;
 
-            if (context != null)
+            if (contextBase != null && contextBase.Request.ContentType != null && contextBase.Request.ContentType.Contains("multipart"))
             {
-                if (string.Equals(context.Request.RequestContext.RouteData.Values["controller"]?.ToString(), "TestImage", StringComparison.InvariantCultureIgnoreCase))
-                    return false;
+                // we are enabling streamed mode here
+                return false;
             }
 
-            return true;
+            // let the default behavior(buffered mode) to handle the scenario
+            return base.UseBufferedInputStream(hostContext);
         }
 
-        public override bool UseBufferedOutputStream(HttpResponseMessage response)
+        // You could also chnage the response behavior too...but for this example, we are not
+        // going to do anything here...I overrode this method just to demonstrate the availability
+        // of this method.
+        public override bool UseBufferedOutputStream(System.Net.Http.HttpResponseMessage response)
         {
             return base.UseBufferedOutputStream(response);
         }
