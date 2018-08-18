@@ -1,9 +1,12 @@
 using EjemplosFormacion.HelperClasess.Abstract;
 using EjemplosFormacion.HelperClasess.Wrappers;
+using EjemplosFormacion.WebApi.DirectRouteProviders;
 using EjemplosFormacion.WebApi.Stubs.Abstract;
 using EjemplosFormacion.WebApi.Stubs.Implementation;
 using System;
+using System.Web.Http.Routing;
 using Unity;
+using Unity.Injection;
 using Unity.Interception.ContainerIntegration;
 using Unity.Lifetime;
 
@@ -44,6 +47,7 @@ namespace EjemplosFormacion.WebApi
             container.AddNewExtension<Interception>();
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
             container.RegisterType<IWrapperNLog, WrapperNLogger>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IDirectRouteProvider, TestGlobalPrefixDirectRouteProvider>(new TransientLifetimeManager(), new InjectionConstructor("api"));
         }
     }
 }

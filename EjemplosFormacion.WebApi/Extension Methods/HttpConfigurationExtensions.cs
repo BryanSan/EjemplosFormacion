@@ -3,6 +3,7 @@ using EjemplosFormacion.WebApi.DirectRouteProviders;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using System.Web.Http.Routing;
 
 namespace EjemplosFormacion.WebApi.ExtensionMethods
 {
@@ -22,10 +23,12 @@ namespace EjemplosFormacion.WebApi.ExtensionMethods
             var route = new TestTypedDirectRouteFactory(template);
             configSetup(route);
 
+            TestGlobalPrefixDirectRouteProvider routeProvider = config.DependencyResolver.GetService(typeof(IDirectRouteProvider)) as TestGlobalPrefixDirectRouteProvider;
+
             // Buscamos el Key (Controller Type) si ya esta buscamos el diccionario de rutas de este Controller Type y añadimos la nueva ruta
-            if (TestGlobalPrefixDirectRouteProvider.routesDictionary.ContainsKey(route.ControllerType))
+            if (routeProvider.routesDictionary.ContainsKey(route.ControllerType))
             {
-                Dictionary<string, TestTypedDirectRouteFactory> controllerLevelDictionary = TestGlobalPrefixDirectRouteProvider.routesDictionary[route.ControllerType];
+                Dictionary<string, TestTypedDirectRouteFactory> controllerLevelDictionary = routeProvider.routesDictionary[route.ControllerType];
                 controllerLevelDictionary.Add(route.ActionName, route);
             }
             else
@@ -33,7 +36,7 @@ namespace EjemplosFormacion.WebApi.ExtensionMethods
                 // Si no esta creamos una entrada para ese Controller Type y otro diccionario para sus rutas 
                 // Y lo añadimos al Diccionario estatico del Direct Route Provider para que registre las rutas configuradas
                 var controllerLevelDictionary = new Dictionary<string, TestTypedDirectRouteFactory> { { route.ActionName, route } };
-                TestGlobalPrefixDirectRouteProvider.routesDictionary.TryAdd(route.ControllerType, controllerLevelDictionary);
+                routeProvider.routesDictionary.TryAdd(route.ControllerType, controllerLevelDictionary);
             }
 
             return route;

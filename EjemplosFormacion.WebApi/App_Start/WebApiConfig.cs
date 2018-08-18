@@ -239,10 +239,10 @@ namespace EjemplosFormacion.WebApi
             // Recordar que las rutas definidas en attributos se evaluan primero y sobreescriben las rutas definidas aqui en el global config
             // Este Custom Direct Route Provider agrega el string que le pases (api en este caso) a la ruta entregada por el attributo Route Prefix
             // Adicionalmente puedes pasar un InlineConstraintResolver para agregar tus Custom Http Route Constraints hechas por ti
-            config.MapHttpAttributeRoutes(constraintResolver, new TestGlobalPrefixDirectRouteProvider("api"));
+            config.MapHttpAttributeRoutes(constraintResolver, config.DependencyResolver.GetService(typeof(IDirectRouteProvider)) as IDirectRouteProvider);
             // Puedes usar Route Constraints de igual manera en esta ruta, recordar que solo es un template  
             //config.MapHttpAttributeRoutes(constraintResolver, new TestDirectRouteProvider("api/v{version:int}"));
-
+            
             // Se usa un Custom Direct Route Factory junto con el Custom Direct Route Provider y el metodo de extension RegisterTypedRoute 
             // Para crear Rutas de manera Type Safe y dejarlo de hacer con strings
             config.RegisterTypedRoute("TestTypedDirectRouteFactory", c => c.ConfigureRoute<TestTypedDirectRouteFactoryController>(x => x.TestTypedDirectRouteFactoryNoParams()));

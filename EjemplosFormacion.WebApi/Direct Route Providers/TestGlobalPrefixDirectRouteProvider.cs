@@ -17,7 +17,7 @@ namespace EjemplosFormacion.WebApi.DirectRouteProviders
     /// </summary>
     class TestGlobalPrefixDirectRouteProvider : DefaultDirectRouteProvider
     {
-        internal static readonly ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>> routesDictionary = new ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>>();
+        internal readonly ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>> routesDictionary = new ConcurrentDictionary<Type, Dictionary<string, TestTypedDirectRouteFactory>>();
         private readonly string _centralizedPrefix;
 
         public TestGlobalPrefixDirectRouteProvider(string centralizedPrefix)
