@@ -1,7 +1,6 @@
-﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers;
+﻿using EjemplosFormacion.HelperClasess.Abstract;
 using EjemplosFormacion.WebApi.AssembliesResolver;
 using EjemplosFormacion.WebApi.Controllers.TestCustomRoutesConfiguration;
-using EjemplosFormacion.WebApi.DirectRouteProviders;
 using EjemplosFormacion.WebApi.ExceptionHandlers;
 using EjemplosFormacion.WebApi.ExceptionLoggers;
 using EjemplosFormacion.WebApi.ExtensionMethods;
@@ -30,6 +29,7 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using System.Web.Http.Cors;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.ExceptionHandling;
 using System.Web.Http.Filters;
@@ -67,6 +67,9 @@ namespace EjemplosFormacion.WebApi
 
             // Registro de rutas que reconocera el Web Api
             ConfigureRoutes(config);
+
+            // Enable Cross Origin Request
+            ConfigureCors(config);
         }
 
         /// <summary>
@@ -242,7 +245,7 @@ namespace EjemplosFormacion.WebApi
             config.MapHttpAttributeRoutes(constraintResolver, config.DependencyResolver.GetService(typeof(IDirectRouteProvider)) as IDirectRouteProvider);
             // Puedes usar Route Constraints de igual manera en esta ruta, recordar que solo es un template  
             //config.MapHttpAttributeRoutes(constraintResolver, new TestDirectRouteProvider("api/v{version:int}"));
-            
+
             // Se usa un Custom Direct Route Factory junto con el Custom Direct Route Provider y el metodo de extension RegisterTypedRoute 
             // Para crear Rutas de manera Type Safe y dejarlo de hacer con strings
             config.RegisterTypedRoute("TestTypedDirectRouteFactory", c => c.ConfigureRoute<TestTypedDirectRouteFactoryController>(x => x.TestTypedDirectRouteFactoryNoParams()));
@@ -253,7 +256,7 @@ namespace EjemplosFormacion.WebApi
                 name: "RouteWithVersionAndActionName",
                 routeTemplate: "api/v{version}/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional },
-                constraints: new{ version = @"\d+" }
+                constraints: new { version = @"\d+" }
             );
 
             config.Routes.MapHttpRoute(
@@ -261,7 +264,7 @@ namespace EjemplosFormacion.WebApi
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            
+
             // Ruta default del Web Api, se centra al uso de los Http Verbs
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
@@ -472,8 +475,44 @@ namespace EjemplosFormacion.WebApi
                 defaults: new { controller = "TestMessagingHandler", action = "TestJsonEncrypterMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
-                handler: new TestJsonEncrypterMessageHandler(new SymmetricEncrypter<AesManaged, SHA256Managed>(), new HttpControllerDispatcher(config)) // Message Handler for this Route
+                // Message Handler for this Route
+                handler: new TestJsonEncrypterMessageHandler(config.DependencyResolver.GetService(typeof(ISymmetricEncrypter<AesManaged, SHA256Managed>)) as ISymmetricEncrypter<AesManaged, SHA256Managed>, new HttpControllerDispatcher(config))
             );
+        }
+
+        // Habilita las Cross Origin Request, esto es hacer una peticion desde un navegador a otro dominio distinto al que esta alojado el Web Api
+        // Esto es:
+        //      http://example.net - Different domain
+        //      http://example.com:9000/foo.html - Different port
+        //      https://example.com/foo.html - Different scheme
+        //      http://www.example.com/foo.html - Different subdomain
+        // The origins parameter of the [EnableCors] attribute specifies which origins are allowed to access the resource. The value is a comma-separated list of the allowed origins. To allow all methods, use the wildcard value "*".
+        // The headers parameter of the [EnableCors] attribute specifies which author request headers are allowed. To allow any headers, set headers to "*". Set headers to a comma-separated list of the allowed headers:
+        // The methods parameter of the [EnableCors] attribute specifies which HTTP methods are allowed to access the resource.  The value is a comma-separated list of the allowed HTTP methods. To allow all methods, use the wildcard value "*".
+        // If you set headers to anything other than "*", you should include at least "accept", "content-type", and "origin", plus any custom headers that you want to support.
+        // By default, the browser does not expose all of the response headers to the application. The response headers that are available by default are:
+        //      Cache-Control
+        //      Content-Language
+        //      Content-Type
+        //      Expires
+        //      Last-Modified
+        //      Pragma
+        // The CORS spec calls these simple response headers.To make other headers available to the application, set the exposedHeaders parameter of[EnableCors].
+        // Credentials require special handling in a CORS request. By default, the browser does not send any credentials with a cross-origin request. Credentials include cookies as well as HTTP authentication schemes. To send credentials with a cross-origin request, the client must set XMLHttpRequest.withCredentials to true.
+        // In addition, the server must allow the credentials. To allow cross-origin credentials in Web API, set the SupportsCredentials property to true on the [EnableCors] attribute
+        // If this property is true, the HTTP response will include an Access-Control-Allow-Credentials header. This header tells the browser that the server allows credentials for a cross-origin request.
+        // The CORS spec also states that setting origins to "*" is invalid if SupportsCredentials is true.
+        // https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api
+
+        private static void ConfigureCors(HttpConfiguration config)
+        {
+            //      EnableCors configurado completo y cerrado al nivel Global
+            //var cors = new EnableCorsAttribute(origins: "www.example.com", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header");
+            //cors.SupportsCredentials = true;
+
+            //      EnableCors configurado completo y abierto al nivel Global
+            var cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header");
+            config.EnableCors(cors);
         }
 
     }

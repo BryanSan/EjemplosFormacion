@@ -16,9 +16,11 @@ namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
         {
             // Recuperamos el Request
             HttpRequestMessage requestMessage = actionContext.Request;
-
+            
             // Recuperamos el Client Certificate
             X509Certificate2 clientCertificate = requestMessage.GetClientCertificate();
+            string issuer = clientCertificate.Issuer;
+            string subject = clientCertificate.Subject;
 
             // Validamos que el Client Certificate exista y este valido
             // Esta validacion varia segun las reglas de negocio, algunos podran validar que el public key concuerde

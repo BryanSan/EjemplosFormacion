@@ -90,6 +90,9 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.6\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -99,6 +102,9 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.6\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.6\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.6\lib\net45\System.Web.Http.WebHost.dll</HintPath>
@@ -162,11 +168,13 @@
     <Compile Include="Controller Configurations\TestControllerConfigurationAttribute.cs" />
     <Compile Include="Controllers\Test Authentication\TestBasicAuthenticationController.cs" />
     <Compile Include="Controllers\Test Authentication\TestWindowAuthenticationController.cs" />
+    <Compile Include="Controllers\Test Authorization\TestAuthorizeAttributeController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestAcceptVerbsAttributeController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestHttpVerbAttributeController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestNonActionAttributeController.cs" />
     <Compile Include="Controllers\Test Built In Attributes\TestRoutePrefixAttributeController.cs" />
     <Compile Include="Controllers\Test Controller Configuration\TestControllerConfigurationAttributeController.cs" />
+    <Compile Include="Controllers\Test CORS\TestCorsController.cs" />
     <Compile Include="Controllers\Test Custom Routes Configuration\TestTypedDirectRouteFactoryController.cs" />
     <Compile Include="Controllers\Test Files\TestFileController.cs" />
     <Compile Include="Controllers\Test Files\TestZipController.cs" />
@@ -259,6 +267,8 @@
     <Compile Include="Messaging Handlers\TestReturnResponseMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestReadQueryStringMessagingHandler.cs" />
     <Compile Include="Model Binders\TestModelBinder.cs" />
+    <Compile Include="Owin Middlewares\TestRequestBufferingOwinMiddleware.cs" />
+    <Compile Include="Owin Middlewares\TestSetOwinContextOwinMiddleware.cs" />
     <Compile Include="Parameters Binding Attributes\TestETagIfMatchAttribute.cs" />
     <Compile Include="Parameters Binding Attributes\TestETagIfNoneMatchAttribute.cs" />
     <Compile Include="Stubs\Enums\TestETagMatchEnum.cs" />

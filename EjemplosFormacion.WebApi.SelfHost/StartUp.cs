@@ -1,4 +1,5 @@
 ﻿using EjemplosFormacion.WebApi.DependencyResolvers;
+using EjemplosFormacion.WebApi.OwinMiddlewares;
 using Owin;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,27 @@ namespace EjemplosFormacion.WebApi.SelfHost
             HttpListener listener = (HttpListener)appBuilder.Properties["System.Net.HttpListener"];
             listener.AuthenticationSchemes = AuthenticationSchemes.IntegratedWindowsAuthentication | AuthenticationSchemes.Basic;
 
+            // Configuracion de Owin Middlewares
+            RegisterOwinMiddlewares(appBuilder);
+
+            // Configuracion y registro de WebApi
+            RunWebApiConfiguration(appBuilder);
+
+            // Codigo mostrar un mensaje cuando llegue una Http Request 
+            // Este codigo escribira un Response con el mensaje
+            // El orden es importante, por tanto primero se mostrara la pagina de bienvenida antes que el Response Hard Coded ya que esta de primero
+            // Digamos que agrega un Owin Middleware de primero
+            // Este Middleware se insertara en el pipeline y no admitira mas Middleware subsiguientes
+            // En este caso si Web Api no puede procesar el Request, el Request llegara aca y se generara un Response con un custom mensaje
+            appBuilder.Run(owinContext =>
+            {
+                owinContext.Response.ContentType = "text/plain";
+                return owinContext.Response.WriteAsync("Hello from OWIN web server.");
+            });
+        }
+
+        private void RegisterOwinMiddlewares(IAppBuilder appBuilder)
+        {
             // Manera de crear un Middleware directo en la clase Startup sin necesidad de leer una clase
             // Solo printa en la consola todos los valores del Environment
             appBuilder.Use(async (env, next) =>
@@ -24,6 +46,7 @@ namespace EjemplosFormacion.WebApi.SelfHost
                     Console.WriteLine(string.Concat("Key: ", kvp.Key, ", value: ", kvp.Value));
                 }
 
+                // Debes llamar a next para que la ejecucion pase al siguiente MiddleWare, similar a como son los Messaging Handlers de Web Api
                 await next();
             });
 
@@ -33,12 +56,15 @@ namespace EjemplosFormacion.WebApi.SelfHost
             {
                 Console.WriteLine(string.Concat("Http method: ", env.Request.Method, ", path: ", env.Request.Path));
 
+                // Debes llamar a next para que la ejecucion pase al siguiente MiddleWare, similar a como son los Messaging Handlers de Web Api
                 await next();
 
                 Console.WriteLine(string.Concat("Response code: ", env.Response.StatusCode));
             });
 
-            RunWebApiConfiguration(appBuilder);
+            // Registro de Custom OwinMiddlewares creados heredando de la clase abstracta OwinMiddleware
+            appBuilder.Use<TestSetOwinContextOwinMiddleware>();
+            appBuilder.Use<TestRequestBufferingOwinMiddleware>();
 
             // Codigo para mostrar una pagina de bienvenida cuando llegue una Http Request
             // El orden es importante, por tanto primero se mostrara la pagina de bienvenida antes que el Response Hard Coded ya que esta de primero
@@ -46,15 +72,8 @@ namespace EjemplosFormacion.WebApi.SelfHost
             // Este Middleware se insertara en el pipeline y no admitira mas Middleware subsiguientes
             appBuilder.UseWelcomePage();
 
-            // Codigo mostrar un mensaje cuando llegue una Http Request 
-            // Este codigo escribira un Response con el mensaje
-            // El orden es importante, por tanto primero se mostrara la pagina de bienvenida antes que el Response Hard Coded ya que esta de primero
-            // Digamos que agrega un Owin Middleware de primero
-            // Este Middleware se insertara en el pipeline y no admitira mas Middleware subsiguientes
-            appBuilder.Run(owinContext =>
-            {
-                return owinContext.Response.WriteAsync("Hello from OWIN web server.");
-            });
+            // Codigo para mostrar una Custom page cuando un Error es generado desde nuestro Owin Server
+            appBuilder.UseErrorPage();
         }
 
         // Metodo para configurar Web Api

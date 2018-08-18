@@ -1,9 +1,11 @@
 using EjemplosFormacion.HelperClasess.Abstract;
+using EjemplosFormacion.HelperClasess.CriptographyHelpers;
 using EjemplosFormacion.HelperClasess.Wrappers;
 using EjemplosFormacion.WebApi.DirectRouteProviders;
 using EjemplosFormacion.WebApi.Stubs.Abstract;
 using EjemplosFormacion.WebApi.Stubs.Implementation;
 using System;
+using System.Security.Cryptography;
 using System.Web.Http.Routing;
 using Unity;
 using Unity.Injection;
@@ -17,6 +19,7 @@ namespace EjemplosFormacion.WebApi
     /// </summary>
     public static class UnityConfig
     {
+
         #region Unity Container
         private static Lazy<IUnityContainer> container =
           new Lazy<IUnityContainer>(() =>
@@ -34,6 +37,7 @@ namespace EjemplosFormacion.WebApi
 
         /// <summary>
         /// Registers the type mappings with the Unity container.
+        /// https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff660867(v%3dpandp.20)
         /// </summary>
         /// <param name="container">The unity container to configure.</param>
         /// <remarks>
@@ -46,7 +50,9 @@ namespace EjemplosFormacion.WebApi
         {
             container.AddNewExtension<Interception>();
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
-            container.RegisterType<IWrapperNLog, WrapperNLogger>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IWrapperNLog, WrapperNLogger>(new HierarchicalLifetimeManager());
+            container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISymmetricEncrypter<AesManaged, SHA256Managed>, SymmetricEncrypter<AesManaged, SHA256Managed>>(new HierarchicalLifetimeManager());
             container.RegisterType<IDirectRouteProvider, TestGlobalPrefixDirectRouteProvider>(new TransientLifetimeManager(), new InjectionConstructor("api"));
         }
     }
