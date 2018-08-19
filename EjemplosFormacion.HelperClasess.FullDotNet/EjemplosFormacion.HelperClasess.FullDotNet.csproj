@@ -71,7 +71,9 @@
     <Compile Include="Extension Methods\DynamicExtensions.cs" />
     <Compile Include="Extension Methods\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extension Methods\StringExtensions.cs" />
+    <Compile Include="Helper Classes\Abstract\AzureStorageBase.cs" />
     <Compile Include="Helper Classes\AzureBlobStorage.cs" />
+    <Compile Include="Helper Classes\AzureQueueStorage.cs" />
     <Compile Include="Helper Classes\InMemoryCache.cs" />
     <Compile Include="Helper Classes\InMemoryCacheRedis.cs" />
     <Compile Include="Helper Classes\RedisBatch.cs" />

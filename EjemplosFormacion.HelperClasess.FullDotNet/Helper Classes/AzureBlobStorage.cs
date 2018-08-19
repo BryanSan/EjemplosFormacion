@@ -1,9 +1,8 @@
-﻿using Microsoft.WindowsAzure.Storage;
+﻿using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,29 +12,19 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
     /// <summary>
     /// https://docs.microsoft.com/es-es/azure/storage/blobs/storage-quickstart-blobs-dotnet?tabs=windows
     /// </summary>
-    public class AzureBlobStorage
+    public class AzureBlobStorage : AzureStorageBase
     {
-        CloudBlobClient _cloudBlobClient;
-        BlobRequestOptions _blobRequestOptions;
-        OperationContext _operationContext;
-        AccessCondition _accesCondition;
+        private readonly CloudBlobClient _cloudBlobClient;
+        private readonly BlobRequestOptions _blobRequestOptions;
 
-        // <appSettings>
-        //      <add key = "StorageConnection" value="DefaultEndpointsProtocol=https;AccountName=account-name;AccountKey=account-key" />
-        // </appSettings>
         public AzureBlobStorage()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["StorageConnection"].ConnectionString;
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
-            _cloudBlobClient = storageAccount.CreateCloudBlobClient();
-
+            _cloudBlobClient = _storageAccount.CreateCloudBlobClient();
             _blobRequestOptions = new BlobRequestOptions
             {
                 RetryPolicy = new LinearRetry(TimeSpan.FromSeconds(2), 5),
                 MaximumExecutionTime = TimeSpan.FromSeconds(10)
             };
-            _operationContext = new OperationContext();
-            _accesCondition = AccessCondition.GenerateEmptyCondition();
         }
 
         #region Container Specific Methods
