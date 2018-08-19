@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EjemplosFormacion.HelperCla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EjemplosFormacion.HelperClasess.FullDotNet", "EjemplosFormacion.HelperClasess.FullDotNet\EjemplosFormacion.HelperClasess.FullDotNet.csproj", "{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFramework", "{7A0F1E42-0555-4921-8206-1122B41DA2CF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entity Framework", "Entity Framework", "{7A0F1E42-0555-4921-8206-1122B41DA2CF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HelperClasses", "HelperClasses", "{A46A2770-8D98-4D47-9C4B-BB465C60CE87}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helper Classes", "Helper Classes", "{A46A2770-8D98-4D47-9C4B-BB465C60CE87}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Api", "Web Api", "{617E8496-6C07-4D0D-8991-B7B654939D2C}"
 EndProject

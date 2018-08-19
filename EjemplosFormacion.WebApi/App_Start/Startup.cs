@@ -1,8 +1,11 @@
 ﻿using EjemplosFormacion.WebApi.App_Start;
+using EjemplosFormacion.WebApi.Authentication.BearerToken;
 using EjemplosFormacion.WebApi.OwinMiddlewares;
 using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
+using Microsoft.Owin.Security.OAuth;
 using Owin;
+using System;
 using System.IO;
 using System.Web;
 
@@ -21,6 +24,15 @@ namespace EjemplosFormacion.WebApi.App_Start
             app.MapSignalR();
 
             RegistroOwinMiddleware(app);
+
+            ConfigureOAuth(app);
+
+            //var config = new HttpConfiguration();
+            //var resolver = new TestUnityDependencyResolver(UnityConfig.Container);
+            //httpConfiguration.DependencyResolver = resolver;
+
+            //WebApiConfig.Register(config);
+            //app.UseWebApi(config);
         }
 
         // Primero se ejecutan los Middleware y luego pasa la ejecucion al Web Api
@@ -60,6 +72,22 @@ namespace EjemplosFormacion.WebApi.App_Start
         {
             RequestNotification currentIntegratedpipelineStage = HttpContext.Current.CurrentNotification;
             context.Get<TextWriter>("host.TraceOutput").WriteLine("Current IIS event: " + currentIntegratedpipelineStage + " Msg: " + msg);
+        }
+
+        public void ConfigureOAuth(IAppBuilder app)
+        {
+            var OAuthServerOptions = new OAuthAuthorizationServerOptions()
+            {
+                AllowInsecureHttp = true,
+                TokenEndpointPath = new PathString("/token"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+                Provider = new TestSimpleAuthorizationServerProvider()
+            };
+            
+            // Token Generation
+            app.UseOAuthAuthorizationServer(OAuthServerOptions);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+
         }
     }
 }
