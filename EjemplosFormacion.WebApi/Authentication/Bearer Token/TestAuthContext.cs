@@ -6,7 +6,7 @@ namespace EjemplosFormacion.WebApi.Authentication.BearerToken
 {
     public class TestAuthContext : IdentityDbContext<IdentityUser>
     {
-        public TestAuthContext() : base("TestAuthContext")
+        public TestAuthContext() : base("TestAuthContextConnection")
         {
 
         }
