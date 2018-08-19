@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EjemplosFormacion.WebApi.Authentication.BearerToken
+namespace EjemplosFormacion.WebApi.Authentication.BearerToken.Models
 {
     public class TestUserModel
     {

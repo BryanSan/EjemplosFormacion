@@ -1,4 +1,5 @@
-﻿using EjemplosFormacion.WebApi.App_Start;
+﻿using EjemplosFormacion.HelperClasess.Abstract;
+using EjemplosFormacion.WebApi.App_Start;
 using EjemplosFormacion.WebApi.Authentication.BearerToken;
 using EjemplosFormacion.WebApi.OwinMiddlewares;
 using Microsoft.Owin;
@@ -7,7 +8,9 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
 using System.IO;
+using System.Security.Cryptography;
 using System.Web;
+using Unity;
 
 // Registro de la clase que sera usada para el StartUp del Owin, en este caso esta misma clase sera usada
 [assembly: OwinStartup(typeof(Startup))]
@@ -76,18 +79,21 @@ namespace EjemplosFormacion.WebApi.App_Start
 
         public void ConfigureOAuth(IAppBuilder app)
         {
+            Type typeOfHasher = typeof(IHasher<SHA256Managed>);
+            IHasher<SHA256Managed> hasher = UnityConfig.Container.Resolve(typeOfHasher) as IHasher<SHA256Managed>;
+
             var OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new TestSimpleAuthorizationServerProvider()
+                Provider = new TestSimpleAuthorizationServerProvider(hasher),
+                RefreshTokenProvider = new TestSimpleRefreshTokenProvider(hasher)
             };
             
             // Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
         }
     }
 }

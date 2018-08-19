@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace EjemplosFormacion.WebApi.Authentication.BearerToken
 {
@@ -8,5 +10,8 @@ namespace EjemplosFormacion.WebApi.Authentication.BearerToken
         {
 
         }
+
+        public DbSet<TestClientApp> ClientApps { get; set; }
+        public DbSet<TestRefreshToken> RefreshTokens { get; set; }
     }
 }

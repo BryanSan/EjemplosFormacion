@@ -1,5 +1,6 @@
 ﻿using EjemplosFormacion.HelperClasess.Abstract;
 using EjemplosFormacion.WebApi.AssembliesResolver;
+using EjemplosFormacion.WebApi.Authentication.BearerToken;
 using EjemplosFormacion.WebApi.Controllers.TestCustomRoutesConfiguration;
 using EjemplosFormacion.WebApi.CORSPolicyProviderFactories;
 using EjemplosFormacion.WebApi.ExceptionHandlers;
@@ -26,6 +27,7 @@ using EjemplosFormacion.WebApi.Stubs.Enums;
 using EjemplosFormacion.WebApi.Stubs.Models;
 using EjemplosFormacion.WebApi.TraceWriters;
 using EjemplosFormacion.WebApi.ValueProviderFactories;
+using System.Data.Entity;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Web.Http;
@@ -71,6 +73,9 @@ namespace EjemplosFormacion.WebApi
 
             // Enable Cross Origin Request
             ConfigureCors(config);
+
+            // Configure Entity Framework
+            ConfigureEntityFramework();
         }
 
         /// <summary>
@@ -519,5 +524,9 @@ namespace EjemplosFormacion.WebApi
             config.EnableCors(cors);
         }
 
+        private static void ConfigureEntityFramework()
+        {
+            Database.SetInitializer<TestAuthContext>(new AuthContextDropCreateDatabaseIfModelChanges());
+        }
     }
 }

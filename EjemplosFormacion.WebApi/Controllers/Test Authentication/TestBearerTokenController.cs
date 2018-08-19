@@ -1,4 +1,5 @@
 ﻿using EjemplosFormacion.WebApi.Authentication.BearerToken;
+using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -40,14 +41,15 @@ namespace EjemplosFormacion.WebApi.Controllers.TestAuthentication
             return Ok();
         }
 
-        protected override void Dispose(bool disposing)
+        public async Task<IHttpActionResult> DeleteRefreshToken(string tokenId)
         {
-            if (disposing)
+            var result = await _repo.RemoveRefreshToken(tokenId);
+            if (result)
             {
-                _repo.Dispose();
+                return Ok();
             }
 
-            base.Dispose(disposing);
+            return BadRequest("Token Id does not exist");
         }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
@@ -77,6 +79,16 @@ namespace EjemplosFormacion.WebApi.Controllers.TestAuthentication
             }
 
             return null;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _repo.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

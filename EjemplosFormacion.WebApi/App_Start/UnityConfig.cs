@@ -53,6 +53,8 @@ namespace EjemplosFormacion.WebApi
             container.RegisterType<IWrapperNLog, WrapperNLogger>(new HierarchicalLifetimeManager());
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
             container.RegisterType<ISymmetricEncrypter<AesManaged, SHA256Managed>, SymmetricEncrypter<AesManaged, SHA256Managed>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IHasher<SHA256Managed>, Hasher<SHA256Managed>>(new HierarchicalLifetimeManager());
+            
             container.RegisterType<IDirectRouteProvider, TestGlobalPrefixDirectRouteProvider>(new TransientLifetimeManager(), new InjectionConstructor("api"));
         }
     }
