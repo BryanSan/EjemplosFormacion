@@ -71,12 +71,13 @@
     <Compile Include="Extension Methods\DynamicExtensions.cs" />
     <Compile Include="Extension Methods\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extension Methods\StringExtensions.cs" />
+    <Compile Include="Helper Classes\AzureBlobStorage.cs" />
     <Compile Include="Helper Classes\InMemoryCache.cs" />
     <Compile Include="Helper Classes\InMemoryCacheRedis.cs" />
     <Compile Include="Helper Classes\RedisBatch.cs" />
     <Compile Include="Helper Classes\RedisTransaction.cs" />
     <Compile Include="Helper Classes\InMemoryCacheWeb.cs" />
-    <Compile Include="Helper Classes\TableStorage.cs" />
+    <Compile Include="Helper Classes\AzureTableStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

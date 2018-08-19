@@ -8,15 +8,18 @@ using System.Linq;
 
 namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 {
-    public class TableStorage
+    /// <summary>
+    /// https://docs.microsoft.com/es-es/azure/cosmos-db/table-storage-how-to-use-dotnet?toc=%2Fes-es%2Fazure%2Fstorage%2Ftables%2FTOC.json&bc=%2Fes-es%2Fazure%2Fbread%2Ftoc.json
+    /// </summary>
+    public class AzureTableStorage
     {
 
-        CloudTableClient _cloudTableClient;
+        private readonly CloudTableClient _cloudTableClient;
 
         // <appSettings>
         //      <add key = "StorageConnection" value="DefaultEndpointsProtocol=https;AccountName=account-name;AccountKey=account-key" />
         // </appSettings>
-        public TableStorage()
+        public AzureTableStorage()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["StorageConnection"].ConnectionString;
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
@@ -39,6 +42,14 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             return created;
         }
 
+        public async Task<bool> TableExistAsync(string tableName)
+        {
+            CloudTable table = _cloudTableClient.GetTableReference(tableName);
+            bool exists = await table.ExistsAsync();
+
+            return exists;
+        }
+
         public async Task DeleteAsync(string tableName)
         {
             CloudTable table = _cloudTableClient.GetTableReference(tableName);
@@ -49,9 +60,9 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         public async Task<bool> DeleteIfExistsAsync(string tableName)
         {
             CloudTable table = _cloudTableClient.GetTableReference(tableName);
-            bool created = await table.DeleteIfExistsAsync();
+            bool deleted = await table.DeleteIfExistsAsync();
 
-            return created;
+            return deleted;
         }
         #endregion
 
