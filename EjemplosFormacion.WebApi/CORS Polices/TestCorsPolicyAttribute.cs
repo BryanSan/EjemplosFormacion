@@ -7,11 +7,18 @@ using System.Web.Http.Cors;
 
 namespace EjemplosFormacion.WebApi.CORSPolices
 {
+    /// <summary>
+    /// Custom CORS Policy Provider que se usara para adornar el Controller o Action al cual le aplicaremos las Policies
+    /// Lo mismo que puedes hacer con el Attribute normal de CORS lo puedes hacer con un Custom de Policies
+    /// Digamos que te sirve para tener la configuracion en una misma clase y asi poder reusarlo en vez de definirlo mil veces por todo el proyecto
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false)]
     class TestCorsPolicyAttribute : Attribute, ICorsPolicyProvider
     {
         private CorsPolicy _policy;
 
+        // Registra tu Policy aqui mejor para tener solo una sola instancia del Policy y no construir una cada vez que Web Api requiera una
+        // Registra las mismas configuraciones como si estuvieras usando el CORS Attribute comun y corriente
         public TestCorsPolicyAttribute()
         {
             // Create a CORS policy.
@@ -37,6 +44,7 @@ namespace EjemplosFormacion.WebApi.CORSPolices
             _policy.Methods.Add("POST");
         }
 
+        // Metodo llamado por Web Api para obtener la Policy
         public Task<CorsPolicy> GetCorsPolicyAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             return Task.FromResult(_policy);
