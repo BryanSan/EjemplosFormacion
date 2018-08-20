@@ -95,6 +95,26 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             return container.Metadata;
         }
 
+        public async Task<string> GetContainerSharedAccessSignature(string containerName, string blobName, SharedAccessBlobPermissions sharedAccesType)
+        {
+            CloudBlobContainer container = await GetContainerAsync(containerName);
+
+            string sas = container.GetSharedAccessSignature(new SharedAccessBlobPolicy()
+            {
+                Permissions = sharedAccesType,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(5)
+            });
+            return sas;
+        }
+
+        public async Task<string> GetContainerharedAccessSignature(string containerName, string blobName, string policyName)
+        {
+            CloudBlobContainer container = await GetContainerAsync(containerName);
+
+            string sas = container.GetSharedAccessSignature(new SharedAccessBlobPolicy(), policyName);
+            return sas;
+        }
+
         public async Task SetContainerPermissionAsync(string containerName, BlobContainerPublicAccessType accessType)
         {
             CloudBlobContainer container = await GetContainerAsync(containerName);
@@ -132,12 +152,12 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
-            string sas = container.GetSharedAccessSignature(new SharedAccessBlobPolicy()
+            string sas = cloudBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy()
             {
                 Permissions = sharedAccesType,
                 SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(5)
             });
-            return (cloudBlob.Uri.AbsoluteUri + sas);
+            return sas;
         }
 
         public async Task<string> GetBlobSharedAccessSignature(string containerName, string blobName, string policyName)
@@ -145,8 +165,8 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
-            string sas = container.GetSharedAccessSignature(new SharedAccessBlobPolicy(), policyName);
-            return (cloudBlob.Uri.AbsoluteUri + sas);
+            string sas = cloudBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy(), policyName);
+            return sas;
         }
 
         public async Task<bool> BlobExistsAsync(string containerName, string blobName)
