@@ -28,13 +28,17 @@ namespace EjemplosFormacion.WebApi.App_Start
         // En este caso estamos inicializando el SignalR
         public void Configuration(IAppBuilder app)
         {
+            // Configuracion de Signal R
             app.MapSignalR();
 
+            // Configuracion de Custom Owin Middleware
+            RegistroOwinMiddleware(app);
+
+            // Configuracion de Web Api
             RunWebApiConfiguration(app);
 
+            // Configuracion de servidor oAuth2
             ConfigureOAuth(app);
-
-            RegistroOwinMiddleware(app);
         }
 
         // Metodo para configurar Web Api
@@ -65,7 +69,6 @@ namespace EjemplosFormacion.WebApi.App_Start
             app.UseWebApi(httpConfiguration);
         }
 
-        // Primero se ejecutan los Middleware y luego pasa la ejecucion al Web Api
         // Recordar que el metodo Run añade un Middleware sin continuacion, por esta razon al llegar al Middleware registrado por Run la ejecucion no seguira mas alla y por lo tanto no llegar a Web Api
         // El metodo Use añade un Middleware pero con continuacion por lo tanto puedes encadenar los Middleware para que procesen el Request y/o Response y podra llegar la ejecucion libremente a Web Api
         private void RegistroOwinMiddleware(IAppBuilder app)
@@ -79,7 +82,7 @@ namespace EjemplosFormacion.WebApi.App_Start
                 listener.AuthenticationSchemes = AuthenticationSchemes.IntegratedWindowsAuthentication | AuthenticationSchemes.Basic | AuthenticationSchemes.Anonymous;
             }
 
-            // By default, OMCs run at the last event (PreHandlerExecute). That's why our first example code displayed "PreExecuteRequestHandler".
+            // By default, OMCs run at the last event (PreHandlerExecute).
             // You can use the a app.UseStageMarker method to register a OMC to run earlier, at any stage of the OWIN pipeline listed in the PipelineStage enum
             // Debes configurar tu Middleware en orden ya que el orden que los registres seran el orden en el que se ejecutaran
             app.Use((context, next) =>
@@ -94,7 +97,7 @@ namespace EjemplosFormacion.WebApi.App_Start
             });
 
             // Manera de crear un Middleware directo en la clase Startup sin necesidad de leer una clase
-            // Solo printa en la consola todos los valores del Environment
+            // Solo printa en el Trace todos los valores del Environment
             app.Use(async (env, next) =>
             {
                 foreach (KeyValuePair<string, object> kvp in env.Environment)
@@ -107,7 +110,7 @@ namespace EjemplosFormacion.WebApi.App_Start
             });
 
             // Manera de crear un Middleware directo en la clase Startup sin necesidad de leer una clase
-            // Solo printa en la consola que metodos, que path y que status code tiene el HttpRequest y HttpResponse
+            // Solo printa en el Trace que metodos, que path y que status code tiene el HttpRequest y HttpResponse
             app.Use(async (env, next) =>
             {
                 Trace.WriteLine(string.Concat("Http method: ", env.Request.Method, ", path: ", env.Request.Path));
@@ -118,12 +121,7 @@ namespace EjemplosFormacion.WebApi.App_Start
                 Trace.WriteLine(string.Concat("Response code: ", env.Response.StatusCode));
             });
 
-            // Registro de Custom OwinMiddlewares creados heredando de la clase abstracta OwinMiddleware
-            app.Use<TestSetOwinContextOwinMiddleware>();
-            app.Use<TestRequestBufferingOwinMiddleware>();
-            app.Use<TestOwinMiddleware>();
-
-            // By default, OMCs run at the last event (PreHandlerExecute). That's why our first example code displayed "PreExecuteRequestHandler".
+            // By default, OMCs run at the last event (PreHandlerExecute).
             // You can use the a app.UseStageMarker method to register a OMC to run earlier, at any stage of the OWIN pipeline listed in the PipelineStage enum
             // Si vas a cambiar en que stage del Pipeline en el que el Owin Middleware va a correr las subsequentes calls a app.UseStageMarker()
             // Deben estar en orden segun el orden del Pipeline, esto quiere decir que si configuro los 2 anteriores Middleware a correr en el Stage Authenticate
@@ -140,7 +138,7 @@ namespace EjemplosFormacion.WebApi.App_Start
             // El orden es importante, por tanto primero se mostrara la pagina de bienvenida antes que el Response Hard Coded ya que esta de primero
             // Digamos que agrega un Owin Middleware de primero
             // Este Middleware se insertara en el pipeline y no admitira mas Middleware subsiguientes
-            app.UseWelcomePage();
+            // app.UseWelcomePage();
 
             // Codigo para mostrar una Custom page cuando un Error es generado desde nuestro Owin Server
             app.UseErrorPage();
@@ -148,6 +146,7 @@ namespace EjemplosFormacion.WebApi.App_Start
 
         private void PrintCurrentIntegratedPipelineStageInIIS(IOwinContext context, string msg)
         {
+            // Recordad que si el Web Api esta en modo Self Host la propiedad HttpContext.Current siempre sera null
             if (HttpContext.Current != null)
             {
                 RequestNotification currentIntegratedpipelineStage = HttpContext.Current.CurrentNotification;
@@ -155,6 +154,7 @@ namespace EjemplosFormacion.WebApi.App_Start
             }
         }
 
+        // Configuracion de servidor oAuth2
         public void ConfigureOAuth(IAppBuilder app)
         {
             Type typeOfHasher = typeof(IHasher<SHA256Managed>);
@@ -163,10 +163,10 @@ namespace EjemplosFormacion.WebApi.App_Start
             var OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new TestSimpleAuthorizationServerProvider(hasher),
-                RefreshTokenProvider = new TestSimpleRefreshTokenProvider(hasher)
+                TokenEndpointPath = new PathString("/token"), // Path donde esta el endpoint para pedir los tokens, en este caso dominio + /token (http://localhost:7990/token)
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1), // Expiracion del Bearer Token
+                Provider = new TestSimpleAuthorizationServerProvider(hasher), // Servidor Provider de Bearer Tokens
+                RefreshTokenProvider = new TestSimpleRefreshTokenProvider(hasher) // Servidor Providere de los Refresh Tokens
             };
             
             // Token Generation
