@@ -1,15 +1,20 @@
 ﻿using EjemplosFormacion.HelperClasess.Abstract;
 using EjemplosFormacion.WebApi.App_Start;
 using EjemplosFormacion.WebApi.Authentication.BearerToken;
+using EjemplosFormacion.WebApi.DependencyResolvers;
 using EjemplosFormacion.WebApi.OwinMiddlewares;
 using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 using System.Web;
+using System.Web.Http;
 using Unity;
 
 // Registro de la clase que sera usada para el StartUp del Owin, en este caso esta misma clase sera usada
@@ -23,19 +28,41 @@ namespace EjemplosFormacion.WebApi.App_Start
         // En este caso estamos inicializando el SignalR
         public void Configuration(IAppBuilder app)
         {
-            // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
             app.MapSignalR();
 
-            RegistroOwinMiddleware(app);
+            RunWebApiConfiguration(app);
 
             ConfigureOAuth(app);
 
-            //var config = new HttpConfiguration();
-            //var resolver = new TestUnityDependencyResolver(UnityConfig.Container);
-            //httpConfiguration.DependencyResolver = resolver;
+            RegistroOwinMiddleware(app);
+        }
 
-            //WebApiConfig.Register(config);
-            //app.UseWebApi(config);
+        // Metodo para configurar Web Api
+        // Simplemente crea una clase HttpConfiguration y usala para configurar el servicio Web Api
+        // Esto es tal cual como si fuera un Web Api normal hosteado en IIS
+        // Inclusive lo mas practico es crear la instancia de HttpConfiguration aqui, crear una clase WebApiConfig y pasarle la instancia a esa clase
+        // Dentro de la clase WebApiConfig configura la instancia de HttpConfiguration como siempre
+        // Al terminar de configurar la instancia de HttpConfiguration pasala al extension method appBuilder.UseWebApi(httpConfiguration) para habilitar el Web Api
+        private void RunWebApiConfiguration(IAppBuilder app)
+        {
+            // Creamos nuestra propia instancia de HttpConfiguration para configurar nuestro servicio Web Api
+            var httpConfiguration = new HttpConfiguration();
+
+            // Como este proyecto es Self-Host, la clase que inicializa el Dependency Resolver en el otro proyecto
+            // Nunca sera llamada y nunca tendremos un Dependency Resolver con UnityContainer
+            // Por esta razon debemos crear a mano el Dependency Resolver junto con el UnityContainer y asignarlo manualmente a nuestra instancia de HttpConfiguration
+            // Para que asi el pueda tener todas las Dependency registradas para posteriormente configurar y trabajar correctamente
+            var resolver = new TestUnityDependencyResolver(UnityConfig.Container);
+
+            // En este caso hacemos un truco y pasamos la instancia que acabamos de crear de HttpConfiguration al otro proyecto que tenemos mas completo para que configure la instancia de Web Api
+            // De esta manera logramos hostear en este pequeño proyecto Owin todo el otro proyecto de Web Api
+            httpConfiguration.DependencyResolver = resolver;
+
+            // Mandamos a configurar nuestra insstancia de HttpConfiguration al otro proyecto mas completo asi hosteamos todo el otro proyecto en este proyecto Owin consola
+            WebApiConfig.Register(httpConfiguration);
+
+            // Le pasamos a Owin nuestra instancia configurada de HttpConfiguration para que inicie nuestro servicio Web Api
+            app.UseWebApi(httpConfiguration);
         }
 
         // Primero se ejecutan los Middleware y luego pasa la ejecucion al Web Api
@@ -43,19 +70,58 @@ namespace EjemplosFormacion.WebApi.App_Start
         // El metodo Use añade un Middleware pero con continuacion por lo tanto puedes encadenar los Middleware para que procesen el Request y/o Response y podra llegar la ejecucion libremente a Web Api
         private void RegistroOwinMiddleware(IAppBuilder app)
         {
+            // Esta propiedad solo estara en el AppBuilder si el Web Api esta siendo Self Host
+            // Si esta siendo hosteada en IIS el HttpListener no existira
+            if (app.Properties.ContainsKey("System.Net.HttpListener"))
+            {
+                // Para activar y modificar Authentication Schemas
+                HttpListener listener = (HttpListener)app.Properties["System.Net.HttpListener"];
+                listener.AuthenticationSchemes = AuthenticationSchemes.IntegratedWindowsAuthentication | AuthenticationSchemes.Basic | AuthenticationSchemes.Anonymous;
+            }
+
             // By default, OMCs run at the last event (PreHandlerExecute). That's why our first example code displayed "PreExecuteRequestHandler".
             // You can use the a app.UseStageMarker method to register a OMC to run earlier, at any stage of the OWIN pipeline listed in the PipelineStage enum
             // Debes configurar tu Middleware en orden ya que el orden que los registres seran el orden en el que se ejecutaran
             app.Use((context, next) =>
             {
-                PrintCurrentIntegratedPipelineStage(context, "Middleware 1");
+                PrintCurrentIntegratedPipelineStageInIIS(context, "Middleware 1");
                 return next.Invoke();
             });
             app.Use((context, next) =>
             {
-                PrintCurrentIntegratedPipelineStage(context, "2nd MW");
+                PrintCurrentIntegratedPipelineStageInIIS(context, "2nd MW");
                 return next.Invoke();
             });
+
+            // Manera de crear un Middleware directo en la clase Startup sin necesidad de leer una clase
+            // Solo printa en la consola todos los valores del Environment
+            app.Use(async (env, next) =>
+            {
+                foreach (KeyValuePair<string, object> kvp in env.Environment)
+                {
+                    Trace.WriteLine(string.Concat("Key: ", kvp.Key, ", value: ", kvp.Value));
+                }
+
+                // Debes llamar a next para que la ejecucion pase al siguiente MiddleWare, similar a como son los Messaging Handlers de Web Api
+                await next();
+            });
+
+            // Manera de crear un Middleware directo en la clase Startup sin necesidad de leer una clase
+            // Solo printa en la consola que metodos, que path y que status code tiene el HttpRequest y HttpResponse
+            app.Use(async (env, next) =>
+            {
+                Trace.WriteLine(string.Concat("Http method: ", env.Request.Method, ", path: ", env.Request.Path));
+
+                // Debes llamar a next para que la ejecucion pase al siguiente MiddleWare, similar a como son los Messaging Handlers de Web Api
+                await next();
+
+                Trace.WriteLine(string.Concat("Response code: ", env.Response.StatusCode));
+            });
+
+            // Registro de Custom OwinMiddlewares creados heredando de la clase abstracta OwinMiddleware
+            app.Use<TestSetOwinContextOwinMiddleware>();
+            app.Use<TestRequestBufferingOwinMiddleware>();
+            app.Use<TestOwinMiddleware>();
 
             // By default, OMCs run at the last event (PreHandlerExecute). That's why our first example code displayed "PreExecuteRequestHandler".
             // You can use the a app.UseStageMarker method to register a OMC to run earlier, at any stage of the OWIN pipeline listed in the PipelineStage enum
@@ -69,12 +135,24 @@ namespace EjemplosFormacion.WebApi.App_Start
             app.Use<TestSetOwinContextOwinMiddleware>();
             app.Use<TestRequestBufferingOwinMiddleware>();
             app.Use<TestOwinMiddleware>();
+
+            // Codigo para mostrar una pagina de bienvenida cuando llegue una Http Request
+            // El orden es importante, por tanto primero se mostrara la pagina de bienvenida antes que el Response Hard Coded ya que esta de primero
+            // Digamos que agrega un Owin Middleware de primero
+            // Este Middleware se insertara en el pipeline y no admitira mas Middleware subsiguientes
+            app.UseWelcomePage();
+
+            // Codigo para mostrar una Custom page cuando un Error es generado desde nuestro Owin Server
+            app.UseErrorPage();
         }
 
-        private void PrintCurrentIntegratedPipelineStage(IOwinContext context, string msg)
+        private void PrintCurrentIntegratedPipelineStageInIIS(IOwinContext context, string msg)
         {
-            RequestNotification currentIntegratedpipelineStage = HttpContext.Current.CurrentNotification;
-            context.Get<TextWriter>("host.TraceOutput").WriteLine("Current IIS event: " + currentIntegratedpipelineStage + " Msg: " + msg);
+            if (HttpContext.Current != null)
+            {
+                RequestNotification currentIntegratedpipelineStage = HttpContext.Current.CurrentNotification;
+                context.Get<TextWriter>("host.TraceOutput").WriteLine("Current IIS event: " + currentIntegratedpipelineStage + " Msg: " + msg);
+            }
         }
 
         public void ConfigureOAuth(IAppBuilder app)

@@ -124,7 +124,8 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelectors
         private static string GetControllerNameOfRequest(IHttpRouteData routeDataOfRequest)
         {
             // Buscamos si la Route tiene la llave controller
-            string controllerName = (string)routeDataOfRequest.Values["controller"];
+            routeDataOfRequest.Values.TryGetValue("controller", out object controllerNameObject);
+            string controllerName = controllerNameObject as string;
 
             if (string.IsNullOrWhiteSpace(controllerName))
             {

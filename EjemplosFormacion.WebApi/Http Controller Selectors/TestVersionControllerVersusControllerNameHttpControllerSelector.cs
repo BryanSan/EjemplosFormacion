@@ -61,7 +61,8 @@ namespace EjemplosFormacion.WebApi.HttpControllerSelectors
             IHttpRouteData routeDataOfRequest = request.GetRouteData();
 
             // Buscamos si la Route tiene la llave controller
-            string controllerName = (string)routeDataOfRequest.Values["controller"];
+            routeDataOfRequest.Values.TryGetValue("controller", out object controllerNameObject);
+            string controllerName = controllerNameObject as string;
 
             // Si no la tienes que vengo de Attribute Routing
             if (string.IsNullOrWhiteSpace(controllerName))
