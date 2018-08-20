@@ -5,11 +5,11 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
     </ConfigurationSettings>
     <Endpoints>
-      <InputEndpoint name="PublicHttpEndpoint" protocol="http" port="80" localPort="80" />
-      <InternalEndpoint name="InternalHttpEndpoint" protocol="http" port="81" />
-      <InstanceInputEndpoint name="PerInstancePublicHttpEndpoint" protocol="tcp" localPort="82">
+      <InputEndpoint name="PublicHttpEndpoint" protocol="http" port="8080" localPort="8080" />
+      <InternalEndpoint name="InternalHttpEndpoint" protocol="http" port="8081" />
+      <InstanceInputEndpoint name="PerInstancePublicHttpEndpoint" protocol="tcp" localPort="8082">
         <AllocatePublicPortFrom>
-          <FixedPortRange max="102" min="82" />
+          <FixedPortRange max="8102" min="8082" />
         </AllocatePublicPortFrom>
       </InstanceInputEndpoint>
     </Endpoints>

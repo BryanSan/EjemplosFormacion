@@ -1,4 +1,6 @@
 ﻿using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Data.Entity;
 
@@ -31,6 +33,14 @@ namespace EjemplosFormacion.WebApi.Authentication.BearerToken
                 Active = true,
                 RefreshTokenLifeTime = Convert.ToInt32(TimeSpan.FromDays(1).TotalMinutes),
             };
+
+            IdentityUser user = new IdentityUser
+            {
+                UserName = "Taiseer"
+            };
+
+            UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(context));
+            IdentityResult result = userManager.CreateAsync(user, "SuperPass").Result;
 
             context.ClientApps.Add(webClientApp);
             context.ClientApps.Add(nativeClientApp);

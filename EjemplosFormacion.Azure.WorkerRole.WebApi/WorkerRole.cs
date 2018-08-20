@@ -1,4 +1,7 @@
+using EjemplosFormacion.WebApi.App_Start;
+using Microsoft.Owin.Hosting;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using System;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
@@ -10,6 +13,7 @@ namespace EjemplosFormacion.Azure.WorkerRole.WebApi
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
+        private IDisposable _app = null;
 
         public override void Run()
         {
@@ -33,6 +37,13 @@ namespace EjemplosFormacion.Azure.WorkerRole.WebApi
             // For information on handling configuration changes
             // see the MSDN topic at https://go.microsoft.com/fwlink/?LinkId=166357.
 
+            var endpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["PublicHttpEndpoint"];
+            string baseUri = string.Format("{0}://{1}", endpoint.Protocol, endpoint.IPEndpoint);
+
+            Trace.TraceInformation(string.Format("Starting OWIN at {0}", baseUri), "Information");
+
+            _app = WebApp.Start<Startup>(new StartOptions(url: baseUri));
+
             bool result = base.OnStart();
 
             Trace.TraceInformation("EjemplosFormacion.Azure.WorkerRole.WebApi has been started");
@@ -46,6 +57,11 @@ namespace EjemplosFormacion.Azure.WorkerRole.WebApi
 
             this.cancellationTokenSource.Cancel();
             this.runCompleteEvent.WaitOne();
+
+            if (_app != null)
+            {
+                _app.Dispose();
+            }
 
             base.OnStop();
 
