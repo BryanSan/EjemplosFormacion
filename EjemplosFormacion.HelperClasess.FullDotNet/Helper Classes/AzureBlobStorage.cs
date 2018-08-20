@@ -1,4 +1,5 @@
 ﻿using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using System;
@@ -16,6 +17,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
     {
         private readonly CloudBlobClient _cloudBlobClient;
         private readonly BlobRequestOptions _blobRequestOptions;
+        private readonly AccessCondition _accesCondition;
 
         public AzureBlobStorage()
         {
@@ -25,6 +27,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
                 RetryPolicy = new LinearRetry(TimeSpan.FromSeconds(2), 5),
                 MaximumExecutionTime = TimeSpan.FromSeconds(10)
             };
+            _accesCondition = AccessCondition.GenerateEmptyCondition();
         }
 
         #region Container Specific Methods
