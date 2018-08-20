@@ -1,4 +1,5 @@
-﻿using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
+﻿using EjemplosFormacion.HelperClasess.FullDotNet.Abstract;
+using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
@@ -163,11 +164,32 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             await cloudBlob.DownloadToByteArrayAsync(target, index, _accesCondition, _blobRequestOptions, _operationContext);
         }
 
+        public async Task<Stream> GetBlobReadStreamAsync(string containerName, string blobName)
+        {
+            CloudBlobContainer container = await GetContainerAsync(containerName);
+            CloudPageBlob cloudPageBlob = container.GetPageBlobReference(blobName);
+
+            Stream blobStream = await cloudPageBlob.OpenReadAsync(_accesCondition, _blobRequestOptions, _operationContext);
+
+            return blobStream;
+        }
+
+        public async Task<IAzureReadOnlyBlob> GetBlobAsync(string containerName, string blobName)
+        {
+            CloudBlobContainer container = await GetContainerAsync(containerName);
+            CloudBlob cloudBlob = container.GetBlobReference(blobName);
+            await cloudBlob.FetchAttributesAsync(_accesCondition, _blobRequestOptions, _operationContext);
+            
+            var readOnlyBlob = new AzureReadOnlyBlob(cloudBlob);
+
+            return readOnlyBlob;
+        }
+
         public async Task<List<Uri>> ListBlobAsync(string containerName, bool useFlatBlobListing = false, string prefix = null)
         {
             CloudBlobContainer container = await GetContainerAsync(containerName);
 
-            List<Uri> listUris = new List<Uri>();
+            var listUris = new List<Uri>();
             BlobContinuationToken blobContinuationToken = null;
             do
             {
@@ -270,24 +292,16 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             await cloudPageBlob.WritePagesAsync(stream, startOffset, null, _accesCondition, _blobRequestOptions, _operationContext);
         }
 
-        public async Task<Stream> GetPageBlobReadStreamAsync(string containerName, string blobName)
-        {
-            CloudBlobContainer container = await GetContainerAsync(containerName);
-            CloudPageBlob cloudPageBlob = container.GetPageBlobReference(blobName);
-
-            Stream blobStream = await cloudPageBlob.OpenReadAsync(_accesCondition, _blobRequestOptions, _operationContext);
-
-            return blobStream;
-        }
-
-        public async Task<CloudBlobStream> GetPageBlobWriteStreamAsync(string containerName, string blobName, long size)
+        public async Task<IAzureStreamWriterBlob> GetPageBlobWriteStreamAsync(string containerName, string blobName, long size)
         {
             CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudPageBlob cloudPageBlob = container.GetPageBlobReference(blobName);
 
             CloudBlobStream blobStream = await cloudPageBlob.OpenWriteAsync(size, _accesCondition, _blobRequestOptions, _operationContext);
 
-            return blobStream;
+            var azureStreamWriterBlob = new AzureStreamWriterBlob(blobStream);
+
+            return azureStreamWriterBlob;
         }
         #endregion
 

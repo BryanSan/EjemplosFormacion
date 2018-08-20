@@ -63,6 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IAzureReadOnlyBlob.cs" />
+    <Compile Include="Abstract\IAzureWriteStreamBlob.cs" />
     <Compile Include="Abstract\IFileDependencyCacheService.cs" />
     <Compile Include="Abstract\ICacheService.cs" />
     <Compile Include="Abstract\ICacheServiceBatch.cs" />
@@ -73,7 +75,9 @@
     <Compile Include="Extension Methods\StringExtensions.cs" />
     <Compile Include="Helper Classes\Abstract\AzureStorageBase.cs" />
     <Compile Include="Helper Classes\AzureBlobStorage.cs" />
+    <Compile Include="Helper Classes\AzureReadOnlyBlob.cs" />
     <Compile Include="Helper Classes\AzureQueueStorage.cs" />
+    <Compile Include="Helper Classes\AzureWriteStreamBlob.cs" />
     <Compile Include="Helper Classes\InMemoryCache.cs" />
     <Compile Include="Helper Classes\InMemoryCacheRedis.cs" />
     <Compile Include="Helper Classes\RedisBatch.cs" />
