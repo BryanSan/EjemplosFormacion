@@ -54,7 +54,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         public async Task<bool> CreateContainerIfNotExistAsync(string containerName, BlobContainerPublicAccessType accessType)
         {
             CloudBlobContainer container = _cloudBlobClient.GetContainerReference(containerName);
-            bool created = await container.CreateIfNotExistsAsync(_blobRequestOptions, _operationContext);
+            bool created = await container.CreateIfNotExistsAsync(accessType, _blobRequestOptions, _operationContext);
 
             return created;
         }
@@ -76,6 +76,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         public async Task SetContainerMetadata(string containerName, IDictionary<string, string> metadataProperties)
         {
             CloudBlobContainer container = await GetContainerAsync(containerName);
+            await container.FetchAttributesAsync();
 
             foreach (KeyValuePair<string, string> metadataProperty in metadataProperties)
             {
@@ -98,15 +99,57 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         {
             CloudBlobContainer container = await GetContainerAsync(containerName);
 
-            BlobContainerPermissions permissions = new BlobContainerPermissions
+            BlobContainerPermissions permissions = await container.GetPermissionsAsync();
+            permissions.PublicAccess = accessType;
+
+            await container.SetPermissionsAsync(permissions, _accesCondition, _blobRequestOptions, _operationContext);
+        }
+
+        public async Task SetContainerPermissionAsync(string containerName, string policyName, SharedAccessBlobPermissions sharedAccesType)
+        {
+            CloudBlobContainer container = await GetContainerAsync(containerName);
+
+            var sharedPolicy = new SharedAccessBlobPolicy
             {
-                PublicAccess = accessType
+                Permissions = sharedAccesType
             };
+
+            BlobContainerPermissions permissions = await container.GetPermissionsAsync();
+            permissions.PublicAccess = BlobContainerPublicAccessType.Off;
+
+            if (permissions.SharedAccessPolicies.ContainsKey(policyName))
+            {
+                permissions.SharedAccessPolicies.Remove(policyName);
+            }
+            permissions.SharedAccessPolicies.Add(policyName, sharedPolicy);
+
             await container.SetPermissionsAsync(permissions, _accesCondition, _blobRequestOptions, _operationContext);
         }
         #endregion
 
         #region Blob Specific Methods
+        public async Task<string> GetBlobSharedAccessSignature(string containerName, string blobName, SharedAccessBlobPermissions sharedAccesType)
+        {
+            CloudBlobContainer container = await GetContainerAsync(containerName);
+            CloudBlob cloudBlob = container.GetBlobReference(blobName);
+
+            string sas = cloudBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy()
+            {
+                Permissions = sharedAccesType,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(5)
+            });
+            return (cloudBlob.Uri.AbsoluteUri + sas);
+        }
+
+        public async Task<string> GetBlobSharedAccessSignature(string containerName, string blobName, string policyName)
+        {
+            CloudBlobContainer container = await GetContainerAsync(containerName);
+            CloudBlob cloudBlob = container.GetBlobReference(blobName);
+
+            string sas = cloudBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy(), policyName);
+            return (cloudBlob.Uri.AbsoluteUri + sas);
+        }
+
         public async Task<bool> BlobExistsAsync(string containerName, string blobName)
         {
             CloudBlobContainer container = await GetContainerAsync(containerName);
@@ -121,6 +164,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         {
             CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
+            await cloudBlob.FetchAttributesAsync();
 
             foreach (KeyValuePair<string, string> metadataProperty in metadataProperties)
             {

@@ -81,6 +81,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         public async Task SetQueueMetadataAsync(string queueName, IDictionary<string, string> metadataProperties)
         {
             CloudQueue queue = await GetQueueAsync(queueName);
+            await queue.FetchAttributesAsync();
 
             foreach (KeyValuePair<string, string> metadataProperty in metadataProperties)
             {
@@ -134,7 +135,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         {
             CloudQueue queue = await GetQueueAsync(queueName);
             IEnumerable<CloudQueueMessage> messages = await queue.GetMessagesAsync(numberMessages, null, _queueRequestOptions, _operationContext); ;
-
+            
             if (messages != null && messages.Count() > 0)
             {
                 List<T> serializedEntities = messages.Select(x => JsonConvert.DeserializeObject<T>(x.AsString)).ToList();

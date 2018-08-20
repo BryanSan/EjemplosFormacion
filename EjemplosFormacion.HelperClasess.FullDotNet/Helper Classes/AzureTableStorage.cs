@@ -43,7 +43,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         public async Task CreateTableAsync(string tableName)
         {
             CloudTable table = _cloudTableClient.GetTableReference(tableName);
-
+            
             await table.CreateAsync(_tableRequestOptions, _operationContext);
         }
 
@@ -75,7 +75,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         public async Task InsertAsync<T>(string tableName, T entity) where T : class, ITableEntity, new()
         {
             CloudTable table = await GetTableAsync(tableName);
-
+            
             TableOperation insertOperation = TableOperation.Insert(entity);
 
             TableResult result = await table.ExecuteAsync(insertOperation, _tableRequestOptions, _operationContext);
