@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 {
+    /// <summary>
+    /// https://docs.microsoft.com/es-es/azure/storage/queues/storage-dotnet-how-to-use-queues
+    /// </summary>
     public class AzureQueueStorage : AzureStorageBase
     {
         private readonly CloudQueueClient _cloudQueueClient;
@@ -25,11 +28,20 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
                 MaximumExecutionTime = TimeSpan.FromSeconds(10)
             };
 
-
             _queueRequestOptions = _cloudQueueClient.DefaultRequestOptions;
         }
 
         #region Queue Specific Methods
+        public async Task<int?> GetQueueLenghtAsync(string queueName)
+        {
+            CloudQueue queue = await GetQueueAsync(queueName);
+            await queue.FetchAttributesAsync();
+
+            int? cachedMessageCount = queue.ApproximateMessageCount;
+
+            return cachedMessageCount;
+        }
+
         public async Task<bool> QueueExitsAsync(string queueName)
         {
             CloudQueue queue = _cloudQueueClient.GetQueueReference(queueName);
@@ -65,6 +77,27 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
             return deleted;
         }
+
+        public async Task SetQueueMetadataAsync(string queueName, IDictionary<string, string> metadataProperties)
+        {
+            CloudQueue queue = await GetQueueAsync(queueName);
+
+            foreach (KeyValuePair<string, string> metadataProperty in metadataProperties)
+            {
+                queue.Metadata[metadataProperty.Key] = metadataProperty.Value;
+            }
+
+            await queue.SetMetadataAsync(_queueRequestOptions, _operationContext);
+        }
+
+        public async Task<IDictionary<string, string>> GetContainerMetadata(string queueName)
+        {
+            CloudQueue queue = await GetQueueAsync(queueName);
+
+            await queue.FetchAttributesAsync(_queueRequestOptions, _operationContext);
+
+            return queue.Metadata;
+        }
         #endregion
 
         #region Queue Message Specific Methods
@@ -72,14 +105,14 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         {
             string serializedEntity = JsonConvert.SerializeObject(entity);
             CloudQueueMessage message = new CloudQueueMessage(serializedEntity);
-
-            CloudQueue queue = await GetQueue(queueName);
+            
+            CloudQueue queue = await GetQueueAsync(queueName);
             await queue.AddMessageAsync(message, null, null, _queueRequestOptions, _operationContext);
         }
 
         public async Task<T> GetMessageAsync<T>(string queueName) where T : class
         {
-            CloudQueue queue = await GetQueue(queueName);
+            CloudQueue queue = await GetQueueAsync(queueName);
             CloudQueueMessage message = await queue.GetMessageAsync(null, _queueRequestOptions, _operationContext);
 
             if (message != null)
@@ -99,7 +132,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<List<T>> GetMessagesAsync<T>(string queueName, int numberMessages) where T : class
         {
-            CloudQueue queue = await GetQueue(queueName);
+            CloudQueue queue = await GetQueueAsync(queueName);
             IEnumerable<CloudQueueMessage> messages = await queue.GetMessagesAsync(numberMessages, null, _queueRequestOptions, _operationContext); ;
 
             if (messages != null && messages.Count() > 0)
@@ -125,7 +158,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<T> PeekMessageAsync<T>(string queueName) where T : class
         {
-            CloudQueue queue = await GetQueue(queueName);
+            CloudQueue queue = await GetQueueAsync(queueName);
             CloudQueueMessage message = await queue.PeekMessageAsync(_queueRequestOptions, _operationContext);
 
             if (message != null)
@@ -143,7 +176,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<List<T>> PeektMessagesAsync<T>(string queueName, int numberMessages) where T : class
         {
-            CloudQueue queue = await GetQueue(queueName);
+            CloudQueue queue = await GetQueueAsync(queueName);
             IEnumerable<CloudQueueMessage> messages = await queue.GetMessagesAsync(numberMessages, null, _queueRequestOptions, _operationContext); ;
 
             if (messages != null && messages.Count() > 0)
@@ -160,7 +193,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         #endregion
 
         #region Private Methods
-        private async Task<CloudQueue> GetQueue(string queueName)
+        private async Task<CloudQueue> GetQueueAsync(string queueName)
         {
             CloudQueue queue = _cloudQueueClient.GetQueueReference(queueName);
             await queue.CreateIfNotExistsAsync();

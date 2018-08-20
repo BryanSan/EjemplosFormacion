@@ -37,7 +37,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         #region Container Specific Methods
         public async Task<bool> ContainerExitsAsync(string containerName, string blobName)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             bool exists = await container.ExistsAsync(_blobRequestOptions, _operationContext);
 
             return exists;
@@ -74,7 +74,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task SetContainerMetadata(string containerName, IDictionary<string, string> metadataProperties)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
 
             foreach (KeyValuePair<string, string> metadataProperty in metadataProperties)
             {
@@ -86,7 +86,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<IDictionary<string, string>> GetContainerMetadata(string containerName)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
 
             await container.FetchAttributesAsync(_accesCondition, _blobRequestOptions, _operationContext);
 
@@ -95,7 +95,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task SetContainerPermissionAsync(string containerName, BlobContainerPublicAccessType accessType)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
 
             BlobContainerPermissions permissions = new BlobContainerPermissions
             {
@@ -108,7 +108,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         #region Blob Specific Methods
         public async Task<bool> BlobExistsAsync(string containerName, string blobName)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
             bool exists = await cloudBlob.ExistsAsync(_blobRequestOptions, _operationContext);
@@ -118,7 +118,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task SetBlobMetadata(string containerName, string blobName, IDictionary<string, string> metadataProperties)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
             foreach (KeyValuePair<string, string> metadataProperty in metadataProperties)
@@ -131,7 +131,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<IDictionary<string, string>> GetBlobMetadata(string containerName, string blobName)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
             await cloudBlob.FetchAttributesAsync(_accesCondition, _blobRequestOptions, _operationContext);
@@ -141,7 +141,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task DonwloadBlobAsync(string containerName, string blobName, string destinationFilePath, FileMode fileMode)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
             await cloudBlob.DownloadToFileAsync(destinationFilePath, fileMode, _accesCondition, _blobRequestOptions, _operationContext);
@@ -149,7 +149,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task DonwloadBlobAsync(string containerName, string blobName, Stream destinationStream)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
             await cloudBlob.DownloadToStreamAsync(destinationStream, _accesCondition, _blobRequestOptions, _operationContext);
@@ -157,7 +157,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task DonwloadBlobAsync(string containerName, string blobName, byte[] target, int index = 0)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
             await cloudBlob.DownloadToByteArrayAsync(target, index, _accesCondition, _blobRequestOptions, _operationContext);
@@ -165,7 +165,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<List<Uri>> ListBlobAsync(string containerName, bool useFlatBlobListing = false, string prefix = null)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
 
             List<Uri> listUris = new List<Uri>();
             BlobContinuationToken blobContinuationToken = null;
@@ -183,7 +183,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<List<Uri>> ListBlobAsync(string containerName, string directoryPath, bool useFlatBlobListing = false)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlobDirectory directory = container.GetDirectoryReference(directoryPath);
 
             List<Uri> listUris = new List<Uri>();
@@ -202,7 +202,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task DeleteBlobAsync(string containerName, string blobName)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
             await cloudBlob.DeleteAsync(DeleteSnapshotsOption.IncludeSnapshots, _accesCondition, _blobRequestOptions, _operationContext);
@@ -210,7 +210,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<bool> DeleteBlobIfExistAsync(string containerName, string blobName)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
             bool deleted = await cloudBlob.DeleteIfExistsAsync(DeleteSnapshotsOption.IncludeSnapshots, _accesCondition, _blobRequestOptions, _operationContext);
@@ -222,7 +222,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         #region Block Blob Specific Methods
         public async Task UploadBlockBlobAsync(string containerName, string blobName, string filePath)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlockBlob cloudBlockBlob = container.GetBlockBlobReference(blobName);
 
             await cloudBlockBlob.UploadFromFileAsync(filePath, _accesCondition, _blobRequestOptions, _operationContext);
@@ -230,7 +230,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task UploadBlockBlobAsync(string containerName, string blobName, Stream stream)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlockBlob cloudBlockBlob = container.GetBlockBlobReference(blobName);
 
             await cloudBlockBlob.UploadFromStreamAsync(stream, _accesCondition, _blobRequestOptions, _operationContext);
@@ -240,7 +240,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         #region Page Blob Specific Methods
         public async Task UploadPageBlobAsync(string containerName, string blobName, string filePath)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudPageBlob cloudPageBlob = container.GetPageBlobReference(blobName);
 
             await cloudPageBlob.UploadFromFileAsync(filePath, _accesCondition, _blobRequestOptions, _operationContext);
@@ -248,7 +248,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task UploadPageBlobAsync(string containerName, string blobName, Stream stream)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudPageBlob cloudPageBlob = container.GetPageBlobReference(blobName);
 
             await cloudPageBlob.UploadFromStreamAsync(stream, _accesCondition, _blobRequestOptions, _operationContext);
@@ -256,7 +256,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task CreatePageBlobAsync(string containerName, string blobName, long lenght)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudPageBlob cloudPageBlob = container.GetPageBlobReference(blobName);
 
             await cloudPageBlob.CreateAsync(lenght, _accesCondition, _blobRequestOptions, _operationContext);
@@ -264,7 +264,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task WritePageBlobPagesAsync(string containerName, string blobName, Stream stream, long startOffset = 0)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudPageBlob cloudPageBlob = container.GetPageBlobReference(blobName);
 
             await cloudPageBlob.WritePagesAsync(stream, startOffset, null, _accesCondition, _blobRequestOptions, _operationContext);
@@ -272,7 +272,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<Stream> GetPageBlobReadStreamAsync(string containerName, string blobName)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudPageBlob cloudPageBlob = container.GetPageBlobReference(blobName);
 
             Stream blobStream = await cloudPageBlob.OpenReadAsync(_accesCondition, _blobRequestOptions, _operationContext);
@@ -282,7 +282,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         public async Task<CloudBlobStream> GetPageBlobWriteStreamAsync(string containerName, string blobName, long size)
         {
-            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudPageBlob cloudPageBlob = container.GetPageBlobReference(blobName);
 
             CloudBlobStream blobStream = await cloudPageBlob.OpenWriteAsync(size, _accesCondition, _blobRequestOptions, _operationContext);
@@ -292,7 +292,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         #endregion
 
         #region Private Methods
-        private async Task<CloudBlobContainer> GetContainer(string containerName)
+        private async Task<CloudBlobContainer> GetContainerAsync(string containerName)
         {
             CloudBlobContainer container = _cloudBlobClient.GetContainerReference(containerName);
             await container.CreateIfNotExistsAsync(_blobRequestOptions, _operationContext);

@@ -36,7 +36,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         {
             CloudTable table = _cloudTableClient.GetTableReference(tableName);
             bool exists = await table.ExistsAsync(_tableRequestOptions, _operationContext);
-
+            
             return exists;
         }
 
