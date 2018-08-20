@@ -14,13 +14,13 @@ namespace EjemplosFormacion.WebApi.SelfHost
         {
             // Para activar y modificar Authentication Schemas
             HttpListener listener = (HttpListener)appBuilder.Properties["System.Net.HttpListener"];
-            listener.AuthenticationSchemes = AuthenticationSchemes.IntegratedWindowsAuthentication | AuthenticationSchemes.Basic;
+            listener.AuthenticationSchemes = AuthenticationSchemes.IntegratedWindowsAuthentication | AuthenticationSchemes.Basic | AuthenticationSchemes.Anonymous;
+
+            // Configuracion y registro de WebApi
+            RunWebApiConfiguration(appBuilder);
 
             // Configuracion de Owin Middlewares
             RegisterOwinMiddlewares(appBuilder);
-            
-            // Configuracion y registro de WebApi
-            RunWebApiConfiguration(appBuilder);
 
             // Codigo mostrar un mensaje cuando llegue una Http Request 
             // Este codigo escribira un Response con el mensaje

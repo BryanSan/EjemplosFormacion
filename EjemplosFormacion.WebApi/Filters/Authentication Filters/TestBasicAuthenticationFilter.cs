@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Principal;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
@@ -44,7 +45,7 @@ namespace EjemplosFormacion.WebApi.Filters.AuthenticationFilters
 
             // 4. If there are credentials that the filter understands, try to validate them.
             // 5. If the credentials are bad, set the error result.
-            if (String.IsNullOrEmpty(authorization.Parameter))
+            if (string.IsNullOrEmpty(authorization.Parameter))
             {
                 context.ErrorResult = new AuthenticationFailureActionResult("Missing credentials", request);
                 return;
@@ -83,11 +84,14 @@ namespace EjemplosFormacion.WebApi.Filters.AuthenticationFilters
         }
 
         // Extrae las credenciales (Username y Password)
-        Tuple<string, string> ExtractUserNameAndPassword(string credentials)
+        Tuple<string, string> ExtractUserNameAndPassword(string base64Credentials)
         {
             // Si las credenciales estan en Base64 hazle decode
             //Encoding encoding = Encoding.GetEncoding("iso-8859-1");
             //credentials = encoding.GetString(Convert.FromBase64String(credentials));
+
+            byte[] byteArray = Convert.FromBase64String(base64Credentials);
+            string credentials = Encoding.UTF8.GetString(byteArray);
 
             int separator = credentials.IndexOf(':');
             string name = credentials.Substring(0, separator);
