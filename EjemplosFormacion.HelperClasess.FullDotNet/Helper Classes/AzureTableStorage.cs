@@ -30,6 +30,14 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         }
 
         #region Table Specific Methods
+        public async Task<bool> TableExistAsync(string tableName)
+        {
+            CloudTable table = _cloudTableClient.GetTableReference(tableName);
+            bool exists = await table.ExistsAsync(_tableRequestOptions, _operationContext);
+
+            return exists;
+        }
+
         public async Task CreateTableAsync(string tableName)
         {
             CloudTable table = _cloudTableClient.GetTableReference(tableName);
@@ -43,14 +51,6 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             bool created = await table.CreateIfNotExistsAsync(_tableRequestOptions, _operationContext);
 
             return created;
-        }
-
-        public async Task<bool> TableExistAsync(string tableName)
-        {
-            CloudTable table = _cloudTableClient.GetTableReference(tableName);
-            bool exists = await table.ExistsAsync(_tableRequestOptions, _operationContext);
-
-            return exists;
         }
 
         public async Task DeleteAsync(string tableName)

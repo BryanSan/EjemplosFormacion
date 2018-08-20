@@ -31,6 +31,14 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         }
 
         #region Container Specific Methods
+        public async Task<bool> ContainerExitsAsync(string containerName, string blobName)
+        {
+            CloudBlobContainer container = await GetContainer(containerName);
+            bool exists = await container.ExistsAsync(_blobRequestOptions, _operationContext);
+
+            return exists;
+        }
+
         public async Task CreateContainerAsync(string containerName, BlobContainerPublicAccessType accessType)
         {
             CloudBlobContainer container = _cloudBlobClient.GetContainerReference(containerName);
@@ -94,6 +102,16 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         #endregion
 
         #region Blob Specific Methods
+        public async Task<bool> BlobExistsAsync(string containerName, string blobName)
+        {
+            CloudBlobContainer container = await GetContainer(containerName);
+            CloudBlob cloudBlob = container.GetBlobReference(blobName);
+
+            bool exists = await cloudBlob.ExistsAsync(_blobRequestOptions, _operationContext);
+
+            return exists;
+        }
+
         public async Task SetBlobMetadata(string containerName, string blobName, IDictionary<string, string> metadataProperties)
         {
             CloudBlobContainer container = await GetContainer(containerName);
