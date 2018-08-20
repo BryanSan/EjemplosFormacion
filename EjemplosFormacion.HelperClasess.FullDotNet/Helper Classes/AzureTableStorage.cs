@@ -69,6 +69,45 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
             return deleted;
         }
+
+        public async Task<string> GetQueueSharedAccessSignature(string tableName, SharedAccessTablePermissions sharedAccesType)
+        {
+            CloudTable table = await GetTableAsync(tableName);
+
+            string sas = table.GetSharedAccessSignature(new SharedAccessTablePolicy()
+            {
+                Permissions = sharedAccesType,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(5)
+            });
+            return (table.Uri.AbsoluteUri + sas);
+        }
+
+        public async Task<string> GetQueueSharedAccessSignature(string tableName, string policyName)
+        {
+            CloudTable table = await GetTableAsync(tableName);
+            
+            string sas = table.GetSharedAccessSignature(new SharedAccessTablePolicy(), policyName);
+            return (table.Uri.AbsoluteUri + sas);
+        }
+
+        public async Task SetQueueSharedAccessPermissionAsync(string tableName, string policyName, SharedAccessTablePermissions sharedAccesType)
+        {
+            var sharedPolicy = new SharedAccessTablePolicy
+            {
+                Permissions = sharedAccesType
+            };
+
+            CloudTable table = await GetTableAsync(tableName);
+            TablePermissions permissions = await table.GetPermissionsAsync();
+            
+            if (permissions.SharedAccessPolicies.ContainsKey(policyName))
+            {
+                permissions.SharedAccessPolicies.Remove(policyName);
+            }
+            permissions.SharedAccessPolicies.Add(policyName, sharedPolicy);
+
+            await table.SetPermissionsAsync(permissions, _tableRequestOptions, _operationContext);
+        }
         #endregion
 
         #region Entity Specific Methods

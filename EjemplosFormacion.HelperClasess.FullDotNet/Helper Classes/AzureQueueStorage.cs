@@ -1,5 +1,6 @@
 ﻿using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
 using Microsoft.WindowsAzure.Storage.Queue;
+using Microsoft.WindowsAzure.Storage.Queue.Protocol;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using Newtonsoft.Json;
 using System;
@@ -98,6 +99,45 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             await queue.FetchAttributesAsync(_queueRequestOptions, _operationContext);
 
             return queue.Metadata;
+        }
+
+        public async Task<string> GetQueueSharedAccessSignature(string queueName, SharedAccessQueuePermissions sharedAccesType)
+        {
+            CloudQueue queue = await GetQueueAsync(queueName);
+
+            string sas = queue.GetSharedAccessSignature(new SharedAccessQueuePolicy()
+            {
+                Permissions = sharedAccesType,
+                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(5)
+            });
+            return (queue.Uri.AbsoluteUri + sas);
+        }
+
+        public async Task<string> GetQueueSharedAccessSignature(string queueName, string policyName)
+        {
+            CloudQueue queue = await GetQueueAsync(queueName);
+
+            string sas = queue.GetSharedAccessSignature(new SharedAccessQueuePolicy(), policyName);
+            return (queue.Uri.AbsoluteUri + sas);
+        }
+
+        public async Task SetQueueSharedAccessPermissionAsync(string queueName, string policyName, SharedAccessQueuePermissions sharedAccesType)
+        {
+            var sharedPolicy = new SharedAccessQueuePolicy
+            {
+                Permissions = sharedAccesType
+            };
+
+            CloudQueue queue = await GetQueueAsync(queueName);
+            QueuePermissions permissions = await queue.GetPermissionsAsync();
+
+            if (permissions.SharedAccessPolicies.ContainsKey(policyName))
+            {
+                permissions.SharedAccessPolicies.Remove(policyName);
+            }
+            permissions.SharedAccessPolicies.Add(policyName, sharedPolicy);
+
+            await queue.SetPermissionsAsync(permissions, _queueRequestOptions, _operationContext);
         }
         #endregion
 

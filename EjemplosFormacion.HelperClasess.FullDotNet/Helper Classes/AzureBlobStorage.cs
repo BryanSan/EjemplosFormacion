@@ -105,15 +105,14 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             await container.SetPermissionsAsync(permissions, _accesCondition, _blobRequestOptions, _operationContext);
         }
 
-        public async Task SetContainerPermissionAsync(string containerName, string policyName, SharedAccessBlobPermissions sharedAccesType)
+        public async Task SetContainerSharedAccessPermissionAsync(string containerName, string policyName, SharedAccessBlobPermissions sharedAccesType)
         {
-            CloudBlobContainer container = await GetContainerAsync(containerName);
-
             var sharedPolicy = new SharedAccessBlobPolicy
             {
                 Permissions = sharedAccesType
             };
 
+            CloudBlobContainer container = await GetContainerAsync(containerName);
             BlobContainerPermissions permissions = await container.GetPermissionsAsync();
             permissions.PublicAccess = BlobContainerPublicAccessType.Off;
 
@@ -133,7 +132,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
-            string sas = cloudBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy()
+            string sas = container.GetSharedAccessSignature(new SharedAccessBlobPolicy()
             {
                 Permissions = sharedAccesType,
                 SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes(5)
@@ -146,7 +145,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
             CloudBlobContainer container = await GetContainerAsync(containerName);
             CloudBlob cloudBlob = container.GetBlobReference(blobName);
 
-            string sas = cloudBlob.GetSharedAccessSignature(new SharedAccessBlobPolicy(), policyName);
+            string sas = container.GetSharedAccessSignature(new SharedAccessBlobPolicy(), policyName);
             return (cloudBlob.Uri.AbsoluteUri + sas);
         }
 
