@@ -142,7 +142,7 @@ namespace EjemplosFormacion.WebApi.App_Start
             // El orden es importante, por tanto primero se mostrara la pagina de bienvenida antes que el Response Hard Coded ya que esta de primero
             // Digamos que agrega un Owin Middleware de primero
             // Este Middleware se insertara en el pipeline y no admitira mas Middleware subsiguientes
-            // app.UseWelcomePage();
+            //app.UseWelcomePage();
 
             // Codigo para mostrar una Custom page cuando un Error es generado desde nuestro Owin Server
             app.UseErrorPage();
