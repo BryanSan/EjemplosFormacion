@@ -16,17 +16,19 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
 
         private readonly CloudTableClient _cloudTableClient;
         private readonly TableRequestOptions _tableRequestOptions;
-        private readonly AccessCondition _accesCondition;
 
         public AzureTableStorage() : base()
         {
             _cloudTableClient = _storageAccount.CreateCloudTableClient();
-            _tableRequestOptions = new TableRequestOptions
+            _cloudTableClient.DefaultRequestOptions = new TableRequestOptions
             {
                 RetryPolicy = new LinearRetry(TimeSpan.FromSeconds(2), 5),
+                //RetryPolicy = new NoRetry(), // No policy
+                //RetryPolicy = new ExponentialRetry(TimeSpan.FromSeconds(2), 5), // Cada 2, 4, 6, 8, 10 seg pruebo (Exponencial)
                 MaximumExecutionTime = TimeSpan.FromSeconds(10)
             };
-            _accesCondition = AccessCondition.GenerateEmptyCondition();
+
+            _tableRequestOptions = _cloudTableClient.DefaultRequestOptions;
         }
 
         #region Table Specific Methods

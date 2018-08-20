@@ -17,11 +17,16 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         public AzureQueueStorage()
         {
             _cloudQueueClient = _storageAccount.CreateCloudQueueClient();
-            _queueRequestOptions = new QueueRequestOptions
+            _cloudQueueClient.DefaultRequestOptions = new QueueRequestOptions
             {
-                RetryPolicy = new LinearRetry(TimeSpan.FromSeconds(2), 5),
+                RetryPolicy = new LinearRetry(TimeSpan.FromSeconds(2), 5), // Cada 2 seg pruebo
+                //RetryPolicy = new NoRetry(), // No policy
+                //RetryPolicy = new ExponentialRetry(TimeSpan.FromSeconds(2), 5), // Cada 2, 4, 6, 8, 10 seg pruebo (Exponencial)
                 MaximumExecutionTime = TimeSpan.FromSeconds(10)
             };
+
+
+            _queueRequestOptions = _cloudQueueClient.DefaultRequestOptions;
         }
 
         #region Queue Specific Methods

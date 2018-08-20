@@ -22,11 +22,15 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
         public AzureBlobStorage()
         {
             _cloudBlobClient = _storageAccount.CreateCloudBlobClient();
-            _blobRequestOptions = new BlobRequestOptions
+            _cloudBlobClient.DefaultRequestOptions = new BlobRequestOptions
             {
                 RetryPolicy = new LinearRetry(TimeSpan.FromSeconds(2), 5),
+                //RetryPolicy = new NoRetry(), // No policy
+                //RetryPolicy = new ExponentialRetry(TimeSpan.FromSeconds(2), 5), // Cada 2, 4, 6, 8, 10 seg pruebo (Exponencial)
                 MaximumExecutionTime = TimeSpan.FromSeconds(10)
             };
+
+            _blobRequestOptions = _cloudBlobClient.DefaultRequestOptions;
             _accesCondition = AccessCondition.GenerateEmptyCondition();
         }
 
