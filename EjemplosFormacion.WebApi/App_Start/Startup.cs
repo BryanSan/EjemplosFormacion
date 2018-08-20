@@ -66,6 +66,10 @@ namespace EjemplosFormacion.WebApi.App_Start
             WebApiConfig.Register(httpConfiguration);
 
             // Le pasamos a Owin nuestra instancia configurada de HttpConfiguration para que inicie nuestro servicio Web Api
+            // RECORDAR QUE ESTO AGREGA UN OWINMIDDLEWARE QUE HARA DE SERVICO WEB API
+            // RECORDAD QUE EL ORDEN DE EJECUCION DE LOS OWINMIDDLEWARE ES POR ORDEN DE LLAMADA AL METODO EN CODIGO (ESTA CLASE)
+            // SI HAY UN OWINMIDDLEWARE ANTES DE ESTE LLAMADO Y SON DE LOS QUE NO DEJAN PASAR NADA COMO EL RUN, NUNCA LLEGARAS AL WEB API
+            // OJOOOOOOOOOOOOOOOOOOOOOOOOOO PROBLEMA MALDITO ROMPE VIDAS
             app.UseWebApi(httpConfiguration);
         }
 
