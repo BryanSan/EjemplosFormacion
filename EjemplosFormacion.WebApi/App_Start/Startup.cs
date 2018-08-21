@@ -31,16 +31,17 @@ namespace EjemplosFormacion.WebApi.App_Start
             // Configuracion de servidor oAuth2
             // PRIMERO DEBES CONFIGURAR EL SERVIDOR DE OAUTH PORQUE SI NO LAS PETICIONES LLEGARAN UNAUTHENTICATED AL WEB API
             // RECORDAR QUE EL ORDEN ES SUPREMAMENTE IMPORTANTE EN WEB API
+            // OJOOOOOOOOOOOOOOOOOOOOOOOOOO PROBLEMA MALDITO ROMPE VIDAS
             ConfigureOAuth(app);
 
             // Configuracion de Signal R
             app.MapSignalR();
 
-            // Configuracion de Custom Owin Middleware
-            RegistroOwinMiddleware(app);
-
             // Configuracion de Web Api
             RunWebApiConfiguration(app);
+
+            // Configuracion de Custom Owin Middleware
+            RegistroOwinMiddleware(app);
         }
 
         // Metodo para configurar Web Api
@@ -144,7 +145,7 @@ namespace EjemplosFormacion.WebApi.App_Start
             // El orden es importante, por tanto primero se mostrara la pagina de bienvenida antes que el Response Hard Coded ya que esta de primero
             // Digamos que agrega un Owin Middleware de primero
             // Este Middleware se insertara en el pipeline y no admitira mas Middleware subsiguientes
-            //app.UseWelcomePage();
+            app.UseWelcomePage();
 
             // Codigo para mostrar una Custom page cuando un Error es generado desde nuestro Owin Server
             app.UseErrorPage();
