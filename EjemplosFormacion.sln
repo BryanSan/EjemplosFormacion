@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EjemplosFormacion.WebApi.Se
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{B3820CFC-233A-4F8A-8D42-69D65AB5089D}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "EjemplosFormacion.CloudService", "EjemplosFormacion.CloudService\EjemplosFormacion.CloudService.ccproj", "{A59C1134-207E-43F3-82AB-F47DB968073F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EjemplosFormacion.WorkerRole.WebApi.SelfHost", "EjemplosFormacion.WorkerRole.WebApi.SelfHost\EjemplosFormacion.WorkerRole.WebApi.SelfHost.csproj", "{C9998638-BE93-496E-8CC5-84698A54C0FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{332B94D9-0AC5-491D-AA1D-DC1116B49838}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{332B94D9-0AC5-491D-AA1D-DC1116B49838}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{332B94D9-0AC5-491D-AA1D-DC1116B49838}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A59C1134-207E-43F3-82AB-F47DB968073F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A59C1134-207E-43F3-82AB-F47DB968073F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A59C1134-207E-43F3-82AB-F47DB968073F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A59C1134-207E-43F3-82AB-F47DB968073F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9998638-BE93-496E-8CC5-84698A54C0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9998638-BE93-496E-8CC5-84698A54C0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9998638-BE93-496E-8CC5-84698A54C0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9998638-BE93-496E-8CC5-84698A54C0FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +94,8 @@ Global
 		{B5AC0B11-EEEC-4BA6-BBE3-04546B7E6850} = {A46A2770-8D98-4D47-9C4B-BB465C60CE87}
 		{9AE79F2E-B2B1-466B-B5B9-2EC25F461B10} = {A46A2770-8D98-4D47-9C4B-BB465C60CE87}
 		{332B94D9-0AC5-491D-AA1D-DC1116B49838} = {617E8496-6C07-4D0D-8991-B7B654939D2C}
+		{A59C1134-207E-43F3-82AB-F47DB968073F} = {B3820CFC-233A-4F8A-8D42-69D65AB5089D}
+		{C9998638-BE93-496E-8CC5-84698A54C0FD} = {B3820CFC-233A-4F8A-8D42-69D65AB5089D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83BB25C-433D-4863-8233-2FC22D66A235}

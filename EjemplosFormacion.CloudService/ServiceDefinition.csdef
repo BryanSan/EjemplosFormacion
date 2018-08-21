@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="EjemplosFormacion.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2015-04.2.6">
+  <WorkerRole name="EjemplosFormacion.WorkerRole.WebApi.SelfHost" vmsize="ExtraSmall">
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+    </ConfigurationSettings>
+    <Endpoints>
+      <InputEndpoint name="PublicHttpEndpoint" protocol="http" port="8080" localPort="8080" />
+      <InternalEndpoint name="InternalHttpEndpoint" protocol="http" port="8081" />
+      <InstanceInputEndpoint name="InstanceInputTcpEndpoint" protocol="tcp" localPort="8082">
+        <AllocatePublicPortFrom>
+          <FixedPortRange max="8100" min="8082" />
+        </AllocatePublicPortFrom>
+      </InstanceInputEndpoint>
+    </Endpoints>
+  </WorkerRole>
+</ServiceDefinition>
