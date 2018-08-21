@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.ServiceRuntime;
+using System;
 using System.Net.Http;
 using System.Web.Http;
 
@@ -8,18 +9,18 @@ namespace EjemplosFormacion.WorkerRole.WebApi.SelfHost
     {
         public HttpResponseMessage Get()
         {
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent("Hello from OWIN!")
-            };
-        }
+            string publicHttpIpEndpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["PublicHttpEndpoint"].IPEndpoint?.ToString();
+            string publicHttpPublicIpEndpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["PublicHttpEndpoint"].PublicIPEndpoint?.ToString();
 
-        public HttpResponseMessage Get(int id)
-        {
-            string msg = String.Format("Hello from OWIN (id = {0})", id);
+            string internalHttpIpEndpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["InternalHttpEndpoint"].IPEndpoint?.ToString();
+            string internalHttpPublicIpEndpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["InternalHttpEndpoint"].PublicIPEndpoint?.ToString();
+            
+            string mensaje = string.Format(@"PublicHttpEndpoint => IPEndpoint : {0},  PublicIPEndpoint : {1}; {2}InternalHttpEndpoint => IPEndpoint : {3},  PublicIPEndpoint : {4};",
+                                            publicHttpIpEndpoint, publicHttpPublicIpEndpoint, Environment.NewLine, internalHttpIpEndpoint, internalHttpPublicIpEndpoint);
+
             return new HttpResponseMessage()
             {
-                Content = new StringContent(msg)
+                Content = new StringContent(mensaje)
             };
         }
     }
