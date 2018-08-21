@@ -3,7 +3,7 @@
   <Role name="EjemplosFormacion.WorkerRole.WebApi.SelfHost">
     <Instances count="2" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=pruebabsbs;AccountKey=$(_pruebabsbs.key_)" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

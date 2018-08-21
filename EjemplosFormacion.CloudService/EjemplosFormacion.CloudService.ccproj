@@ -49,9 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EjemplosFormacion.WorkerRole.WebApi.SelfHostContent\" />
+    <Folder Include="Profiles" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="EjemplosFormacion.WorkerRole.WebApi.SelfHostContent\diagnostics.wadcfgx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishProfile Include="Profiles\PruebaBSBSProduction.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
