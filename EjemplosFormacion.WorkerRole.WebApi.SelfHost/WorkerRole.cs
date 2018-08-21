@@ -1,4 +1,3 @@
-using EjemplosFormacion.WebApi.App_Start;
 using Microsoft.Owin.Hosting;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using System;
@@ -7,7 +6,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EjemplosFormacion.Azure.CloudService.WebApi.SelfHost
+namespace EjemplosFormacion.WorkerRole.WebApi.SelfHost
 {
     public class WorkerRole : RoleEntryPoint
     {
@@ -53,7 +52,7 @@ namespace EjemplosFormacion.Azure.CloudService.WebApi.SelfHost
 
         public override void OnStop()
         {
-            Trace.TraceInformation("EjemplosFormacion.WorkerRole.WebApi is stopping");
+            Trace.TraceInformation("EjemplosFormacion.WorkerRole.WebApi.SelfHost is stopping");
 
             this.cancellationTokenSource.Cancel();
             this.runCompleteEvent.WaitOne();
@@ -65,7 +64,7 @@ namespace EjemplosFormacion.Azure.CloudService.WebApi.SelfHost
 
             base.OnStop();
 
-            Trace.TraceInformation("EjemplosFormacion.WorkerRole.WebApi has stopped");
+            Trace.TraceInformation("EjemplosFormacion.WorkerRole.WebApi.SelfHost has stopped");
         }
 
         private async Task RunAsync(CancellationToken cancellationToken)
