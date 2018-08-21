@@ -125,7 +125,7 @@ namespace EjemplosFormacion.WebApi.Authentication.BearerToken
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
             identity.AddClaim(new Claim("sub", context.UserName));
-            identity.AddClaim(new Claim("role", "user"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
 
             var props = new AuthenticationProperties(new Dictionary<string, string>
                 {

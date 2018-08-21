@@ -28,6 +28,11 @@ namespace EjemplosFormacion.WebApi.App_Start
         // En este caso estamos inicializando el SignalR
         public void Configuration(IAppBuilder app)
         {
+            // Configuracion de servidor oAuth2
+            // PRIMERO DEBES CONFIGURAR EL SERVIDOR DE OAUTH PORQUE SI NO LAS PETICIONES LLEGARAN UNAUTHENTICATED AL WEB API
+            // RECORDAR QUE EL ORDEN ES SUPREMAMENTE IMPORTANTE EN WEB API
+            ConfigureOAuth(app);
+
             // Configuracion de Signal R
             app.MapSignalR();
 
@@ -36,9 +41,6 @@ namespace EjemplosFormacion.WebApi.App_Start
 
             // Configuracion de Web Api
             RunWebApiConfiguration(app);
-
-            // Configuracion de servidor oAuth2
-            ConfigureOAuth(app);
         }
 
         // Metodo para configurar Web Api
