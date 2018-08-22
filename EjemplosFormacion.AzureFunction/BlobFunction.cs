@@ -4,6 +4,9 @@ using System.IO;
 
 namespace EjemplosFormacion.AzureFunction
 {
+    /// <summary>
+    /// https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-blob
+    /// </summary>
     public static class BlobFunction
     {
         [FunctionName("BlobFunction")]
