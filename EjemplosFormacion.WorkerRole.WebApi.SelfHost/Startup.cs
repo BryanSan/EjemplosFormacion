@@ -7,6 +7,10 @@ using System.Web.Http;
 
 namespace EjemplosFormacion.WorkerRole.WebApi.SelfHost
 {
+    /// <summary>
+    /// Startup Class para configurar el servidor Owin
+    /// En este caso estamos configurando el Web Api y habilitandolo en el servidor Owin
+    /// </summary>
     public class Startup
     {
         public void Configuration(IAppBuilder app)

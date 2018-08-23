@@ -5,6 +5,9 @@ using System.Web.Http;
 
 namespace EjemplosFormacion.WorkerRole.WebApi.SelfHost
 {
+    /// <summary>
+    /// Test Controller para devolver la informacion de la instancia donde halla llegado el Request
+    /// </summary>
     public class TestController : ApiController
     {
         public HttpResponseMessage Get()
