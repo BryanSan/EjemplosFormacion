@@ -80,9 +80,22 @@ namespace EjemplosFormacion.HelperClasess.ExtensionMethods
             if (field.IndexOfAny(_specialChars) != -1)
             {
                 // Delimit the entire field with quotes and replace embedded quotes with "".
-                return String.Format("\"{0}\"", field.Replace("\"", "\"\""));
+                return string.Format("\"{0}\"", field.Replace("\"", "\"\""));
             }
             else return field;
+        }
+
+        public static T? TryToParse<T>(this string input) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
+        {
+            var type = typeof(T);
+            var method = type.GetMethod("TryParse", new[] { typeof(string), Type.GetType(string.Format("{0}&", type.FullName)) });
+            object[] args = new object[] { input, null };
+            return (bool)method.Invoke(null, args) ? (T)args[1] : default(T?);
+        }
+
+        public static bool ContainsIgnoreCase(this string input, string toMatch)
+        {
+            return !string.IsNullOrEmpty(toMatch) && input.IndexOf(toMatch, StringComparison.InvariantCultureIgnoreCase) >= 0;
         }
     }
 }

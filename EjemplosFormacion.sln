@@ -47,6 +47,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EjemplosFormacion.WebJob", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service Fabric", "Service Fabric", "{EBA110E1-A0AC-41B5-9FE0-007CE396F38C}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "EjemplosFormacion.SqlServer", "EjemplosFormacion.SqlServer\EjemplosFormacion.SqlServer.sqlproj", "{0B7DE55B-3EF3-465A-B8BC-86B6D32FFC2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql Server", "Sql Server", "{E8A74822-0B30-48EC-B97F-564821A7C3F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +105,12 @@ Global
 		{24A1B9E4-07F5-47F2-907B-94B4FE59B359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A1B9E4-07F5-47F2-907B-94B4FE59B359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A1B9E4-07F5-47F2-907B-94B4FE59B359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B7DE55B-3EF3-465A-B8BC-86B6D32FFC2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B7DE55B-3EF3-465A-B8BC-86B6D32FFC2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B7DE55B-3EF3-465A-B8BC-86B6D32FFC2F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0B7DE55B-3EF3-465A-B8BC-86B6D32FFC2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B7DE55B-3EF3-465A-B8BC-86B6D32FFC2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B7DE55B-3EF3-465A-B8BC-86B6D32FFC2F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +132,7 @@ Global
 		{88A0F07C-DD35-492D-8425-0DF1E3AB38DD} = {B3820CFC-233A-4F8A-8D42-69D65AB5089D}
 		{24A1B9E4-07F5-47F2-907B-94B4FE59B359} = {88A0F07C-DD35-492D-8425-0DF1E3AB38DD}
 		{EBA110E1-A0AC-41B5-9FE0-007CE396F38C} = {B3820CFC-233A-4F8A-8D42-69D65AB5089D}
+		{0B7DE55B-3EF3-465A-B8BC-86B6D32FFC2F} = {E8A74822-0B30-48EC-B97F-564821A7C3F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83BB25C-433D-4863-8233-2FC22D66A235}
