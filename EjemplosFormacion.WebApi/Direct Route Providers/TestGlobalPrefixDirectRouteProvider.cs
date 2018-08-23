@@ -14,6 +14,7 @@ namespace EjemplosFormacion.WebApi.DirectRouteProviders
     /// Extension del DefaultDirectRouteProvider para añadir el comportamiento de añadir una Route Template (un prefijo) antes de cualquier template definido por los RoutePrefixAttribute
     /// Tambien tiene el comportamiento de dar soporte a rutas tipadas mediante un diccionario estatico que se va llenando con la ayuda de Extension Methods del HttpConfiguration para posteriormente registrar estas rutas
     /// El Direct Route Provider will simply walk through all of the available controllers and harvest all routes declared through the use of RouteAttribute and register them. Of course, it is all not surprising – after all, this is the typical attribute routing behavior
+    /// https://www.strathweb.com/2015/10/global-route-prefixes-with-attribute-routing-in-asp-net-web-api/
     /// </summary>
     class TestGlobalPrefixDirectRouteProvider : DefaultDirectRouteProvider
     {

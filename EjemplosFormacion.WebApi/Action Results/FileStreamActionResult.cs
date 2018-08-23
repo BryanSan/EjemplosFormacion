@@ -1,7 +1,5 @@
-﻿using EjemplosFormacion.HelperClasess.ExtensionMethods;
-using System;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -36,7 +34,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
             {
                 HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
 
-                // Devuelvo el content como StreamContentn para no cargarlo en memoria
+                // Devuelvo el content como StreamContent para no cargarlo en memoria
                 response.Content = new StreamContent(_stream);
                 response.Content.Headers.ContentType = new MediaTypeHeaderValue(_contentType);
 

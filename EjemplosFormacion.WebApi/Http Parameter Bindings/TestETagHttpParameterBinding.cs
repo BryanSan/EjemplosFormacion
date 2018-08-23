@@ -15,6 +15,7 @@ namespace EjemplosFormacion.WebApi.HttpParametersBindings
     /// Para usar este HttpParameterBinding crea una Rule en el WebApiConfig config.ParameterBindingRules.Add(parameterDescriptor =>
     /// O simplemente crea un ParameterBindingAttribute que hara de Factory para crear este HttpParameterBinding
     /// El ParameterBindingAttribute adornara un paramater de un Action y Web Api sabra que ese parametro usara el HttpParameterBinding retornado por el ParameterBindingAttribute
+    /// https://docs.microsoft.com/es-es/aspnet/web-api/overview/formats-and-model-binding/parameter-binding-in-aspnet-web-api
     /// </summary>
     class TestETagHttpParameterBinding : HttpParameterBinding
     {

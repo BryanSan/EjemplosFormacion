@@ -8,6 +8,7 @@ namespace EjemplosFormacion.WebApi.CORSPolicyProviderFactories
     /// Clase que actua de Factory para las Cors Policy Proviver 
     /// Implementa tu logica aqui y devuelve una instancia de CORS Policy Provider inspeccionando el Request que ha llegado
     /// El CORS Policy Provider configurara y devolvera el Policy segun lo implementes
+    /// https://docs.microsoft.com/es-es/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api
     /// </summary>
     class TestCorsPolicyProviderFactory : ICorsPolicyProviderFactory
     {

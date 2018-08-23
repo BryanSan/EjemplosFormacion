@@ -10,6 +10,7 @@ namespace EjemplosFormacion.WebApi.TraceWriters
     /// Usalo para hacerle Trace (el de System.Diagnostics) a esta informacion y que los TraceListener lo persistan como consideren oportuno
     /// O simplemente no le hagas Trace y persistelo tu mismo
     /// POR DEFECTO WEB API NO TIENE UN ITRACEWRITER CONFIGURADO Y NO TRACEARA NADA, DEBES DAR TU PROPIA IMPLEMENTACION PARA QUE SE ACTIVE EL TRACING
+    /// https://docs.microsoft.com/es-es/aspnet/web-api/overview/testing-and-debugging/tracing-in-aspnet-web-api
     /// </summary>
     public class TestTraceWriter : ITraceWriter
     {

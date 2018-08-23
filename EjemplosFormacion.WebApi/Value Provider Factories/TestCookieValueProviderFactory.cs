@@ -13,6 +13,7 @@ namespace EjemplosFormacion.WebApi.ValueProviderFactories
     // https://docs.microsoft.com/en-us/aspnet/web-api/overview/formats-and-model-binding/parameter-binding-in-aspnet-web-api
     public class TestCookieValueProviderFactory : ValueProviderFactory
     {
+        // Metodo que sera llamado para devolver un ValueProvider que sera el encargado de rellenar los parametros que se requieran del Action que se va a invocar
         public override IValueProvider GetValueProvider(HttpActionContext actionContext)
         {
             return new TestCookieValueProvider(actionContext);

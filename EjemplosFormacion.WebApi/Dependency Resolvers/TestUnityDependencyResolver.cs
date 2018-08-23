@@ -13,6 +13,7 @@ namespace EjemplosFormacion.WebApi.DependencyResolvers
     /// You can use this extensibility hook to create the controller, resolving any dependencies. 
     /// If GetService returns null, Web API looks for a parameterless constructor on the controller class.
     /// No retornar errores si no se puede resolver las dependencias, simplemente devolver null
+    /// https://docs.microsoft.com/es-es/aspnet/web-api/overview/advanced/dependency-injection
     /// </summary>
     public class TestUnityDependencyResolver : IDependencyResolver
     {

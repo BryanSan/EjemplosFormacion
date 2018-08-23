@@ -11,6 +11,7 @@ namespace EjemplosFormacion.WebApi.DirectRouteFactories
     /// En este caso esta implementacion se usa para albergar informacion que sera usada para implementar unas Custom Direct Route de manera Tipada 
     /// Con la ayuda de un Extension Method del HttpConfiguration que llenara esta informacion 
     /// El Direct Route Provider que leera esta informacion para registrar la Route
+    /// https://www.google.es/search?q=Typed+route+provider&ie=&oe=
     /// </summary>
     class TestTypedDirectRouteFactory : IDirectRouteFactory
     {

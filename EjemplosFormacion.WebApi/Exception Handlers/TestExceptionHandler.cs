@@ -1,5 +1,4 @@
 ﻿using EjemplosFormacion.WebApi.ActionResults;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.ExceptionHandling;
@@ -10,6 +9,7 @@ namespace EjemplosFormacion.WebApi.ExceptionHandlers
     /// Exception handlers are the solution for customizing all possible responses to unhandled exceptions caught by Web API.
     /// Se usa para ser hacer handler a una Exception que no ha sido atendida por el Action o un Exception Filter, devolver un Response adecuado o cualquier otro tipo de procesamiento
     /// Las excepciones del tipo HttpResponseException son un caso especial y no llamaran al ExceptionHandler
+    /// https://docs.microsoft.com/es-es/aspnet/web-api/overview/error-handling/web-api-global-error-handling
     /// </summary>
     class TestExceptionHandler : IExceptionHandler
     {

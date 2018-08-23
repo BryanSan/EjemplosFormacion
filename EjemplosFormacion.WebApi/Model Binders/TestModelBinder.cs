@@ -1,4 +1,5 @@
-﻿using System.Web.Http.Controllers;
+﻿using System;
+using System.Web.Http.Controllers;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.ValueProviders;
 
@@ -65,7 +66,11 @@ namespace EjemplosFormacion.WebApi.ModelBinders
             // Si no puedes convertirlo agregas un error al Model State y devuelves false
             bindingContext.ModelState.AddModelError(bindingContext.ModelName, "Cannot convert value to GeoPoint");
             return false;
+        }
 
+        public static bool CanBindType(Type modelType)
+        {
+            return modelType == typeof(GeoPoint);
         }
 
         [ModelBinder(typeof(TestModelBinder))]

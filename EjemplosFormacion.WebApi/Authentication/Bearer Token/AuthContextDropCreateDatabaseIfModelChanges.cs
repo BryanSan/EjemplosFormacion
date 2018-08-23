@@ -6,8 +6,13 @@ using System.Data.Entity;
 
 namespace EjemplosFormacion.WebApi.Authentication.BearerToken
 {
+    /// <summary>
+    /// Custom Database Initializer para recrear la base de datos solo si mi modelo cambia o si no existe
+    /// </summary>
     public class AuthContextDropCreateDatabaseIfModelChanges : DropCreateDatabaseIfModelChanges<TestAuthContext>
     {
+        // Entity Framework llamara a este metodo para que hagas tu logica para añadir los registros por default al crear o recrear la base de datos
+        // Solo inserta como lo hicieras normalmente usando el DbContext para el que trabaja este Database Initializer
         protected override void Seed(TestAuthContext context)
         {
             base.Seed(context);

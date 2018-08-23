@@ -22,6 +22,7 @@ using EjemplosFormacion.WebApi.HttpParametersBindings;
 using EjemplosFormacion.WebApi.HttpRouteConstraints;
 using EjemplosFormacion.WebApi.MediaTypeFormatters;
 using EjemplosFormacion.WebApi.MessagingHandlers;
+using EjemplosFormacion.WebApi.ModelBinderProviders;
 using EjemplosFormacion.WebApi.ModelBinders;
 using EjemplosFormacion.WebApi.Stubs.Enums;
 using EjemplosFormacion.WebApi.Stubs.Models;
@@ -213,6 +214,10 @@ namespace EjemplosFormacion.WebApi
             //                         [ModelBinder] TestModelBinder.GeoPoint location        
             var provider = new SimpleModelBinderProvider(typeof(TestModelBinder.GeoPoint), new TestModelBinder());
             config.Services.Insert(typeof(ModelBinderProvider), 0, provider); // De primero o el Default Model Binder oscurece a todos tus Model Binder ya que ataja a todos los Types
+
+            // Custom Model Binder Provider que funcionara de Factory para nuestros ModelBinders
+            // Puedes usar los Built-In como el SimpleModelBinderProvider o crear el tuyo propio
+            config.Services.Insert(typeof(ModelBinderProvider), 0, new TestModelBinderProvider());
 
             // Nueva manera de crear un ModelBinder para un tipo en concreto
             config.BindParameter(typeof(TestModelBinder.GeoPoint), new TestModelBinder());
@@ -526,6 +531,10 @@ namespace EjemplosFormacion.WebApi
 
         private static void ConfigureEntityFramework()
         {
+            // Configura un Database Initializer cuando la aplicacion inicia
+            // Puedes usar los Built-In Database Initializer para recrear la base de datos siempre, o recrearla cuando tu modelo cambia, o crearla si no existe
+            // O puedes crear un Custom Database Initializer como es en este caso para ademas de recrear la base de datos cuando el modelo cambia o crearla si no existe
+            // Tambien añadir registros por default al recrearla, usa el metodo Seed para hacer la logica de los registros default
             Database.SetInitializer<TestAuthContext>(new AuthContextDropCreateDatabaseIfModelChanges());
         }
     }

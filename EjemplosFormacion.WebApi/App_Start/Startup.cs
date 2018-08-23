@@ -162,6 +162,8 @@ namespace EjemplosFormacion.WebApi.App_Start
         }
 
         // Configuracion de servidor oAuth2
+        // RECORDAR QUE ESTE REGISTRO DEL oAuth2 OWINMIDLEWARE DEBE ESTAR ANTES QUE LA LLAMADA AL REGISTRO DE WEB API 
+        // O NUNCA SE AUTHENTICARA PRIMERO ANTES DE LLEGAR A LAS ACTION DE WEB API QUE PIDEN QUE YA ESTES AUTHENTICADO
         public void ConfigureOAuth(IAppBuilder app)
         {
             Type typeOfHasher = typeof(IHasher<SHA256Managed>);

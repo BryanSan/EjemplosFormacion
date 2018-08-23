@@ -18,6 +18,7 @@ namespace EjemplosFormacion.WebApi.MediaTypeFormatters
     /// Que este configurado en esta clase, se evaluara si el type del objeto es soportado por esta clase y se serializara o deseralizara segun sea el caso
     /// En este caso se ha configurado el MIME Type, entonces Web API seleccionara este Media Type Formatter
     /// Cuando llegue cualquier Request con Accept Header o Content Type Header que tenga el MIME Type text/csv
+    /// https://docs.microsoft.com/es-es/aspnet/web-api/overview/formats-and-model-binding/media-formatters
     /// </summary>
     public class TestCSVBufferedMediaTypeFormatter : BufferedMediaTypeFormatter
     {

@@ -11,6 +11,7 @@ namespace EjemplosFormacion.WebApi.CORSPolices
     /// Custom CORS Policy Provider que se usara para adornar el Controller o Action al cual le aplicaremos las Policies
     /// Lo mismo que puedes hacer con el Attribute normal de CORS lo puedes hacer con un Custom de Policies
     /// Digamos que te sirve para tener la configuracion en una misma clase y asi poder reusarlo en vez de definirlo mil veces por todo el proyecto
+    /// https://docs.microsoft.com/es-es/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api
     /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false)]
     class TestCorsPolicyAttribute : Attribute, ICorsPolicyProvider

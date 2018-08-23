@@ -49,6 +49,7 @@ namespace EjemplosFormacion.WebApi.ActionResults
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 // Only add one challenge per authentication scheme.
+                // El WwwAuthenticate sirve para indicarle al Client contra que Authentication Schema se esta haciendo la Authentication
                 if (!response.Headers.WwwAuthenticate.Any((h) => h.Scheme == _challenge.Scheme))
                 {
                     response.Headers.WwwAuthenticate.Add(_challenge);

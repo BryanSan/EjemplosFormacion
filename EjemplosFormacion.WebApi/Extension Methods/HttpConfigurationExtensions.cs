@@ -11,6 +11,7 @@ namespace EjemplosFormacion.WebApi.ExtensionMethods
     /// Extension Method para la clase HttpConfiguration para registrar una ruta de manera Tipada un template para una ruta
     /// Se pueden usar Constraints y demas
     /// Por debajo crea un IDirectRouteFactory para la configuracion dada y lo registra en el Direct Route Provider para que registra la ruta configurada
+    /// https://www.strathweb.com/2014/07/building-strongly-typed-route-provider-asp-net-web-api/
     /// </summary>
     static class HttpConfigurationExtensions
     {
