@@ -9,6 +9,7 @@ namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses
     /// Tiene las clasicas funciones de CRUD y te permite guardar cualquier tipo de dato
     /// Adicionalmente te permite usar la clase CacheDependency para crear una entrada de Cache que su expiracion depende con que una File o Directory cambie en el servidor
     /// Digamos que sirve para cachear la informacion de un archivo y le pones un CacheDependency para que el cache solo se Expire cuando este archivo cambie
+    /// RECORDAR QUE ESTO ES PARA APLICACIONES DE ASP.NET O TE PUEDE DAR ERROR SI LO USAS EN OTRO TIPO DE APLICACION
     /// </summary>
     public class InMemoryCacheWeb : IFileDependencyCacheService
     {
