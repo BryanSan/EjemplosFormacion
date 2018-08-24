@@ -74,9 +74,6 @@ namespace EjemplosFormacion.WebApi
 
             // Enable Cross Origin Request
             ConfigureCors(config);
-
-            // Configure Entity Framework
-            ConfigureEntityFramework();
         }
 
         /// <summary>
@@ -527,15 +524,6 @@ namespace EjemplosFormacion.WebApi
             //      EnableCors configurado completo y abierto al nivel Global
             var cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header");
             config.EnableCors(cors);
-        }
-
-        private static void ConfigureEntityFramework()
-        {
-            // Configura un Database Initializer cuando la aplicacion inicia
-            // Puedes usar los Built-In Database Initializer para recrear la base de datos siempre, o recrearla cuando tu modelo cambia, o crearla si no existe
-            // O puedes crear un Custom Database Initializer como es en este caso para ademas de recrear la base de datos cuando el modelo cambia o crearla si no existe
-            // Tambien añadir registros por default al recrearla, usa el metodo Seed para hacer la logica de los registros default
-            Database.SetInitializer<TestAuthContext>(new AuthContextDropCreateDatabaseIfModelChanges());
         }
     }
 }
