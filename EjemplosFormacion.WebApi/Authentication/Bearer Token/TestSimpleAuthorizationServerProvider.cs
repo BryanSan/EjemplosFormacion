@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
 using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -130,7 +130,7 @@ namespace EjemplosFormacion.WebApi.Authentication.BearerToken
             var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
                     {
-                        "as:client_id", (context.ClientId == null) ? string.Empty : context.ClientId
+                        "as:client_id", context.ClientId ?? string.Empty
                     },
                     {
                         "userName", context.UserName

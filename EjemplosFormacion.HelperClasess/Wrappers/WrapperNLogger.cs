@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
+﻿using EjemplosFormacion.HelperClasess.Wrappers.Abstract;
 using NLog;
 using System;
 

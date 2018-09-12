@@ -1,9 +1,9 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
+﻿using EjemplosFormacion.HelperClasess.Networking.Abstract;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace EjemplosFormacion.HelperClasess.Helper_Classes
+namespace EjemplosFormacion.HelperClasess.Networking
 {
     public class HttpClientApi : IClientApi
     {

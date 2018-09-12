@@ -1,5 +1,5 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
-using EjemplosFormacion.HelperClasess.Json.Net;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
+using EjemplosFormacion.HelperClasess.Json.Net.Abstract;
 using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography;
@@ -7,120 +7,83 @@ using System.Text;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 {
-    public class SymmetricEncrypter<TCrypt, THasher> : ISymmetricEncrypter<TCrypt, THasher>
-        where TCrypt : SymmetricAlgorithm, new()
-        where THasher : HashAlgorithm, new()
+    /// <summary>
+    /// https://dotnetcodr.com/2013/11/04/symmetric-encryption-algorithms-in-net-cryptography-part-1/
+    /// </summary>
+    public class SymmetricEncrypter<TSymmetricAlgorithm> : ISymmetricEncrypter<TSymmetricAlgorithm>
+        where TSymmetricAlgorithm : SymmetricAlgorithm, new()
     {
-        //@"Fs2y9EM9vYpJwD8DpgNbu+3KfOQjelaXowfTNsDYLgU="
-        const string CryptoKey = @"Fs2y9EM9vYpJwD8DpgNbu+3KfOQjelaXowfTNsDYLgU=";
+        readonly TSymmetricAlgorithm _symmetricAlgorithm;
+        readonly JsonSerializerSettings _jsonSerializerSettings;
 
-        // @"XezL35y3vQrxUkqXf4SBPQ=="
-        const string CryptoIVKey = @"XezL35y3vQrxUkqXf4SBPQ==";
-
-        static readonly JsonSerializerSettings settings = new JsonSerializerSettings
+        public SymmetricEncrypter(ISymmetricAlgorithmFactory<TSymmetricAlgorithm> symmetricAlgorithmFactory, IJsonSerializerSettingsFactory jsonSerializerSettingsFactory)
         {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            NullValueHandling = NullValueHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            ContractResolver = new WritablePropertiesOnlyResolver(),
-        };
+            // Usamos las Factories de ayuda para obtener una instancia de las clases que necesitamos para encriptar / desencriptar
+            _symmetricAlgorithm = symmetricAlgorithmFactory.CreateSymmetricAlgorithm();
+            _jsonSerializerSettings = jsonSerializerSettingsFactory.CreateJsonSerializerSettings();
+        }
 
-        public string Encrypt<T>(T objectToEncrypt, bool useHashing = true)
+        public string Encrypt<T>(T objectToEncrypt) where T : class
         {
             if (objectToEncrypt == null) throw new ArgumentNullException("Mensaje a encriptar no puede estar vacio!.");
 
-            // Si ya es un Json el Serializador es suficientemente inteligente para no serializarlo nuevamente
-            string toEncrypt = JsonConvert.SerializeObject(objectToEncrypt, settings);
-            byte[] cryptoKeyArray;
-            byte[] cryptoIVKeyArray;
-            byte[] toEncryptArray = Encoding.UTF8.GetBytes(toEncrypt);
-
-            BuildKeysAndIV(out cryptoKeyArray, out cryptoIVKeyArray, useHashing);
-
-            using (TCrypt cryptoSymmetricProvider = new TCrypt())
+            using (ICryptoTransform cTransform = _symmetricAlgorithm.CreateEncryptor())
             {
-                // Configure SymmetricProvider Key, IVKey, Mode and Padding
-                ConfigureCryptoSymmetricProvider(cryptoKeyArray, cryptoIVKeyArray, cryptoSymmetricProvider);
+                // Si ya es un Json el Serializador es suficientemente inteligente para no serializarlo nuevamente
+                string jsonObjectToEncrypt = JsonConvert.SerializeObject(objectToEncrypt, _jsonSerializerSettings);
+                byte[] toEncryptArray = Encoding.UTF8.GetBytes(jsonObjectToEncrypt);
 
-                using (ICryptoTransform cTransform = cryptoSymmetricProvider.CreateEncryptor())
-                {
-                    //transform the specified region of bytes array to resultArray
-                    byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+                // Transform the specified region of bytes array to resultArray
+                byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
 
-                    //Release resources held by AesCng Encryptor
-                    cryptoSymmetricProvider.Clear();
-
-                    //Return the encrypted data into unreadable string format
-                    return Convert.ToBase64String(resultArray, 0, resultArray.Length);
-                }
+                //Return the encrypted data into unreadable string format
+                return Convert.ToBase64String(resultArray, 0, resultArray.Length);
             }
         }
 
-        public T Decrypt<T>(string cipherString, bool useHashing = true)
+        public T Decrypt<T>(string cipherString) where T : class
         {
             if (string.IsNullOrWhiteSpace(cipherString)) throw new ArgumentNullException("Mensaje a desencriptar no puede ser nulo!.");
 
-            byte[] cryptoKeyArray;
-            byte[] cryptoIVKeyArray;
-            byte[] toDecryptArray = Convert.FromBase64String(cipherString);
-
-            BuildKeysAndIV(out cryptoKeyArray, out cryptoIVKeyArray, useHashing);
-
-            using (TCrypt cryptoSymmetricProvider = new TCrypt())
+            using (ICryptoTransform cTransform = _symmetricAlgorithm.CreateDecryptor())
             {
-                // Configure SymmetricProvider Key, IVKey, Mode and Padding
-                ConfigureCryptoSymmetricProvider(cryptoKeyArray, cryptoIVKeyArray, cryptoSymmetricProvider);
+                // Obtenemos los bytes del string encriptado
+                byte[] toDecryptArray = Convert.FromBase64String(cipherString);
 
-                using (ICryptoTransform cTransform = cryptoSymmetricProvider.CreateDecryptor())
-                {
-                    byte[] resultArray = cTransform.TransformFinalBlock(toDecryptArray, 0, toDecryptArray.Length);
+                // Transform the specified region of bytes array to resultArray
+                byte[] resultArray = cTransform.TransformFinalBlock(toDecryptArray, 0, toDecryptArray.Length);
 
-                    //Release resources held by AesCng Encryptor                
-                    cryptoSymmetricProvider.Clear();
+                // String of Json Decrypted
+                string jsonDecrypted = Encoding.UTF8.GetString(resultArray);
 
-                    // String of Json Decrypted
-                    string jsonDecrypted = Encoding.UTF8.GetString(resultArray);
-
-                    // Deserialize the Json en return the entity
-                    return JsonConvert.DeserializeObject<T>(jsonDecrypted);
-                }
+                // Deserialize the Json en return the entity
+                return JsonConvert.DeserializeObject<T>(jsonDecrypted);
             }
         }
 
-        static void BuildKeysAndIV(out byte[] cryptoKeyArray, out byte[] cryptoIVKeyArray, bool useHashing = true)
-        {
-            //If hashing use get hashcode regards to your key
-            if (useHashing)
-            {
-                using (THasher hasherAlghorithm = new THasher())
-                {
-                    cryptoKeyArray = hasherAlghorithm.ComputeHash(Encoding.UTF8.GetBytes(CryptoKey));
-                    cryptoIVKeyArray = hasherAlghorithm.ComputeHash(Encoding.UTF8.GetBytes(CryptoIVKey));
+        #region IDisposable Support
+        private bool disposedValue = false;
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
                     //Always release the resources and flush data of the Cryptographic service provide. Best Practice
-                    hasherAlghorithm.Clear();
+                    _symmetricAlgorithm.Clear();
+                    _symmetricAlgorithm.Dispose();
                 }
-            }
-            else
-            {
-                cryptoKeyArray = Encoding.UTF8.GetBytes(CryptoKey);
-                cryptoIVKeyArray = Encoding.UTF8.GetBytes(CryptoIVKey);
+
+                disposedValue = true;
             }
         }
 
-        static void ConfigureCryptoSymmetricProvider(byte[] cryptoKeyArray, byte[] cryptoIVKeyArray, TCrypt cryptoSimmetricProvider)
+        public void Dispose()
         {
-            // Must resize IV because the lenght is 2x than supported 
-            Array.Resize(ref cryptoKeyArray, cryptoSimmetricProvider.Key.Length);
-            Array.Resize(ref cryptoIVKeyArray, cryptoSimmetricProvider.IV.Length);
-
-            cryptoSimmetricProvider.Key = cryptoKeyArray;
-            cryptoSimmetricProvider.IV = cryptoIVKeyArray;
-            cryptoSimmetricProvider.Mode = CipherMode.ECB;
-
-            //padding mode(if any extra byte added)
-            cryptoSimmetricProvider.Padding = PaddingMode.PKCS7;
+            Dispose(true);
         }
-    }
+        #endregion
 
+    }
 }

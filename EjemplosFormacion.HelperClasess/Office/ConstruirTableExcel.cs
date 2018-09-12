@@ -1,5 +1,5 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
-using EjemplosFormacion.HelperClasess.ExtensionMethods;
+﻿using EjemplosFormacion.HelperClasess.ExtensionMethods;
+using EjemplosFormacion.HelperClasess.Office.Abstract;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace EjemplosFormacion.HelperClasess.HelperClasses
+namespace EjemplosFormacion.HelperClasess.Office
 {
     public class ConstruirTableExcel : IConstruirTableExcel
     {

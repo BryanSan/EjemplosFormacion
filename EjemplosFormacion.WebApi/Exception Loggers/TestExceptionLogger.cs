@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
+﻿using EjemplosFormacion.HelperClasess.Wrappers.Abstract;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.ExceptionHandling;

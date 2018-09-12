@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EjemplosFormacion.HelperClasess.Abstract
+namespace EjemplosFormacion.HelperClasess.Wrappers.Abstract
 {
     public interface IWrapperNLog
     {

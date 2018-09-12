@@ -1,6 +1,8 @@
-using EjemplosFormacion.HelperClasess.Abstract;
 using EjemplosFormacion.HelperClasess.CriptographyHelpers;
+using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
+using EjemplosFormacion.HelperClasess.CriptographyHelpers.Factories;
 using EjemplosFormacion.HelperClasess.Wrappers;
+using EjemplosFormacion.HelperClasess.Wrappers.Abstract;
 using EjemplosFormacion.WebApi.DirectRouteProviders;
 using EjemplosFormacion.WebApi.Stubs.Abstract;
 using EjemplosFormacion.WebApi.Stubs.Implementation;
@@ -49,12 +51,16 @@ namespace EjemplosFormacion.WebApi
         public static void RegisterTypes(IUnityContainer container)
         {
             container.AddNewExtension<Interception>();
+
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
             container.RegisterType<IWrapperNLog, WrapperNLogger>(new HierarchicalLifetimeManager());
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
-            container.RegisterType<ISymmetricEncrypter<AesManaged, SHA256Managed>, SymmetricEncrypter<AesManaged, SHA256Managed>>(new HierarchicalLifetimeManager());
+
+            // Cryptography
+            container.RegisterType<ISymmetricEncrypter<AesManaged>, SymmetricEncrypter<AesManaged>>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISymmetricAlgorithmFactory<AesManaged>, SymmetricAlgorithmFactory<AesManaged, SHA256Managed>>(new HierarchicalLifetimeManager());            
             container.RegisterType<IHasher<SHA256Managed>, Hasher<SHA256Managed>>(new HierarchicalLifetimeManager());
-            
+
             container.RegisterType<IDirectRouteProvider, TestGlobalPrefixDirectRouteProvider>(new TransientLifetimeManager(), new InjectionConstructor("api"));
         }
     }

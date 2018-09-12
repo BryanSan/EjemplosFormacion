@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
 using EjemplosFormacion.WebApi.App_Start;
 using EjemplosFormacion.WebApi.Authentication.BearerToken;
 using EjemplosFormacion.WebApi.DependencyResolvers;

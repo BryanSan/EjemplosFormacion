@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
 using EjemplosFormacion.WebApi.AssembliesResolver;
 using EjemplosFormacion.WebApi.Authentication.BearerToken;
 using EjemplosFormacion.WebApi.Controllers.TestCustomRoutesConfiguration;
@@ -484,7 +484,7 @@ namespace EjemplosFormacion.WebApi
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
                 // Message Handler for this Route
-                handler: new TestJsonEncrypterMessageHandler(config.DependencyResolver.GetService(typeof(ISymmetricEncrypter<AesManaged, SHA256Managed>)) as ISymmetricEncrypter<AesManaged, SHA256Managed>, new HttpControllerDispatcher(config))
+                handler: new TestJsonEncrypterMessageHandler(config.DependencyResolver.GetService(typeof(ISymmetricEncrypter<AesManaged>)) as ISymmetricEncrypter<AesManaged>, new HttpControllerDispatcher(config))
             );
         }
 

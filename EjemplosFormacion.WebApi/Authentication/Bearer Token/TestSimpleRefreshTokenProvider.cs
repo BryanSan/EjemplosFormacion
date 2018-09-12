@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
 using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
 using Microsoft.Owin.Security.Infrastructure;
 using System;

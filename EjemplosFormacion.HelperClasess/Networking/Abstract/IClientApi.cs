@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EjemplosFormacion.HelperClasess.Abstract
+namespace EjemplosFormacion.HelperClasess.Networking.Abstract
 {
     public interface IClientApi : IDisposable
     {

@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
+﻿using EjemplosFormacion.HelperClasess.Wrappers.Abstract;
 using System.Diagnostics;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace EjemplosFormacion.HelperClasess.Abstract
+namespace EjemplosFormacion.HelperClasess.Office.Abstract
 {
     public interface IConstruirTableExcel
     {

@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.Abstract;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
 using EjemplosFormacion.HelperClasess.ExtensionMethods;
 using Newtonsoft.Json;
 using System;
@@ -18,10 +18,10 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// </summary>
     class TestJsonEncrypterMessageHandler : DelegatingHandler
     {
-        readonly ISymmetricEncrypter<AesManaged, SHA256Managed> _symmetricEncrypter;
+        readonly ISymmetricEncrypter<AesManaged> _symmetricEncrypter;
 
         // Passing the next Handler of the Pipeline If Any
-        public TestJsonEncrypterMessageHandler(ISymmetricEncrypter<AesManaged, SHA256Managed> symmetricEncrypter,
+        public TestJsonEncrypterMessageHandler(ISymmetricEncrypter<AesManaged> symmetricEncrypter,
                                                HttpMessageHandler messageHandler) : base(messageHandler)
         {
             if (messageHandler == null) throw new ArgumentException("messageHandler vacio!.");
@@ -29,7 +29,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
             _symmetricEncrypter = symmetricEncrypter ?? throw new ArgumentException("symmetricEncrypter vacio!.");
         }
 
-        public TestJsonEncrypterMessageHandler(ISymmetricEncrypter<AesManaged, SHA256Managed> symmetricEncrypter)
+        public TestJsonEncrypterMessageHandler(ISymmetricEncrypter<AesManaged> symmetricEncrypter)
         {
             _symmetricEncrypter = symmetricEncrypter ?? throw new ArgumentException("symmetricEncrypter vacio!.");
         }
