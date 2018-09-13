@@ -10,14 +10,14 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// <summary>
     /// https://dotnetcodr.com/2013/10/28/hashing-algorithms-and-their-practical-usage-in-net-part-1/
     /// </summary>
-    public class Hasher<THasher> : IHasher<THasher> where THasher : HashAlgorithm, new()
+    public class Hasher<THashAlgorithm> : IHasher<THashAlgorithm> where THashAlgorithm : HashAlgorithm, new()
     {
-        readonly THasher _hasherAlghorithm;
+        readonly THashAlgorithm _hasherAlghorithm;
 
-        public Hasher()
+        public Hasher(IHashAlgorithmFactory<THashAlgorithm> hashAlgorithmFactory)
         {
-            // Hasher a usar
-            _hasherAlghorithm = new THasher();
+            // Usamos las Factories de ayuda para obtener una instancia del hasher
+            _hasherAlghorithm = hashAlgorithmFactory.CreateHashAlgorithm();
         }
 
         public byte[] GetByteHash<T>(T objectToEncrypt)

@@ -5,14 +5,14 @@ using System.Text;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Factories
 {
-    public class SymmetricAlgorithmFactory<TSymmetricAlgorithm, THasherAlgorithm> : ISymmetricAlgorithmFactory<TSymmetricAlgorithm>
+    public class SymmetricAlgorithmFactory<TSymmetricAlgorithm, THashAlgorithm> : ISymmetricAlgorithmFactory<TSymmetricAlgorithm>
         where TSymmetricAlgorithm : SymmetricAlgorithm, new()
-        where THasherAlgorithm : HashAlgorithm, new()
+        where THashAlgorithm : HashAlgorithm, new()
     {
         readonly byte[] _keyArray;
         readonly byte[] _IVKeyBytes;
 
-        public SymmetricAlgorithmFactory(string key, string IVKey, IHasher<THasherAlgorithm> hasher)
+        public SymmetricAlgorithmFactory(string key, string IVKey, IHasher<THashAlgorithm> hasher)
         {
             // Construimos el Key y IV Key a usar por el SymmetriAlgorithm
             (byte[] keyArray, byte[] IVKeyBytes) = CreateKeyAndIVKey(key, IVKey, hasher);
@@ -49,7 +49,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Factories
             return symmetricAlgorithm;
         }
 
-        (byte[] keyBytes, byte[] IVKeyBytes) CreateKeyAndIVKey(string key, string IVKey, IHasher<THasherAlgorithm> hasher)
+        (byte[] keyBytes, byte[] IVKeyBytes) CreateKeyAndIVKey(string key, string IVKey, IHasher<THashAlgorithm> hasher)
         {
             // Necesitamos una instancia del SymmetricAlgorithm para saber que tamaño soporta en la Key y IVKey
             using (var symmetricAlgorithm = new TSymmetricAlgorithm())
