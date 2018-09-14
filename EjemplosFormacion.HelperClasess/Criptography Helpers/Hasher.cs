@@ -68,7 +68,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             if (byteValue == null || byteValue.Count() <= 0) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
             if (salt == null || salt.Count() <= 0) throw new ArgumentNullException("Salt a hashear no puede estar vacio!.");
 
-            List<byte> bytesToHash = new List<byte>(byteValue);
+            var bytesToHash = new List<byte>(byteValue);
             bytesToHash.AddRange(salt);
 
             // Obtenemos el Hash
@@ -85,7 +85,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             if (salt == null || salt.Count() <= 0) throw new ArgumentNullException("Salt a hashear no puede estar vacio!.");
             if (entropy == null || entropy.Count() <= 0) throw new ArgumentNullException("Entropy a hashear no puede estar vacio!.");
 
-            List<byte> bytesToHash = new List<byte>(byteValue);
+            var bytesToHash = new List<byte>(byteValue);
             bytesToHash.AddRange(salt);
             bytesToHash.AddRange(entropy);
             

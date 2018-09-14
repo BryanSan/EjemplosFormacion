@@ -37,7 +37,9 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
                 byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
 
                 //Return the encrypted data into unreadable string format
-                return Convert.ToBase64String(resultArray, 0, resultArray.Length);
+                string resultArrayBase64 = Convert.ToBase64String(resultArray, 0, resultArray.Length)
+
+                return resultArrayBase64;
             }
         }
 
@@ -57,7 +59,9 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
                 string jsonDecrypted = Encoding.UTF8.GetString(resultArray);
 
                 // Deserialize the Json en return the entity
-                return JsonConvert.DeserializeObject<T>(jsonDecrypted);
+                T deserializedEntity = JsonConvert.DeserializeObject<T>(jsonDecrypted);
+
+                return deserializedEntity;
             }
         }
 

@@ -28,7 +28,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
                 return receiverCipher;
             }); 
 
-            _senderCipher =new Lazy<RSACryptoServiceProvider>(() =>
+            _senderCipher = new Lazy<RSACryptoServiceProvider>(() =>
             {
                 var senderCipher = new RSACryptoServiceProvider();
                 senderCipher.FromXmlString(myPublicPrivateRSAKey);

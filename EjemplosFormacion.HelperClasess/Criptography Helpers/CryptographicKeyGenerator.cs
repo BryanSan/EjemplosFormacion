@@ -3,30 +3,29 @@ using System;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 {
-    /// <summary>
-    /// https://dotnetcodr.com/2016/10/05/generate-truly-random-cryptographic-keys-using-a-random-number-generator-in-net/
-    /// </summary>
-    public class SaltGenerator : ISaltGenerator
+    public class CryptographicKeyGenerator : ICryptographicKeyGenerator
     {
         readonly IRandomBytesGenerator _randomBytesGenerator;
 
-        public SaltGenerator(IRandomBytesGenerator randomBytesGenerator)
+        public CryptographicKeyGenerator(IRandomBytesGenerator randomBytesGenerator)
         {
             _randomBytesGenerator = randomBytesGenerator;
         }
 
-        public string GenerateSalt(int saltLength)
+        public string GenerateCryptographicKey(int keyLength)
         {
-            byte[] salt = GenerateSaltBytes(saltLength);
-            return Convert.ToBase64String(salt);
+            byte[] cryptographicKey = GenerateCryptographicKeyBytes(keyLength);
+            string cryptographicKeyString = Convert.ToBase64String(cryptographicKey);
+
+            return cryptographicKeyString;
         }
 
-        public byte[] GenerateSaltBytes(int saltLength)
+        public byte[] GenerateCryptographicKeyBytes(int keyLength)
         {
-            var salt = new byte[saltLength];
-            _randomBytesGenerator.GenerateRandomBytes(salt);
+            var randomBytes = new byte[keyLength];
+            _randomBytesGenerator.GenerateRandomBytes(randomBytes);
 
-            return salt;
+            return randomBytes;
         }
 
         #region IDisposable Support
