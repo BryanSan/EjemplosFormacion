@@ -1,32 +1,24 @@
 ﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
 using System;
+using System.Security.Cryptography;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 {
     /// <summary>
     /// https://dotnetcodr.com/2016/10/05/generate-truly-random-cryptographic-keys-using-a-random-number-generator-in-net/
     /// </summary>
-    public class SaltGenerator : ISaltGenerator
+    public class RandomBytesGenerator : IRandomBytesGenerator
     {
-        readonly IRandomBytesGenerator _randomBytesGenerator;
+        readonly Lazy<RNGCryptoServiceProvider> _randomGeneratorServiceProvider;
 
-        public SaltGenerator(IRandomBytesGenerator randomBytesGenerator)
+        public RandomBytesGenerator()
         {
-            _randomBytesGenerator = randomBytesGenerator;
+            _randomGeneratorServiceProvider = new Lazy<RNGCryptoServiceProvider>(() => new RNGCryptoServiceProvider());
         }
 
-        public string GenerateSalt(int saltLength)
+        public void GenerateRandomBytes(byte[] buffer)
         {
-            byte[] salt = GenerateSaltBytes(saltLength);
-            return Convert.ToBase64String(salt);
-        }
-
-        public byte[] GenerateSaltBytes(int saltLength)
-        {
-            byte[] salt = new byte[saltLength];
-            _randomBytesGenerator.GenerateRandomBytes(salt);
-
-            return salt;
+            _randomGeneratorServiceProvider.Value.GetBytes(buffer);
         }
 
         #region IDisposable Support
@@ -38,7 +30,10 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             {
                 if (disposing)
                 {
-                    _randomBytesGenerator.Dispose();
+                    if (_randomGeneratorServiceProvider.IsValueCreated)
+                    {
+                        _randomGeneratorServiceProvider.Value.Dispose();
+                    }
                 }
 
                 disposedValue = true;
