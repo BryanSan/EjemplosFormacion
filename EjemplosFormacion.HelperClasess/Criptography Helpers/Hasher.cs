@@ -16,12 +16,12 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     public class Hasher<THashAlgorithm> : IHasher<THashAlgorithm> 
         where THashAlgorithm : HashAlgorithm, new()
     {
-        readonly THashAlgorithm _hasherAlghorithm;
+        readonly Lazy<THashAlgorithm> _hasherAlghorithm;
 
         public Hasher(IHashAlgorithmFactory<THashAlgorithm> hashAlgorithmFactory)
         {
             // Usamos las Factories de ayuda para obtener una instancia del hasher
-            _hasherAlghorithm = hashAlgorithmFactory.CreateHashAlgorithm();
+            _hasherAlghorithm = new Lazy<THashAlgorithm>(() => hashAlgorithmFactory.CreateHashAlgorithm());
         }
 
         #region GetByteHash
@@ -58,7 +58,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             if (byteValue == null || byteValue.Count() <= 0) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
 
             // Obtenemos el Hash
-            byte[] byteHash = _hasherAlghorithm.ComputeHash(byteValue);
+            byte[] byteHash = _hasherAlghorithm.Value.ComputeHash(byteValue);
 
             return byteHash;
         }
@@ -72,7 +72,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             bytesToHash.AddRange(salt);
 
             // Obtenemos el Hash
-            byte[] byteHash = _hasherAlghorithm.ComputeHash(bytesToHash.ToArray());
+            byte[] byteHash = _hasherAlghorithm.Value.ComputeHash(bytesToHash.ToArray());
 
             return byteHash;
         }
@@ -90,7 +90,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             bytesToHash.AddRange(entropy);
             
             // Obtenemos el Hash
-            byte[] byteHash = _hasherAlghorithm.ComputeHash(bytesToHash.ToArray());
+            byte[] byteHash = _hasherAlghorithm.Value.ComputeHash(bytesToHash.ToArray());
 
             return byteHash;
         }
@@ -173,9 +173,12 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             {
                 if (disposing)
                 {
-                    //Always release the resources and flush data of the Cryptographic service provide. Best Practice
-                    _hasherAlghorithm.Clear();
-                    _hasherAlghorithm.Dispose();
+                    if (_hasherAlghorithm.IsValueCreated)
+                    {
+                        //Always release the resources and flush data of the Cryptographic service provide. Best Practice
+                        _hasherAlghorithm.Value.Clear();
+                        _hasherAlghorithm.Value.Dispose();
+                    }
                 }
 
                 disposedValue = true;

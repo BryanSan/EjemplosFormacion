@@ -9,11 +9,11 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// </summary>
     public class SaltGenerator : ISaltGenerator
     {
-        readonly RNGCryptoServiceProvider _randomGeneratorServiceProvider;
+        readonly Lazy<RNGCryptoServiceProvider> _randomGeneratorServiceProvider;
 
         public SaltGenerator()
         {
-            _randomGeneratorServiceProvider = new RNGCryptoServiceProvider();
+            _randomGeneratorServiceProvider = new Lazy<RNGCryptoServiceProvider>(() => new RNGCryptoServiceProvider());
         }
 
         public string GenerateSalt(int saltLength)
@@ -25,7 +25,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         public byte[] GenerateSaltBytes(int saltLength)
         {
             byte[] salt = new byte[saltLength];
-            _randomGeneratorServiceProvider.GetBytes(salt);
+            _randomGeneratorServiceProvider.Value.GetBytes(salt);
 
             return salt;
         }
@@ -39,7 +39,10 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             {
                 if (disposing)
                 {
-                    _randomGeneratorServiceProvider.Dispose();
+                    if (_randomGeneratorServiceProvider.IsValueCreated)
+                    {
+                        _randomGeneratorServiceProvider.Value.Dispose();
+                    }
                 }
 
                 disposedValue = true;

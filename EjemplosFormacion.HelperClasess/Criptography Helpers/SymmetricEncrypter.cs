@@ -13,13 +13,13 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     public class SymmetricEncrypter<TSymmetricAlgorithm> : ISymmetricEncrypter<TSymmetricAlgorithm>
         where TSymmetricAlgorithm : SymmetricAlgorithm, new()
     {
-        readonly TSymmetricAlgorithm _symmetricAlgorithm;
+        readonly Lazy<TSymmetricAlgorithm> _symmetricAlgorithm;
         readonly JsonSerializerSettings _jsonSerializerSettings;
 
         public SymmetricEncrypter(ISymmetricAlgorithmFactory<TSymmetricAlgorithm> symmetricAlgorithmFactory, IJsonSerializerSettingsFactory jsonSerializerSettingsFactory)
         {
             // Usamos las Factories de ayuda para obtener una instancia de las clases que necesitamos para encriptar / desencriptar
-            _symmetricAlgorithm = symmetricAlgorithmFactory.CreateSymmetricAlgorithm();
+            _symmetricAlgorithm = new Lazy<TSymmetricAlgorithm>(() => symmetricAlgorithmFactory.CreateSymmetricAlgorithm()); 
             _jsonSerializerSettings = jsonSerializerSettingsFactory.CreateJsonSerializerSettings();
         }
 
@@ -27,7 +27,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         {
             if (objectToEncrypt == null) throw new ArgumentNullException("Mensaje a encriptar no puede estar vacio!.");
 
-            using (ICryptoTransform cTransform = _symmetricAlgorithm.CreateEncryptor())
+            using (ICryptoTransform cTransform = _symmetricAlgorithm.Value.CreateEncryptor())
             {
                 // Si ya es un Json el Serializador es suficientemente inteligente para no serializarlo nuevamente
                 string jsonObjectToEncrypt = JsonConvert.SerializeObject(objectToEncrypt, _jsonSerializerSettings);
@@ -45,7 +45,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         {
             if (string.IsNullOrWhiteSpace(cipherString)) throw new ArgumentNullException("Mensaje a desencriptar no puede ser nulo!.");
 
-            using (ICryptoTransform cTransform = _symmetricAlgorithm.CreateDecryptor())
+            using (ICryptoTransform cTransform = _symmetricAlgorithm.Value.CreateDecryptor())
             {
                 // Obtenemos los bytes del string encriptado
                 byte[] toDecryptArray = Convert.FromBase64String(cipherString);
@@ -70,9 +70,12 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             {
                 if (disposing)
                 {
-                    //Always release the resources and flush data of the Cryptographic service provide. Best Practice
-                    _symmetricAlgorithm.Clear();
-                    _symmetricAlgorithm.Dispose();
+                    if (_symmetricAlgorithm.IsValueCreated)
+                    {
+                        //Always release the resources and flush data of the Cryptographic service provide. Best Practice
+                        _symmetricAlgorithm.Value.Clear();
+                        _symmetricAlgorithm.Value.Dispose();
+                    }
                 }
 
                 disposedValue = true;
