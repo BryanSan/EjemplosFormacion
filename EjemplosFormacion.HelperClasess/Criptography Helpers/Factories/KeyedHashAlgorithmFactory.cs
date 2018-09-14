@@ -16,6 +16,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Factories
 
         public TKeyedHashAlgorithm CreateHashAlgorithm()
         {
+            // Usamos la key pasada al constructor para generar mas aletoriedad con el hasher algorithm
             var keyedHashAlgorithm = new TKeyedHashAlgorithm();
             keyedHashAlgorithm.Key = _keyArray;
 
