@@ -11,6 +11,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// <summary>
     /// https://dotnetcodr.com/2013/10/28/hashing-algorithms-and-their-practical-usage-in-net-part-1/
     /// https://dotnetcodr.com/2013/10/31/hashing-algorithms-and-their-practical-usage-in-net-part-2/
+    /// https://dotnetcodr.com/2016/10/17/how-to-hash-passwords-with-a-salt-in-net/
     /// </summary>
     public class Hasher<THashAlgorithm> : IHasher<THashAlgorithm> 
         where THashAlgorithm : HashAlgorithm, new()
@@ -35,7 +36,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         }
 
         // Salt segun las buenas practicas deberia ser un valor random generado individualmente (no reusable)
-        // El entropy segun la sbuenas practicas deberia ser un valor constante reusable (sea random generado o algo elegido por el developer)
+        // El entropy segun las buenas practicas deberia ser un valor constante reusable (sea random generado o algo elegido por el developer)
         public byte[] GetByteHash<T>(T objectToEncrypt, string salt, string entropy)
         {
             if (objectToEncrypt == null) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
@@ -44,8 +45,6 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             string serializedEntity = JsonConvert.SerializeObject(objectToEncrypt);
 
             // Obtenemos el byte del objeto serializado + el salt + el entropy
-            // Salt segun las buenas practicas deberia ser un valor random generado individualmente (no reusable)
-            // El entropy segun la sbuenas practicas deberia ser un valor constante reusable (sea random generado o algo elegido por el developer)
             byte[] byteValue = Encoding.UTF8.GetBytes(serializedEntity + salt + entropy);
 
             // Obtenemos el Hash
@@ -79,7 +78,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         }
 
         // Salt segun las buenas practicas deberia ser un valor random generado individualmente (no reusable)
-        // El entropy segun la sbuenas practicas deberia ser un valor constante reusable (sea random generado o algo elegido por el developer)
+        // El entropy segun las buenas practicas deberia ser un valor constante reusable (sea random generado o algo elegido por el developer)
         public byte[] GetByteHash(byte[] byteValue, byte[] salt, byte[] entropy)
         {
             if (byteValue == null || byteValue.Count() <= 0) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
@@ -89,7 +88,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             List<byte> bytesToHash = new List<byte>(byteValue);
             bytesToHash.AddRange(salt);
             bytesToHash.AddRange(entropy);
-
+            
             // Obtenemos el Hash
             byte[] byteHash = _hasherAlghorithm.ComputeHash(bytesToHash.ToArray());
 

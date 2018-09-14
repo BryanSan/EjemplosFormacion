@@ -4,6 +4,9 @@ using System.Text;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Factories
 {
+    /// <summary>
+    /// https://dotnetcodr.com/2016/10/14/using-hmacs-to-authenticate-a-hash-in-net/
+    /// </summary>
     class KeyedHashAlgorithmFactory<TKeyedHashAlgorithm> : IHashAlgorithmFactory<TKeyedHashAlgorithm>
         where TKeyedHashAlgorithm : KeyedHashAlgorithm, new()
     {
