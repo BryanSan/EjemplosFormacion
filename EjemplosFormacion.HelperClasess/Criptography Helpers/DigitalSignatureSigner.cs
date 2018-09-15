@@ -68,7 +68,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 
         byte[] CalculateSignatureBytes(byte[] hashToSign)
         {
-            RSAPKCS1SignatureFormatter signatureFormatter = new RSAPKCS1SignatureFormatter(_receiverCipher.Value);
+            RSAPKCS1SignatureFormatter signatureFormatter = new RSAPKCS1SignatureFormatter(_senderCipher.Value);
             signatureFormatter.SetHashAlgorithm("SHA1");
 
             byte[] signature = signatureFormatter.CreateSignature(hashToSign);
