@@ -4,6 +4,6 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
 {
     public interface IRandomBytesGenerator : IDisposable
     {
-        void GenerateRandomBytes(byte[] buffer);
+        void GenerateRandomBytes(byte[] bufferToFill);
     }
 }

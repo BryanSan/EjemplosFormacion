@@ -15,18 +15,20 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             _randomBytesGenerator = randomBytesGenerator;
         }
 
-        public string GenerateSalt(int saltLength)
-        {
-            byte[] salt = GenerateSaltBytes(saltLength);
-            return Convert.ToBase64String(salt);
-        }
-
         public byte[] GenerateSaltBytes(int saltLength)
         {
+            if (saltLength <= 0) throw new ArgumentException($"{nameof(saltLength)} no puede ser negativo o 0");
+
             var salt = new byte[saltLength];
             _randomBytesGenerator.GenerateRandomBytes(salt);
 
             return salt;
+        }
+
+        public string GenerateSalt(int saltLength)
+        {
+            byte[] salt = GenerateSaltBytes(saltLength);
+            return Convert.ToBase64String(salt);
         }
 
         #region IDisposable Support

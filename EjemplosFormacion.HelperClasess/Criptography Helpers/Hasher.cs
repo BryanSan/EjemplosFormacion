@@ -16,149 +16,152 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     public class Hasher<THashAlgorithm> : IHasher<THashAlgorithm> 
         where THashAlgorithm : HashAlgorithm, new()
     {
-        readonly Lazy<THashAlgorithm> _hasherAlghorithm;
+        readonly Lazy<THashAlgorithm> _hashAlghorithm;
+
+        public string HashAlgorithmName => "SHA1";
 
         public Hasher(IHashAlgorithmFactory<THashAlgorithm> hashAlgorithmFactory)
         {
             // Usamos las Factories de ayuda para obtener una instancia del hasher
-            _hasherAlghorithm = new Lazy<THashAlgorithm>(() => hashAlgorithmFactory.CreateHashAlgorithm());
+            _hashAlghorithm = new Lazy<THashAlgorithm>(() => hashAlgorithmFactory.CreateHashAlgorithm());
         }
 
         #region GetByteHash
-        public byte[] GetByteHash<T>(T objectToEncrypt)
+        public byte[] GetByteHash(byte[] bytesToHash)
         {
-            return GetByteHash(objectToEncrypt, null, null);
+            if (bytesToHash == null || bytesToHash.Count() <= 0) throw new ArgumentException($"{nameof(bytesToHash)} a hashear no puede estar vacio!.");
+
+            // Obtenemos el Hash
+            byte[] byteHashed = _hashAlghorithm.Value.ComputeHash(bytesToHash);
+
+            return byteHashed;
         }
 
-        public byte[] GetByteHash<T>(T objectToEncrypt, string salt)
+        public byte[] GetByteHash(byte[] bytesToHash, byte[] salt)
         {
-            return GetByteHash(objectToEncrypt, salt, null);
+            if (bytesToHash == null || bytesToHash.Count() <= 0) throw new ArgumentException($"{nameof(bytesToHash)} a hashear no puede estar vacio!.");
+            if (salt == null || salt.Count() <= 0) throw new ArgumentException($"{nameof(salt)} a hashear no puede estar vacio!.");
+
+            var bytesListToHash = new List<byte>(bytesToHash);
+            bytesListToHash.AddRange(salt);
+
+            // Obtenemos el Hash
+            byte[] byteHashed = _hashAlghorithm.Value.ComputeHash(bytesListToHash.ToArray());
+
+            return byteHashed;
         }
 
         // Salt segun las buenas practicas deberia ser un valor random generado individualmente (no reusable)
         // El entropy segun las buenas practicas deberia ser un valor constante reusable (sea random generado o algo elegido por el developer)
-        public byte[] GetByteHash<T>(T objectToEncrypt, string salt, string entropy)
+        public byte[] GetByteHash(byte[] bytesToHash, byte[] salt, byte[] entropy)
         {
-            if (objectToEncrypt == null) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
+            if (bytesToHash == null || bytesToHash.Count() <= 0) throw new ArgumentException($"{nameof(bytesToHash)} a hashear no puede estar vacio!.");
+            if (salt == null || salt.Count() <= 0) throw new ArgumentException($"{nameof(salt)} a hashear no puede estar vacio!.");
+            if (entropy == null || entropy.Count() <= 0) throw new ArgumentException($"{nameof(entropy)} a hashear no puede estar vacio!.");
+
+            var bytesListToHash = new List<byte>(bytesToHash);
+            bytesListToHash.AddRange(salt);
+            bytesListToHash.AddRange(entropy);
+
+            // Obtenemos el Hash
+            byte[] byteHashed = _hashAlghorithm.Value.ComputeHash(bytesListToHash.ToArray());
+
+            return byteHashed;
+        }
+        public byte[] GetByteHash<T>(T objectToHash)
+        {
+            byte[] bytesHashed = GetByteHash(objectToHash, null, null);
+            return bytesHashed;
+        }
+
+        public byte[] GetByteHash<T>(T objectToHash, string salt)
+        {
+            byte[] bytesHashed = GetByteHash(objectToHash, salt, null);
+            return bytesHashed;
+        }
+
+        // Salt segun las buenas practicas deberia ser un valor random generado individualmente (no reusable)
+        // El entropy segun las buenas practicas deberia ser un valor constante reusable (sea random generado o algo elegido por el developer)
+        public byte[] GetByteHash<T>(T objectToHash, string salt, string entropy)
+        {
+            if (objectToHash == null) throw new ArgumentException($"{nameof(objectToHash)} a hashear no puede estar vacio!.");
 
             // Serializamos el objeto a json 
-            string serializedEntity = JsonConvert.SerializeObject(objectToEncrypt);
+            string serializedEntity = JsonConvert.SerializeObject(objectToHash);
 
             // Obtenemos el byte del objeto serializado + el salt + el entropy
-            byte[] byteValue = Encoding.UTF8.GetBytes(serializedEntity + salt + entropy);
+            byte[] bytesToHash = Encoding.UTF8.GetBytes(serializedEntity + salt + entropy);
 
             // Obtenemos el Hash
-            byte[] bytesHash = GetByteHash(byteValue);
+            byte[] bytesHashed = GetByteHash(bytesToHash);
 
-            return bytesHash;
-        }
-
-        public byte[] GetByteHash(byte[] byteValue)
-        {
-            if (byteValue == null || byteValue.Count() <= 0) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
-
-            // Obtenemos el Hash
-            byte[] byteHash = _hasherAlghorithm.Value.ComputeHash(byteValue);
-
-            return byteHash;
-        }
-
-        public byte[] GetByteHash(byte[] byteValue, byte[] salt)
-        {
-            if (byteValue == null || byteValue.Count() <= 0) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
-            if (salt == null || salt.Count() <= 0) throw new ArgumentNullException("Salt a hashear no puede estar vacio!.");
-
-            var bytesToHash = new List<byte>(byteValue);
-            bytesToHash.AddRange(salt);
-
-            // Obtenemos el Hash
-            byte[] byteHash = _hasherAlghorithm.Value.ComputeHash(bytesToHash.ToArray());
-
-            return byteHash;
-        }
-
-        // Salt segun las buenas practicas deberia ser un valor random generado individualmente (no reusable)
-        // El entropy segun las buenas practicas deberia ser un valor constante reusable (sea random generado o algo elegido por el developer)
-        public byte[] GetByteHash(byte[] byteValue, byte[] salt, byte[] entropy)
-        {
-            if (byteValue == null || byteValue.Count() <= 0) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
-            if (salt == null || salt.Count() <= 0) throw new ArgumentNullException("Salt a hashear no puede estar vacio!.");
-            if (entropy == null || entropy.Count() <= 0) throw new ArgumentNullException("Entropy a hashear no puede estar vacio!.");
-
-            var bytesToHash = new List<byte>(byteValue);
-            bytesToHash.AddRange(salt);
-            bytesToHash.AddRange(entropy);
-            
-            // Obtenemos el Hash
-            byte[] byteHash = _hasherAlghorithm.Value.ComputeHash(bytesToHash.ToArray());
-
-            return byteHash;
+            return bytesHashed;
         }
         #endregion
 
         #region GetHash
-        public string GetHash<T>(T objectToEncrypt)
+        public string GetHash(byte[] bytesToHash)
         {
             // Obtenemos el Hash
-            byte[] bytesHash = GetByteHash(objectToEncrypt);
+            byte[] bytesHashed = GetByteHash(bytesToHash);
 
             // Obtenemos el base64 del hash
-            string base64hash = Convert.ToBase64String(bytesHash);
+            string base64hash = Convert.ToBase64String(bytesHashed);
 
             return base64hash;
         }
 
-        public string GetHash<T>(T objectToEncrypt, string salt)
+        public string GetHash(byte[] bytesToHash, byte[] salt)
         {
             // Obtenemos el Hash
-            byte[] bytesHash = GetByteHash(objectToEncrypt, salt);
+            byte[] bytesHashed = GetByteHash(bytesToHash, salt);
 
             // Obtenemos el base64 del hash
-            string base64hash = Convert.ToBase64String(bytesHash);
+            string base64hash = Convert.ToBase64String(bytesHashed);
 
             return base64hash;
         }
 
-        public string GetHash<T>(T objectToEncrypt, string salt, string entropy)
+        public string GetHash(byte[] bytesToHash, byte[] salt, byte[] entropy)
         {
             // Obtenemos el Hash
-            byte[] bytesHash = GetByteHash(objectToEncrypt, salt, entropy);
+            byte[] bytesHashed = GetByteHash(bytesToHash, salt, entropy);
 
             // Obtenemos el base64 del hash
-            string base64hash = Convert.ToBase64String(bytesHash);
+            string base64hash = Convert.ToBase64String(bytesHashed);
 
             return base64hash;
         }
 
-        public string GetHash(byte[] byteValue)
+        public string GetHash<T>(T objectToHash)
         {
             // Obtenemos el Hash
-            byte[] bytesHash = GetByteHash(byteValue);
+            byte[] bytesHashed = GetByteHash(objectToHash);
 
             // Obtenemos el base64 del hash
-            string base64hash = Convert.ToBase64String(bytesHash);
+            string base64hash = Convert.ToBase64String(bytesHashed);
 
             return base64hash;
         }
 
-        public string GetHash(byte[] byteValue, byte[] salt)
+        public string GetHash<T>(T objectToHash, string salt)
         {
             // Obtenemos el Hash
-            byte[] bytesHash = GetByteHash(byteValue, salt);
+            byte[] bytesHashed = GetByteHash(objectToHash, salt);
 
             // Obtenemos el base64 del hash
-            string base64hash = Convert.ToBase64String(bytesHash);
+            string base64hash = Convert.ToBase64String(bytesHashed);
 
             return base64hash;
         }
 
-        public string GetHash(byte[] byteValue, byte[] salt, byte[] entropy)
+        public string GetHash<T>(T objectToHash, string salt, string entropy)
         {
             // Obtenemos el Hash
-            byte[] bytesHash = GetByteHash(byteValue, salt, entropy);
+            byte[] bytesHashed = GetByteHash(objectToHash, salt, entropy);
 
             // Obtenemos el base64 del hash
-            string base64hash = Convert.ToBase64String(bytesHash);
+            string base64hash = Convert.ToBase64String(bytesHashed);
 
             return base64hash;
         }
@@ -173,11 +176,11 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             {
                 if (disposing)
                 {
-                    if (_hasherAlghorithm.IsValueCreated)
+                    if (_hashAlghorithm.IsValueCreated)
                     {
                         //Always release the resources and flush data of the Cryptographic service provide. Best Practice
-                        _hasherAlghorithm.Value.Clear();
-                        _hasherAlghorithm.Value.Dispose();
+                        _hashAlghorithm.Value.Clear();
+                        _hashAlghorithm.Value.Dispose();
                     }
                 }
 

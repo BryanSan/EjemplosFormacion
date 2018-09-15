@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
+﻿namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
 {
     public interface IHasherDerivatedKey
     {
-        byte[] GetByteHash<T>(T objectToEncrypt, string salt, int roundOfHashIterations);
-        byte[] GetByteHash(byte[] byteValue, byte[] salt, int roundOfHashIterations);
+        string GetHash<T>(T objectToHash, string salt, int roundOfHashIterations);
+        string GetHash(byte[] bytesToHash, byte[] salt, int roundOfHashIterations);
 
-        string GetHash<T>(T objectToEncrypt, string salt, int roundOfHashIterations);
-        string GetHash(byte[] byteValue, byte[] salt, int roundOfHashIterations);
+        byte[] GetByteHash<T>(T objectToHash, string salt, int roundOfHashIterations);
+        byte[] GetByteHash(byte[] bytesToHash, byte[] salt, int roundOfHashIterations);
     }
 }

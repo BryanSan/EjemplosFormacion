@@ -60,7 +60,7 @@ namespace EjemplosFormacion.WebApi
             container.RegisterType<IJsonSerializerSettingsFactory, JsonSerializerSettingsFactory>(new HierarchicalLifetimeManager());
 
             // Cryptography
-            container.RegisterType<ISymmetricEncrypter<AesManaged>, SymmetricEncrypter<AesManaged>>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISymmetricService<AesManaged>, SymmetricService<AesManaged>>(new HierarchicalLifetimeManager());
             container.RegisterType<ISymmetricAlgorithmFactory<AesManaged>, SymmetricAlgorithmFactory<AesManaged, SHA256Managed>>(new HierarchicalLifetimeManager(), 
                 new InjectionConstructor(
                    "soy la key",

@@ -484,7 +484,7 @@ namespace EjemplosFormacion.WebApi
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
                 // Message Handler for this Route
-                handler: new TestJsonEncrypterMessageHandler(config.DependencyResolver.GetService(typeof(ISymmetricEncrypter<AesManaged>)) as ISymmetricEncrypter<AesManaged>, new HttpControllerDispatcher(config))
+                handler: new TestJsonEncrypterMessageHandler(config.DependencyResolver.GetService(typeof(ISymmetricService<AesManaged>)) as ISymmetricService<AesManaged>, new HttpControllerDispatcher(config))
             );
         }
 

@@ -47,7 +47,7 @@ namespace EjemplosFormacion.HelperClasess.ExtensionMethods
         public static object GetPropertyValue(this object source, string property)
         {
             if (source == null)
-                throw new ArgumentNullException("source");
+                throw new ArgumentException("source");
 
             var sourceType = source.GetType();
             var sourceProperties = sourceType.GetProperties();

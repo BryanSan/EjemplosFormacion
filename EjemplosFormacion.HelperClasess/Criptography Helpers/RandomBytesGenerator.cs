@@ -1,5 +1,6 @@
 ﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
 using System;
+using System.Linq;
 using System.Security.Cryptography;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
@@ -16,9 +17,11 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             _randomGeneratorServiceProvider = new Lazy<RNGCryptoServiceProvider>(() => new RNGCryptoServiceProvider());
         }
 
-        public void GenerateRandomBytes(byte[] buffer)
+        public void GenerateRandomBytes(byte[] bufferToFill)
         {
-            _randomGeneratorServiceProvider.Value.GetBytes(buffer);
+            if (bufferToFill == null || bufferToFill.Count() <= 0) throw new ArgumentException($"{nameof(bufferToFill)} no puede estar vacio");
+
+            _randomGeneratorServiceProvider.Value.GetBytes(bufferToFill);
         }
 
         #region IDisposable Support

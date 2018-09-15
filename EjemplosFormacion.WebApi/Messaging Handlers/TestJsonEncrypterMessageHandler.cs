@@ -18,10 +18,10 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// </summary>
     class TestJsonEncrypterMessageHandler : DelegatingHandler
     {
-        readonly ISymmetricEncrypter<AesManaged> _symmetricEncrypter;
+        readonly ISymmetricService<AesManaged> _symmetricEncrypter;
 
         // Passing the next Handler of the Pipeline If Any
-        public TestJsonEncrypterMessageHandler(ISymmetricEncrypter<AesManaged> symmetricEncrypter,
+        public TestJsonEncrypterMessageHandler(ISymmetricService<AesManaged> symmetricEncrypter,
                                                HttpMessageHandler messageHandler) : base(messageHandler)
         {
             if (messageHandler == null) throw new ArgumentException("messageHandler vacio!.");
@@ -29,7 +29,7 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
             _symmetricEncrypter = symmetricEncrypter ?? throw new ArgumentException("symmetricEncrypter vacio!.");
         }
 
-        public TestJsonEncrypterMessageHandler(ISymmetricEncrypter<AesManaged> symmetricEncrypter)
+        public TestJsonEncrypterMessageHandler(ISymmetricService<AesManaged> symmetricEncrypter)
         {
             _symmetricEncrypter = symmetricEncrypter ?? throw new ArgumentException("symmetricEncrypter vacio!.");
         }

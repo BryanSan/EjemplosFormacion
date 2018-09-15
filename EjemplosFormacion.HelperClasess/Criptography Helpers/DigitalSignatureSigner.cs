@@ -39,9 +39,23 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             _hasher = hasher;
         }
 
+        public DigitalSignatureResult BuildSignedMessage(byte[] bytesToSign)
+        {
+            if (bytesToSign == null || bytesToSign.Count() <= 0) throw new ArgumentException($"{nameof(bytesToSign)} a sign no puede estar vacio!.");
+
+            byte[] cipherBytes = _receiverCipher.Value.Encrypt(bytesToSign, false);
+            byte[] cipherBytesHash = _hasher.GetByteHash(cipherBytes);
+            byte[] cipherBytesHashSignature = CalculateSignatureBytes(cipherBytesHash);
+
+            string cipher = Convert.ToBase64String(cipherBytes);
+            string signature = Convert.ToBase64String(cipherBytesHashSignature);
+
+            return new DigitalSignatureResult() { CipherText = cipher, SignatureText = signature };
+        }
+
         public DigitalSignatureResult BuildSignedMessage<T>(T objectToSign)
         {
-            if (objectToSign == null) throw new ArgumentNullException("Mensaje a sign no puede estar vacio!.");
+            if (objectToSign == null) throw new ArgumentException($"{nameof(objectToSign)} a sign no puede estar vacio!.");
 
             // Serializamos el objeto a json 
             string serializedEntity = JsonConvert.SerializeObject(objectToSign);
@@ -52,24 +66,10 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             return digitalSignatureResult;
         }
 
-        public DigitalSignatureResult BuildSignedMessage(byte[] messageBytes)
-        {
-            if (messageBytes == null || messageBytes.Count() <= 0) throw new ArgumentNullException("Mensaje a sign no puede estar vacio!.");
-
-            byte[] cipherBytes = _receiverCipher.Value.Encrypt(messageBytes, false);
-            byte[] cipherBytesHash = _hasher.GetByteHash(cipherBytes);
-            byte[] cipherBytesHashSignature = CalculateSignatureBytes(cipherBytesHash);
-
-            string cipher = Convert.ToBase64String(cipherBytes);
-            string signature = Convert.ToBase64String(cipherBytesHashSignature);
-
-            return new DigitalSignatureResult() { CipherText = cipher, SignatureText = signature };
-        }
-
         byte[] CalculateSignatureBytes(byte[] hashToSign)
         {
             RSAPKCS1SignatureFormatter signatureFormatter = new RSAPKCS1SignatureFormatter(_senderCipher.Value);
-            signatureFormatter.SetHashAlgorithm("SHA1");
+            signatureFormatter.SetHashAlgorithm(_hasher.HashAlgorithmName);
 
             byte[] signature = signatureFormatter.CreateSignature(hashToSign);
 

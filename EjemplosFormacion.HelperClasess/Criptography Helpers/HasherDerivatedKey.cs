@@ -12,14 +12,28 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// </summary>
     public class HasherDerivatedKey : IHasherDerivatedKey
     {
-        // Salt segun las buenas practicas deberia ser un valor random generado individualmente (no reusable)
-        public byte[] GetByteHash<T>(T objectToEncrypt, string salt, int roundOfHashIterations)
+        public byte[] GetByteHash(byte[] bytesToHash, byte[] salt, int roundOfHashIterations)
         {
-            if (objectToEncrypt == null) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
-            if (string.IsNullOrWhiteSpace(salt)) throw new ArgumentNullException("Salt a hashear no puede estar vacio!.");
+            if (bytesToHash == null || bytesToHash.Count() <= 0) throw new ArgumentException($"{nameof(bytesToHash)} a hashear no puede estar vacio!.");
+            if (salt == null || salt.Count() <= 0) throw new ArgumentException($"{nameof(salt)} a hashear no puede estar vacio!.");
+
+            // Obtenemos el Hash
+            using (Rfc2898DeriveBytes pbkdf = new Rfc2898DeriveBytes(bytesToHash, salt, roundOfHashIterations))
+            {
+                byte[] derivedBytes = pbkdf.GetBytes(32);
+
+                return derivedBytes;
+            }
+        }
+
+        // Salt segun las buenas practicas deberia ser un valor random generado individualmente (no reusable)
+        public byte[] GetByteHash<T>(T objectToHash, string salt, int roundOfHashIterations)
+        {
+            if (objectToHash == null) throw new ArgumentException($"{nameof(objectToHash)} a hashear no puede estar vacio!.");
+            if (string.IsNullOrWhiteSpace(salt)) throw new ArgumentException($"{nameof(salt)} a hashear no puede estar vacio!.");
 
             // Serializamos el objeto a json 
-            string serializedEntity = JsonConvert.SerializeObject(objectToEncrypt);
+            string serializedEntity = JsonConvert.SerializeObject(objectToHash);
 
             // Obtenemos el byte del objeto serializado
             byte[] serializedEntityBytes = Encoding.UTF8.GetBytes(serializedEntity);
@@ -31,31 +45,17 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             return derivedBytes;
         }
 
-        public byte[] GetByteHash(byte[] byteValue, byte[] salt, int roundOfHashIterations)
+        public string GetHash(byte[] bytesToHash, byte[] salt, int roundOfHashIterations)
         {
-            if (byteValue == null || byteValue.Count() <= 0) throw new ArgumentNullException("Mensaje a hashear no puede estar vacio!.");
-            if (salt == null || salt.Count() <= 0) throw new ArgumentNullException("Salt a hashear no puede estar vacio!.");
-
-            // Obtenemos el Hash
-            using (Rfc2898DeriveBytes pbkdf = new Rfc2898DeriveBytes(byteValue, salt, roundOfHashIterations))
-            {
-                byte[] derivedBytes = pbkdf.GetBytes(32);
-
-                return derivedBytes;
-            }
-        }
-
-        public string GetHash<T>(T objectToEncrypt, string salt, int roundOfHashIterations)
-        {
-            byte[] derivedBytes = GetByteHash(objectToEncrypt, salt, roundOfHashIterations);
+            byte[] derivedBytes = GetByteHash(bytesToHash, salt, roundOfHashIterations);
             string derivedBytesString = Convert.ToBase64String(derivedBytes);
 
             return derivedBytesString;
         }
 
-        public string GetHash(byte[] byteValue, byte[] salt, int roundOfHashIterations)
+        public string GetHash<T>(T objectToHash, string salt, int roundOfHashIterations)
         {
-            byte[] derivedBytes = GetByteHash(byteValue, salt, roundOfHashIterations);
+            byte[] derivedBytes = GetByteHash(objectToHash, salt, roundOfHashIterations);
             string derivedBytesString = Convert.ToBase64String(derivedBytes);
 
             return derivedBytesString;

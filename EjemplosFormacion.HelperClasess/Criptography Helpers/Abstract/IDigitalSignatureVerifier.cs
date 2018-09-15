@@ -7,7 +7,8 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
     public interface IDigitalSignatureVerifier<THashAlgorithm> : IDisposable
         where THashAlgorithm : HashAlgorithm, new()
     {
-        T ExtractMessage<T>(DigitalSignatureResult signatureResult);
-        bool VerifySignature(DigitalSignatureResult signatureResult);
+        T ExtractMessage<T>(DigitalSignatureResult signatureToExtract);
+
+        bool VerifySignature(DigitalSignatureResult signatureToVerify);
     }
 }

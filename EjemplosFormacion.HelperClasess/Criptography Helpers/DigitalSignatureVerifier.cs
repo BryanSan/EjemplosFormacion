@@ -38,10 +38,15 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             _hasher = hasher;
         }
 
-        public T ExtractMessage<T>(DigitalSignatureResult signatureResult)
+        public T ExtractMessage<T>(DigitalSignatureResult signatureToExtract)
         {
-            byte[] cipherBytes = Convert.FromBase64String(signatureResult.CipherText);
-            byte[] signatureBytes = Convert.FromBase64String(signatureResult.SignatureText);
+            if (signatureToExtract == null || string.IsNullOrWhiteSpace(signatureToExtract.CipherText) || string.IsNullOrWhiteSpace(signatureToExtract.SignatureText))
+            {
+                throw new Exception($"{nameof(signatureToExtract)} invalido o vacio");
+            }
+
+            byte[] cipherBytes = Convert.FromBase64String(signatureToExtract.CipherText);
+            byte[] signatureBytes = Convert.FromBase64String(signatureToExtract.SignatureText);
             
             byte[] recomputedHash = _hasher.GetByteHash(cipherBytes);
 
@@ -56,10 +61,15 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             return entity;
         }
 
-        public bool VerifySignature(DigitalSignatureResult signatureResult)
+        public bool VerifySignature(DigitalSignatureResult signatureToVerify)
         {
-            byte[] cipherBytes = Convert.FromBase64String(signatureResult.CipherText);
-            byte[] signatureBytes = Convert.FromBase64String(signatureResult.SignatureText);
+            if (signatureToVerify == null || string.IsNullOrWhiteSpace(signatureToVerify.CipherText) || string.IsNullOrWhiteSpace(signatureToVerify.SignatureText))
+            {
+                throw new Exception($"{nameof(signatureToVerify)} invalido o vacio");
+            }
+
+            byte[] cipherBytes = Convert.FromBase64String(signatureToVerify.CipherText);
+            byte[] signatureBytes = Convert.FromBase64String(signatureToVerify.SignatureText);
 
             byte[] recomputedHash = _hasher.GetByteHash(cipherBytes);
 
@@ -71,7 +81,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         bool VerifySignature(byte[] recomputedHash, byte[] signatureBytes)
         {
             RSAPKCS1SignatureDeformatter deformatter = new RSAPKCS1SignatureDeformatter(_senderCipher.Value);
-            deformatter.SetHashAlgorithm("SHA1");
+            deformatter.SetHashAlgorithm(_hasher.HashAlgorithmName);
             
             bool validSignature = deformatter.VerifySignature(recomputedHash, signatureBytes);
 
