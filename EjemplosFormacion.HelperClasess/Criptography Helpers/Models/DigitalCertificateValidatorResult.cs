@@ -15,6 +15,11 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Models
             StatusInformation = statusInformation;
         }
 
+        public DigitalCertificateValidatorResult(bool valid, string statusInformation) : this(valid, new List<string> { statusInformation })
+        {
+
+        }
+
         public DigitalCertificateValidatorResult()
         {
 

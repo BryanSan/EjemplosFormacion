@@ -2,6 +2,7 @@
 using EjemplosFormacion.WebApi.App_Start;
 using EjemplosFormacion.WebApi.Authentication.BearerToken;
 using EjemplosFormacion.WebApi.DependencyResolvers;
+using EjemplosFormacion.WebApi.OwinAuthenticationHandlers;
 using EjemplosFormacion.WebApi.OwinMiddlewares;
 using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
@@ -141,6 +142,10 @@ namespace EjemplosFormacion.WebApi.App_Start
             app.Use<TestRequestBufferingOwinMiddleware>();
             app.Use<TestOwinMiddleware>();
 
+            // Custom Owin Middleware para validacion de Digital Certificates
+            IDigitalCertificateValidator digitalCertificateValidator = UnityConfig.Container.Resolve(typeof(IDigitalCertificateValidator)) as IDigitalCertificateValidator;
+            app.Use<TestClientCertificateAuthOwinMiddleware>(new TestClientCertificateAuthenticationOptions(), digitalCertificateValidator);
+
             // Codigo para mostrar una pagina de bienvenida cuando llegue una Http Request
             // El orden es importante, por tanto primero se mostrara la pagina de bienvenida antes que el Response Hard Coded ya que esta de primero
             // Digamos que agrega un Owin Middleware de primero
@@ -162,7 +167,7 @@ namespace EjemplosFormacion.WebApi.App_Start
         }
 
         // Configuracion de servidor oAuth2
-        // RECORDAR QUE ESTE REGISTRO DEL oAuth2 OWINMIDLEWARE DEBE ESTAR ANTES QUE LA LLAMADA AL REGISTRO DE WEB API 
+        // RECORDAR QUE ESTE REGISTRO DEL oAuth2 OWINMIDLEWARE DEBE ESTAR ANTES QUE LA LLAMADA AL REGISTRO DE WEB API
         // O NUNCA SE AUTHENTICARA PRIMERO ANTES DE LLEGAR A LAS ACTION DE WEB API QUE PIDEN QUE YA ESTES AUTHENTICADO
         public void ConfigureOAuth(IAppBuilder app)
         {

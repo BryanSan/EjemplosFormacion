@@ -322,6 +322,8 @@
     <Compile Include="Messaging Handlers\TestReadQueryStringMessagingHandler.cs" />
     <Compile Include="Model Binder Providers\TestModelBinderProvider.cs" />
     <Compile Include="Model Binders\TestModelBinder.cs" />
+    <Compile Include="Owin Authentication Handlers\TestOwinClientCertificateAuthenticationHandler.cs" />
+    <Compile Include="Owin Middlewares\TestClientCertificateAuthOwinMiddleware.cs" />
     <Compile Include="Owin Middlewares\TestOwinMiddleware.cs" />
     <Compile Include="Owin Middlewares\TestRequestBufferingOwinMiddleware.cs" />
     <Compile Include="Owin Middlewares\TestSetOwinContextOwinMiddleware.cs" />
