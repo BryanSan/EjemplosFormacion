@@ -316,6 +316,7 @@
     <Compile Include="Messaging Handlers\TestJsonEncrypterMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestMethodOverrideHeaderMessageHandler.cs" />
+    <Compile Include="Messaging Handlers\TestReadClientCertificateMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestReadHeaderMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestReturnResponseMessageHandler.cs" />
     <Compile Include="Messaging Handlers\TestReadQueryStringMessagingHandler.cs" />

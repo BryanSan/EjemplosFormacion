@@ -88,5 +88,12 @@ namespace EjemplosFormacion.WebApi.Controllers.TestMessagingHandler
         {
             return Ok(testModel);
         }
+
+        // Test Message Handler usado para leer el Client Certificate que viene con el Request
+        public IHttpActionResult TestReadClientCertificateMessageHandler()
+        {
+            return Ok();
+        }
+
     }
 }

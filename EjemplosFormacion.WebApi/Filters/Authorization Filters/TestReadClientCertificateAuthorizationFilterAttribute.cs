@@ -9,6 +9,16 @@ namespace EjemplosFormacion.WebApi.Filters.AuthorizationFilters
     /// <summary>
     /// Authorization Filter usado para validar que el client halla enviado un Certificate junto con el Request
     /// Y que el Certificate tambien sea valido, si no devuelve un error de Unauthorized
+    /// 
+    /// Asi anexas desde el cliente al request un Certificate
+    /// X509Certificate2 clientCert = GetClientCertificate();
+    /// WebRequestHandler requestHandler = new WebRequestHandler();
+    /// requestHandler.ClientCertificates.Add(clientCert);
+    ///
+    /// HttpClient client = new HttpClient(requestHandler)
+    // {
+    //     BaseAddress = new Uri("http://localhost:3020/")
+    // };
     /// </summary>
     public class TestReadClientCertificateAuthorizationFilterAttribute : AuthorizationFilterAttribute
     {

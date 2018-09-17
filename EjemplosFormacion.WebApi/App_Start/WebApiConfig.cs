@@ -483,8 +483,16 @@ namespace EjemplosFormacion.WebApi
                 defaults: new { controller = "TestMessagingHandler", action = "TestJsonEncrypterMessageHandler", id = RouteParameter.Optional },
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
-                // Message Handler for this Route
                 handler: new TestJsonEncrypterMessageHandler(config.DependencyResolver.GetService(typeof(ISymmetricService<AesManaged>)) as ISymmetricService<AesManaged>, new HttpControllerDispatcher(config))
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "RouteTestReadClientCertificateMessageHandler",
+                routeTemplate: "api/TestMessagingHandler/TestReadClientCertificateMessageHandler/{id}",
+                defaults: new { controller = "TestMessagingHandler", action = "TestReadClientCertificateMessageHandler", id = RouteParameter.Optional },
+                constraints: null,
+                // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
+                handler: new TestReadClientCertificateMessageHandler(new HttpControllerDispatcher(config))
             );
         }
 
