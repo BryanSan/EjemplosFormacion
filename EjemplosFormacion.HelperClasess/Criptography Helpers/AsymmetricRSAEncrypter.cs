@@ -52,17 +52,17 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         public string EncryptWithPublicKeyXml(byte[] bytesToEncrypt)
         {
             byte[] encryptedBytes = EncryptWithPublicKeyXmlBytes(bytesToEncrypt);
-            string encryptedAsBase64 = Convert.ToBase64String(encryptedBytes);
+            string encryptedStringAsBase64 = Convert.ToBase64String(encryptedBytes);
 
-            return encryptedAsBase64;
+            return encryptedStringAsBase64;
         }
 
         public string EncryptWithPublicKeyXml<T>(T objectToEncrypt) where T : class
         {
             byte[] encryptedBytes = EncryptWithPublicKeyXmlBytes(objectToEncrypt);
-            string encryptedAsBase64 = Convert.ToBase64String(encryptedBytes);
+            string encryptedStringAsBase64 = Convert.ToBase64String(encryptedBytes);
 
-            return encryptedAsBase64;
+            return encryptedStringAsBase64;
         }
 
         #region IDisposable Support

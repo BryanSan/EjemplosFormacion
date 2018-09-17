@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
+using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,7 +10,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// <summary>
     /// https://dotnetcodr.com/2016/10/25/overview-of-asymmetric-encryption-in-net/
     /// </summary>
-    public class AsymmetricRSADecrypter
+    public class AsymmetricRSADecrypter : IAsymmetricRSADecrypter
     {
         readonly Lazy<RSACryptoServiceProvider> _publicPrivateKeyPairCipher;
 
@@ -27,9 +29,9 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         {
             if (cipherBytes == null || cipherBytes.Count() <= 0) throw new ArgumentException($"{nameof(cipherBytes)} a desencriptar no puede estar vacio!.");
 
-            byte[] decryptBytes = _publicPrivateKeyPairCipher.Value.Decrypt(cipherBytes, true);
+            byte[] decryptedBytes = _publicPrivateKeyPairCipher.Value.Decrypt(cipherBytes, true);
 
-            return decryptBytes;
+            return decryptedBytes;
         }
 
         public byte[] DecryptWithFullKeyXmlBytes(string cipherString)
@@ -38,27 +40,31 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 
             byte[] cipherBytes = Convert.FromBase64String(cipherString);
 
-            byte[] decryptBytes = DecryptWithFullKeyXmlBytes(cipherBytes);
+            byte[] decryptedBytes = DecryptWithFullKeyXmlBytes(cipherBytes);
 
-            return decryptBytes;
+            return decryptedBytes;
         }
 
-        public string DecryptWithFullKeyXml(byte[] cipherBytes)
+        public T DecryptWithFullKeyXml<T>(byte[] cipherBytes) where T : class
         {
-            byte[] decryptBytes = DecryptWithFullKeyXmlBytes(cipherBytes);
+            byte[] decryptedBytes = DecryptWithFullKeyXmlBytes(cipherBytes);
 
-            string decryptBytesBase64 = Encoding.UTF8.GetString(decryptBytes);
+            string decryptedString = Encoding.UTF8.GetString(decryptedBytes);
 
-            return decryptBytesBase64;
+            T decryptedEntity = JsonConvert.DeserializeObject<T>(decryptedString);
+
+            return decryptedEntity;
         }
 
-        public string DecryptWithFullKeyXml(string cipherString)
+        public T DecryptWithFullKeyXml<T>(string cipherString) where T : class
         {
-            byte[] decryptBytes = DecryptWithFullKeyXmlBytes(cipherString);
+            byte[] decryptedBytes = DecryptWithFullKeyXmlBytes(cipherString);
 
-            string decryptBytesBase64 = Encoding.UTF8.GetString(decryptBytes);
+            string decryptedString = Encoding.UTF8.GetString(decryptedBytes);
 
-            return decryptBytesBase64;
+            T decryptedEntity = JsonConvert.DeserializeObject<T>(decryptedString);
+
+            return decryptedEntity;
         }
     }
 }
