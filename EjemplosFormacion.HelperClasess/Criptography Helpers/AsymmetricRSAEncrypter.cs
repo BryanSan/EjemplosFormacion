@@ -13,14 +13,17 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// </summary>
     public class AsymmetricRSAEncrypter : IAsymmetricRSAEncrypter
     {
-        readonly Lazy<RSACryptoServiceProvider> _publicKeyCipher;
+        readonly Lazy<RSA> _publicKeyCipher;
         readonly JsonSerializerSettings _jsonSerializerSettings;
 
         public AsymmetricRSAEncrypter(string publicKeyRsa, IJsonSerializerSettingsFactory jsonSerializerSettingsFactory)
         {
-            _publicKeyCipher = new Lazy<RSACryptoServiceProvider>(() =>
+            // Debe ser RSA para que funcione tanto en .Net como en .Net Core
+            // Ya que hay implementaciones distintas para cada plataforma
+            // https://stackoverflow.com/questions/41986995/implement-rsa-in-net-core
+            _publicKeyCipher = new Lazy<RSA>(() =>
             {
-                var receiverCipher = new RSACryptoServiceProvider();
+                var receiverCipher = RSA.Create();
                 receiverCipher.FromXmlString(publicKeyRsa);
                 
                 return receiverCipher;
@@ -33,7 +36,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         {
             if (bytesToEncrypt == null || bytesToEncrypt.Count() <= 0) throw new ArgumentException($"{nameof(bytesToEncrypt)} a encriptar no puede estar vacio!.");
 
-            byte[] encryptedBytes = _publicKeyCipher.Value.Encrypt(bytesToEncrypt, true);
+            byte[] encryptedBytes = _publicKeyCipher.Value.Encrypt(bytesToEncrypt, RSAEncryptionPadding.OaepSHA512);
             return encryptedBytes;
         }
 

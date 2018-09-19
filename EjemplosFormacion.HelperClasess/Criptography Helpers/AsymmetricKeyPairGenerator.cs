@@ -2,6 +2,7 @@
 using EjemplosFormacion.HelperClasess.CriptographyHelpers.Models;
 using System;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
@@ -50,6 +51,21 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
                     throw new Exception($"Other exception caught while generating the key pair: {otherEx.Message}", otherEx);
                 }
             }
+        }
+
+        public AsymmetricKeyPairGenerationResult GenerateKeysFromCertificateAsXml(X509Certificate2 certificate)
+        {
+            if (certificate == null) throw new ArgumentException($"{nameof(certificate)} no puede ser nulo");
+
+            // Debe ser RSA para que funcione tanto en .Net como en .Net Core
+            // Ya que hay implementaciones distintas para cada plataforma
+            // https://stackoverflow.com/questions/41986995/implement-rsa-in-net-core
+            string publicKeyXml = certificate.GetRSAPublicKey().ToXmlString(false);
+            string publicPrivateKeyPairXml = certificate.GetRSAPrivateKey().ToXmlString(true);
+
+            var asymmetricKeyPairGenerationResult = new AsymmetricKeyPairGenerationResult(publicKeyXml, publicPrivateKeyPairXml);
+
+            return asymmetricKeyPairGenerationResult;
         }
     }
 }

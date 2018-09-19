@@ -135,7 +135,7 @@ namespace EjemplosFormacion.WebApi.App_Start
             // Deben estar en orden segun el orden del Pipeline, esto quiere decir que si configuro los 2 anteriores Middleware a correr en el Stage Authenticate
             // Los siguientes Middleware que registre mas abajo deben estar en los stages luego del stage de Authenticate, no pueden estar antes
             // IMPORTANTE EL ORDEN EN EL QUE LLAMAS LAS COSAS ACA
-            app.UseStageMarker(PipelineStage.Authenticate);
+            app.UseStageMarker(PipelineStage.PreHandlerExecute);
 
             // Registro de Custom OwinMiddlewares creados heredando de la clase abstracta OwinMiddleware
             app.Use<TestSetOwinContextOwinMiddleware>();
@@ -143,6 +143,7 @@ namespace EjemplosFormacion.WebApi.App_Start
             app.Use<TestOwinMiddleware>();
 
             // Custom Owin Middleware para validacion de Digital Certificates
+            // Aqui pasamos las depedencias necesitadas por el AuthenticationMiddleware
             IDigitalCertificateValidator digitalCertificateValidator = UnityConfig.Container.Resolve(typeof(IDigitalCertificateValidator)) as IDigitalCertificateValidator;
             app.Use<TestClientCertificateAuthOwinMiddleware>(new TestClientCertificateAuthenticationOptions(), digitalCertificateValidator);
 

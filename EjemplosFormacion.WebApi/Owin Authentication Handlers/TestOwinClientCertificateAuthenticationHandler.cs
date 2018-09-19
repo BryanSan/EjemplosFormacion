@@ -17,8 +17,8 @@ namespace EjemplosFormacion.WebApi.OwinAuthenticationHandlers
     /// </summary>
     public class TestOwinClientCertificateAuthenticationHandler : AuthenticationHandler<TestClientCertificateAuthenticationOptions>
     {
-        private readonly IDigitalCertificateValidator _digitalCertificateValidator;
-        private readonly string _owinClientCertKey = "ssl.ClientCertificate";
+        readonly IDigitalCertificateValidator _digitalCertificateValidator;
+        readonly string _owinClientCertKey = "ssl.ClientCertificate";
 
         public TestOwinClientCertificateAuthenticationHandler(IDigitalCertificateValidator digitalCertificateValidator)
         {

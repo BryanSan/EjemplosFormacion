@@ -13,23 +13,26 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     public class DigitalSignatureVerifier<THashAlgorithm> : IDigitalSignatureVerifier<THashAlgorithm>
         where THashAlgorithm : HashAlgorithm, new()
     {
-        readonly Lazy<RSACryptoServiceProvider> _senderCipher;
-        readonly Lazy<RSACryptoServiceProvider> _receiverCipher;
+        readonly Lazy<RSA> _senderCipher;
+        readonly Lazy<RSA> _receiverCipher;
         readonly IHasher<THashAlgorithm> _hasher;
 
         public DigitalSignatureVerifier(string myPublicPrivateRSAKey, string senderPublicRSAKey, IHasher<THashAlgorithm> hasher)
         {
-            _receiverCipher = new Lazy<RSACryptoServiceProvider>(() =>
+            // Debe ser RSA para que funcione tanto en .Net como en .Net Core
+            // Ya que hay implementaciones distintas para cada plataforma
+            // https://stackoverflow.com/questions/41986995/implement-rsa-in-net-core
+            _receiverCipher = new Lazy<RSA>(() =>
             {
-                var receiverCipher = new RSACryptoServiceProvider();
+                var receiverCipher = RSA.Create();
                 receiverCipher.FromXmlString(myPublicPrivateRSAKey);
 
                 return receiverCipher;
             });
 
-            _senderCipher = new Lazy<RSACryptoServiceProvider>(() =>
+            _senderCipher = new Lazy<RSA>(() =>
             {
-                var senderCipher = new RSACryptoServiceProvider();
+                var senderCipher = RSA.Create();
                 senderCipher.FromXmlString(senderPublicRSAKey);
 
                 return senderCipher;
@@ -90,7 +93,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 
         T DecrypBytes<T>(byte[] cipherBytes)
         {
-            byte[] plainTextBytes = _receiverCipher.Value.Decrypt(cipherBytes, false);
+            byte[] plainTextBytes = _receiverCipher.Value.Decrypt(cipherBytes, RSAEncryptionPadding.OaepSHA512);
 
             string decryptedEntity = Encoding.UTF8.GetString(plainTextBytes);
             T entity = JsonConvert.DeserializeObject<T>(decryptedEntity);

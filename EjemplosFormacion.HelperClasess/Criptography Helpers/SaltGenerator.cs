@@ -18,7 +18,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         public byte[] GenerateSaltBytes(int saltLength)
         {
             if (saltLength <= 0) throw new ArgumentException($"{nameof(saltLength)} no puede ser negativo o 0");
-
+            
             var salt = new byte[saltLength];
             _randomBytesGenerator.GenerateRandomBytes(salt);
 

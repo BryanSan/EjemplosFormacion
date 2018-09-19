@@ -14,23 +14,26 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     public class DigitalSignatureSigner<THashAlgorithm> : IDigitalSignatureSigner<THashAlgorithm>
         where THashAlgorithm : HashAlgorithm, new()
     {
-        readonly Lazy<RSACryptoServiceProvider> _senderCipher;
-        readonly Lazy<RSACryptoServiceProvider> _receiverCipher;
+        readonly Lazy<RSA> _senderCipher;
+        readonly Lazy<RSA> _receiverCipher;
         readonly IHasher<THashAlgorithm> _hasher;
 
         public DigitalSignatureSigner(string myPublicPrivateRSAKey, string _receiversPublicRSAKey, IHasher<THashAlgorithm> hasher)
         {
-            _receiverCipher = new Lazy<RSACryptoServiceProvider>(() =>
+            // Debe ser RSA para que funcione tanto en .Net como en .Net Core
+            // Ya que hay implementaciones distintas para cada plataforma
+            // https://stackoverflow.com/questions/41986995/implement-rsa-in-net-core
+            _receiverCipher = new Lazy<RSA>(() =>
             {
-                var receiverCipher = new RSACryptoServiceProvider();
+                var receiverCipher = RSA.Create();
                 receiverCipher.FromXmlString(_receiversPublicRSAKey);
 
                 return receiverCipher;
             }); 
 
-            _senderCipher = new Lazy<RSACryptoServiceProvider>(() =>
+            _senderCipher = new Lazy<RSA>(() =>
             {
-                var senderCipher = new RSACryptoServiceProvider();
+                var senderCipher = RSA.Create();
                 senderCipher.FromXmlString(myPublicPrivateRSAKey);
 
                 return senderCipher;
@@ -43,7 +46,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         {
             if (bytesToSign == null || bytesToSign.Count() <= 0) throw new ArgumentException($"{nameof(bytesToSign)} a sign no puede estar vacio!.");
 
-            byte[] cipherBytes = _receiverCipher.Value.Encrypt(bytesToSign, false);
+            byte[] cipherBytes = _receiverCipher.Value.Encrypt(bytesToSign, RSAEncryptionPadding.OaepSHA512);
             byte[] cipherBytesHash = _hasher.GetByteHash(cipherBytes);
             byte[] cipherBytesHashSignature = CalculateSignatureBytes(cipherBytesHash);
 
@@ -70,7 +73,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         {
             RSAPKCS1SignatureFormatter signatureFormatter = new RSAPKCS1SignatureFormatter(_senderCipher.Value);
             signatureFormatter.SetHashAlgorithm(_hasher.HashAlgorithmName);
-
+            
             byte[] signature = signatureFormatter.CreateSignature(hashToSign);
 
             return signature;

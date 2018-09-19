@@ -13,8 +13,10 @@ namespace EjemplosFormacion.WebApi.OwinMiddlewares
     /// </summary>
     public class TestClientCertificateAuthOwinMiddleware : AuthenticationMiddleware<TestClientCertificateAuthenticationOptions>
     {
-        private readonly IDigitalCertificateValidator _digitalCertificateValidator;
+        readonly IDigitalCertificateValidator _digitalCertificateValidator;
 
+        // Recuerda que el OwinMiddleware es filleado automaticamente por .Net, por lo tanto tu solo debes preocuparte por el 2do y subsiguientes
+        // En el momento que los registres en la clase Startup pasa las instancias necesitadas por este constructor en el metodo Use()
         public TestClientCertificateAuthOwinMiddleware(OwinMiddleware nextMiddleware, TestClientCertificateAuthenticationOptions authOptions,
             IDigitalCertificateValidator digitalCertificateValidator)
             : base(nextMiddleware, authOptions)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Models;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -8,6 +9,9 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
     public interface IDigitalCertificateService
     {
         X509Certificate2 GetCertificate(string searchValue, X509FindType findType, StoreName storeName, StoreLocation storeLocation, bool validOnly);
+
+        AsymmetricKeyPairGenerationResult GetKeysFromCertificate(string searchValue, X509FindType findType, StoreName storeName, StoreLocation storeLocation, bool validOnly);
+        AsymmetricKeyPairGenerationResult GetKeysFromCertificate(X509Certificate2 certificate);
 
         void AddCertificate(X509Certificate2 certificateToAdd, StoreName storeName, StoreLocation storeLocation);
         void AddCertificate(string certificatePath, StoreName storeName, StoreLocation storeLocation);
