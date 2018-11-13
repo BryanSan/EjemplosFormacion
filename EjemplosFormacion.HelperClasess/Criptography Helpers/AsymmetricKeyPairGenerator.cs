@@ -20,7 +20,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             using (TAsymmetricAlgorithm asymmetricAlgorithm = new TAsymmetricAlgorithm())
             {
                 asymmetricAlgorithm.KeySize = keySizeBits;
-
+                
                 try
                 {
                     string publicKeyXml = asymmetricAlgorithm.ToXmlString(false);

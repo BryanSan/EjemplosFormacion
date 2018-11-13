@@ -20,10 +20,8 @@ namespace EjemplosFormacion.WebApi.Filters.AuthenticationFilters
     /// En resumen valida las credenciales pasadas en el Request y asigna el IPrincipal y IIdentity al Request
     /// Puedes crear tus propias implementaciones para las Interfaces IPrincipal y IIdentity para guardar mas datos que necesites
     /// </summary>
-    class TestBasicAuthenticationFilterAttribute : Attribute, IAuthenticationFilter
+    class TestBasicAuthenticationFilterAttribute : FilterAttribute, IAuthenticationFilter
     {
-        public bool AllowMultiple => false;
-
         public async Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
             // 1. Look for credentials in the request.
