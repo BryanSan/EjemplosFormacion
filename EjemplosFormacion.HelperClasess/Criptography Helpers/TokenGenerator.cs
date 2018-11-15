@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+//using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -33,18 +33,18 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             _lifeTime = lifeTime;
         }
 
-        public string GenerateToken(Dictionary<string, string> claims)
-        {
-            List<Claim> listOfClaims = claims.Select(x => new Claim(x.Key, x.Value)).ToList();
+        //public string GenerateToken(Dictionary<string, string> claims)
+        //{
+        //    List<Claim> listOfClaims = claims.Select(x => new Claim(x.Key, x.Value)).ToList();
 
-            JwtSecurityToken jwtToken = new JwtSecurityToken(_issuer, _audience, listOfClaims
-                , lifetime: new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddHours(1))
-                , signingCredentials: new SigningCredentials(new RsaSecurityKey(publicAndPrivate)
-                    , SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest));
+        //    JwtSecurityToken jwtToken = new JwtSecurityToken(_issuer, _audience, listOfClaims
+        //        , lifetime: new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddHours(1))
+        //        , signingCredentials: new SigningCredentials(new RsaSecurityKey(publicAndPrivate)
+        //            , SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest));
 
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            string tokenString = tokenHandler.WriteToken(jwtToken);
-        }
+        //    JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+        //    string tokenString = tokenHandler.WriteToken(jwtToken);
+        //}
 
     }
 }
