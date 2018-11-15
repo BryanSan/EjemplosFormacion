@@ -9,6 +9,6 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
     {
         AsymmetricKeyPairGenerationResult GenerateKeysAsXml(int keySizeBits);
 
-        AsymmetricKeyPairGenerationResult GenerateKeysFromCertificateAsXml(X509Certificate2 certificate)
+        AsymmetricKeyPairGenerationResult GenerateKeysFromCertificateAsXml(X509Certificate2 certificate);
     }
 }
