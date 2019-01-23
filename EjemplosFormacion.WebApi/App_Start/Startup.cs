@@ -56,6 +56,9 @@ namespace EjemplosFormacion.WebApi.App_Start
             // Creamos nuestra propia instancia de HttpConfiguration para configurar nuestro servicio Web Api
             var httpConfiguration = new HttpConfiguration();
 
+            // Supress Host Default Authentication
+            // httpConfiguration.SuppressDefaultHostAuthentication();
+
             // Como este proyecto es Self-Host, la clase que inicializa el Dependency Resolver en el otro proyecto
             // Nunca sera llamada y nunca tendremos un Dependency Resolver con UnityContainer
             // Por esta razon debemos crear a mano el Dependency Resolver junto con el UnityContainer y asignarlo manualmente a nuestra instancia de HttpConfiguration
@@ -170,6 +173,7 @@ namespace EjemplosFormacion.WebApi.App_Start
         // Configuracion de servidor oAuth2
         // RECORDAR QUE ESTE REGISTRO DEL oAuth2 OWINMIDLEWARE DEBE ESTAR ANTES QUE LA LLAMADA AL REGISTRO DE WEB API
         // O NUNCA SE AUTHENTICARA PRIMERO ANTES DE LLEGAR A LAS ACTION DE WEB API QUE PIDEN QUE YA ESTES AUTHENTICADO
+        // https://docs.microsoft.com/es-es/aspnet/aspnet/overview/owin-and-katana/owin-oauth-20-authorization-server
         public void ConfigureOAuth(IAppBuilder app)
         {
             Type typeOfHasher = typeof(IHasher<SHA256Managed>);
