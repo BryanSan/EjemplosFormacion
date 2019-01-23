@@ -14,7 +14,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
         readonly string _issuer;
         readonly string _audience;
         readonly int _expiresMinutes;
-        readonly Lazy<RSA> _publicPrivateKeyPairCipher;
+        readonly RSA _publicPrivateKeyPairCipher;
         readonly SigningCredentials _signingCredentials;
 
         public TokenGeneratorWithAsymmetricKeyPair(string publicPrivateKeyPair, string issuer, string audience, int expiresMinutes)
@@ -22,15 +22,10 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             // Debe ser RSA para que funcione tanto en .Net como en .Net Core
             // Ya que hay implementaciones distintas para cada plataforma
             // https://stackoverflow.com/questions/41986995/implement-rsa-in-net-core
-            _publicPrivateKeyPairCipher = new Lazy<RSA>(() =>
-            {
-                var cipher = RSA.Create();
-                cipher.FromXmlString(publicPrivateKeyPair);
+            _publicPrivateKeyPairCipher = RSA.Create();
+            _publicPrivateKeyPairCipher.FromXmlString(publicPrivateKeyPair);
 
-                return cipher;
-            });
-
-            var securityKey = new RsaSecurityKey(_publicPrivateKeyPairCipher.Value);
+            var securityKey = new RsaSecurityKey(_publicPrivateKeyPairCipher);
             _signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
             _issuer = issuer;
@@ -70,11 +65,8 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             {
                 if (disposing)
                 {
-                    if (_publicPrivateKeyPairCipher.IsValueCreated)
-                    {
-                        _publicPrivateKeyPairCipher.Value.Clear();
-                        _publicPrivateKeyPairCipher.Value.Dispose();
-                    }    
+                    _publicPrivateKeyPairCipher.Clear();
+                    _publicPrivateKeyPairCipher.Dispose();
                 }
 
                 disposedValue = true;
