@@ -1,6 +1,6 @@
 ﻿namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
 {
-    public interface IHasherDerivatedKey
+    public interface IHasherWithSaltAndDerivationKey
     {
         string GetHash<T>(T objectToHash, string salt, int roundOfHashIterations);
         string GetHash(byte[] bytesToHash, byte[] salt, int roundOfHashIterations);

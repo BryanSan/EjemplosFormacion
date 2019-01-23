@@ -69,5 +69,31 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 
             return decryptedEntity;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_publicPrivateKeyPairCipher.IsValueCreated)
+                    {
+                        _publicPrivateKeyPairCipher.Value.Clear();
+                        _publicPrivateKeyPairCipher.Value.Dispose();
+                    }
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

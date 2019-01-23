@@ -13,7 +13,7 @@ using System.Security.Cryptography;
 using System.Web.Http.Routing;
 using Unity;
 using Unity.Injection;
-using Unity.Interception.ContainerIntegration;
+using Unity.Interception;
 using Unity.Lifetime;
 
 namespace EjemplosFormacion.WebApi
@@ -58,6 +58,7 @@ namespace EjemplosFormacion.WebApi
             container.RegisterType<IWrapperNLog, WrapperNLogger>(new HierarchicalLifetimeManager());
             container.RegisterType<ITestDependency, TestDependency>(new HierarchicalLifetimeManager());
             container.RegisterType<IJsonSerializerSettingsFactory, JsonSerializerSettingsFactory>(new HierarchicalLifetimeManager());
+            container.RegisterType<IDigitalCertificateValidator, DigitalCertificateValidator>(new HierarchicalLifetimeManager());
 
             // Cryptography
             container.RegisterType<ISymmetricService<AesManaged>, SymmetricService<AesManaged>>(new HierarchicalLifetimeManager());

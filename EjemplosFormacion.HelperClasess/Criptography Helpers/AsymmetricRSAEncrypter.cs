@@ -79,6 +79,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
                 {
                     if (_publicKeyCipher.IsValueCreated)
                     {
+                        _publicKeyCipher.Value.Clear();
                         _publicKeyCipher.Value.Dispose();
                     }
                 }

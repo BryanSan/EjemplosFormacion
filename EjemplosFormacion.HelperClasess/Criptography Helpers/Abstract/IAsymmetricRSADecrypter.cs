@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
 {
-    public interface IAsymmetricRSADecrypter
+    public interface IAsymmetricRSADecrypter : IDisposable
     {
         byte[] DecryptWithFullKeyXmlBytes(byte[] cipherBytes);
         byte[] DecryptWithFullKeyXmlBytes(string cipherString);

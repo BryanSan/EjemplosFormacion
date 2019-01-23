@@ -10,7 +10,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// <summary>
     /// https://dotnetcodr.com/2016/10/18/hashing-passwords-with-a-password-based-key-derivation-function-in-net/
     /// </summary>
-    public class HasherDerivatedKey : IHasherDerivatedKey
+    public class HasherWithSaltAndDerivationKey : IHasherWithSaltAndDerivationKey
     {
         public byte[] GetByteHash(byte[] bytesToHash, byte[] salt, int roundOfHashIterations)
         {

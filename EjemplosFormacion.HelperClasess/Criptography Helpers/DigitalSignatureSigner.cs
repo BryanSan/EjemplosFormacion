@@ -90,11 +90,13 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
                 {
                     if (_senderCipher.IsValueCreated)
                     {
+                        _senderCipher.Value.Clear();
                         _senderCipher.Value.Dispose();
                     }
 
                     if (_receiverCipher.IsValueCreated)
                     {
+                        _receiverCipher.Value.Clear();
                         _receiverCipher.Value.Dispose();
                     }
                 }
