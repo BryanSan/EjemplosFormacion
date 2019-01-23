@@ -9,14 +9,14 @@ using System.Text;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 {
-    public class TokenGeneratorWithSymmetricKeyPair : ITokenGeneratorWithSymmetricKeyPair
+    public class TokenGeneratorWithSymmetricKey : ITokenGeneratorWithSymmetricKey
     {
         readonly string _issuer;
         readonly string _audience;
         readonly int _expiresMinutes;
         readonly SigningCredentials _signingCredentials;
 
-        public TokenGeneratorWithSymmetricKeyPair(string secretKey, string issuer, string audience, int expiresMinutes)
+        public TokenGeneratorWithSymmetricKey(string secretKey, string issuer, string audience, int expiresMinutes)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(secretKey));
             _signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);

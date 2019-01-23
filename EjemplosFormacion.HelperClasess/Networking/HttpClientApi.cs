@@ -8,7 +8,6 @@ namespace EjemplosFormacion.HelperClasess.Networking
     public class HttpClientApi : IClientApi
     {
 
-        bool disposed = false;
         readonly HttpClient client;
 
         public HttpClientApi(string baseAddress)
@@ -27,23 +26,27 @@ namespace EjemplosFormacion.HelperClasess.Networking
             return responseContent;
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        #region IDisposable Support
+        private bool disposedValue = false; 
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
-                return;
-
-            if (disposing)
+            if (!disposedValue)
             {
-                client.Dispose();
-            }
+                if (disposing)
+                {
+                    client.Dispose();
+                }
 
-            disposed = true;
+                disposedValue = true;
+            }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
     }
 }
