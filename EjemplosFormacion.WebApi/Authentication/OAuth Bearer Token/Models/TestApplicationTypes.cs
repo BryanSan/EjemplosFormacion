@@ -1,4 +1,4 @@
-﻿namespace EjemplosFormacion.WebApi.Authentication.BearerToken.Models
+﻿namespace EjemplosFormacion.WebApi.Authentication.OAuthBearerToken.Models
 {
     public enum TestApplicationTypes
     {

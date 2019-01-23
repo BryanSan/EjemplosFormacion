@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EjemplosFormacion.WebApi.Authentication.BearerToken.Models
+namespace EjemplosFormacion.WebApi.Authentication.OAuthBearerToken.Models
 {
     public class TestClientApp
     {

@@ -1,11 +1,11 @@
 ﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
-using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
+using EjemplosFormacion.WebApi.Authentication.OAuthBearerToken.Models;
 using Microsoft.Owin.Security.Infrastructure;
 using System;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace EjemplosFormacion.WebApi.Authentication.BearerToken
+namespace EjemplosFormacion.WebApi.Authentication.OAuthBearerToken
 {
     /// <summary>
     /// Refresh Token

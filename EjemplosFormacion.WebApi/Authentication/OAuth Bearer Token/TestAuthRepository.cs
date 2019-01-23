@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
+﻿using EjemplosFormacion.WebApi.Authentication.OAuthBearerToken.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EjemplosFormacion.WebApi.Authentication.BearerToken
+namespace EjemplosFormacion.WebApi.Authentication.OAuthBearerToken
 {
     public class TestAuthRepository : IDisposable
     {

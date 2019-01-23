@@ -1,6 +1,6 @@
 ﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
 using EjemplosFormacion.WebApi.AssembliesResolver;
-using EjemplosFormacion.WebApi.Authentication.BearerToken;
+using EjemplosFormacion.WebApi.Authentication.OAuthBearerToken;
 using EjemplosFormacion.WebApi.Controllers.TestCustomRoutesConfiguration;
 using EjemplosFormacion.WebApi.CORSPolicyProviderFactories;
 using EjemplosFormacion.WebApi.ExceptionHandlers;

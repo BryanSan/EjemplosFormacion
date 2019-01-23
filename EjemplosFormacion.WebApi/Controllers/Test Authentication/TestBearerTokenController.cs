@@ -1,6 +1,6 @@
 ﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
-using EjemplosFormacion.WebApi.Authentication.BearerToken;
-using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
+using EjemplosFormacion.WebApi.Authentication.OAuthBearerToken;
+using EjemplosFormacion.WebApi.Authentication.OAuthBearerToken.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Security.Claims;

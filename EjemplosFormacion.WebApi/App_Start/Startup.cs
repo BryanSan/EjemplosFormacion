@@ -1,6 +1,6 @@
 ﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
 using EjemplosFormacion.WebApi.App_Start;
-using EjemplosFormacion.WebApi.Authentication.BearerToken;
+using EjemplosFormacion.WebApi.Authentication.OAuthBearerToken;
 using EjemplosFormacion.WebApi.DependencyResolvers;
 using EjemplosFormacion.WebApi.OwinAuthenticationHandlers;
 using EjemplosFormacion.WebApi.OwinMiddlewares;

@@ -1,5 +1,5 @@
 ﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
-using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
+using EjemplosFormacion.WebApi.Authentication.OAuthBearerToken.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace EjemplosFormacion.WebApi.Authentication.BearerToken
+namespace EjemplosFormacion.WebApi.Authentication.OAuthBearerToken
 {
     /// <summary>
     /// Access Token

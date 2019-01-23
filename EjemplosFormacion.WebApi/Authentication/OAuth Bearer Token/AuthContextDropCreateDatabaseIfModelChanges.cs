@@ -1,10 +1,10 @@
-﻿using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
+﻿using EjemplosFormacion.WebApi.Authentication.OAuthBearerToken.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Data.Entity;
 
-namespace EjemplosFormacion.WebApi.Authentication.BearerToken
+namespace EjemplosFormacion.WebApi.Authentication.OAuthBearerToken
 {
     /// <summary>
     /// Custom Database Initializer para recrear la base de datos solo si mi modelo cambia o si no existe

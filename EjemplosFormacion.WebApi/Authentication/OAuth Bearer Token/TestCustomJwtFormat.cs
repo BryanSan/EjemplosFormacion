@@ -3,7 +3,7 @@ using Microsoft.Owin.Security;
 using System;
 using System.Linq;
 
-namespace EjemplosFormacion.WebApi.Authentication.BearerToken
+namespace EjemplosFormacion.WebApi.Authentication.OAuthBearerToken
 {
     public class TestCustomJwtFormat : ISecureDataFormat<AuthenticationTicket>
     {
