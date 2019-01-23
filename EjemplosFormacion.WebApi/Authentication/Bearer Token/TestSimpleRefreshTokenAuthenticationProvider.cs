@@ -20,12 +20,12 @@ namespace EjemplosFormacion.WebApi.Authentication.BearerToken
     ///         client_secret:T1m32014*
     /// 
     /// </summary>
-    public class TestSimpleRefreshTokenProvider : IAuthenticationTokenProvider
+    public class TestSimpleRefreshTokenAuthenticationProvider : IAuthenticationTokenProvider
     {
 
         public readonly IHasher<SHA256Managed> _hasher;
 
-        public TestSimpleRefreshTokenProvider(IHasher<SHA256Managed> hasher)
+        public TestSimpleRefreshTokenAuthenticationProvider(IHasher<SHA256Managed> hasher)
         {
             _hasher = hasher;
         }

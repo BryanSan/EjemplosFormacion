@@ -517,8 +517,9 @@
     <Compile Include="Authentication\Bearer Token\Models\TestApplicationTypes.cs" />
     <Compile Include="Authentication\Bearer Token\Models\TestClientApp.cs" />
     <Compile Include="Authentication\Bearer Token\Models\TestRefreshToken.cs" />
+    <Compile Include="Authentication\Bearer Token\TestCustomJwtFormat.cs" />
     <Compile Include="Authentication\Bearer Token\TestSimpleAuthorizationServerProvider.cs" />
-    <Compile Include="Authentication\Bearer Token\TestSimpleRefreshTokenProvider.cs" />
+    <Compile Include="Authentication\Bearer Token\TestSimpleRefreshTokenAuthenticationProvider.cs" />
     <Compile Include="Controller Configurations\TestControllerConfigurationAttribute.cs" />
     <Compile Include="Controllers\Test Authentication\TestBasicAuthenticationController.cs" />
     <Compile Include="Controllers\Test Authentication\TestBearerTokenController.cs" />

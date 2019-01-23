@@ -174,6 +174,7 @@ namespace EjemplosFormacion.WebApi.App_Start
         {
             Type typeOfHasher = typeof(IHasher<SHA256Managed>);
             IHasher<SHA256Managed> hasher = UnityConfig.Container.Resolve(typeOfHasher) as IHasher<SHA256Managed>;
+            ITokenGeneratorWithSymmetricKey tokenGeneratorWithSymmetricKey = UnityConfig.Container.Resolve(typeof(ITokenGeneratorWithSymmetricKey)) as ITokenGeneratorWithSymmetricKey;
 
             var OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
@@ -181,12 +182,13 @@ namespace EjemplosFormacion.WebApi.App_Start
                 TokenEndpointPath = new PathString("/token"), // Path donde esta el endpoint para pedir los tokens, en este caso dominio + /token (http://localhost:7990/token)
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1), // Expiracion del Bearer Token
                 Provider = new TestSimpleAuthorizationServerProvider(hasher), // Servidor Provider de Bearer Tokens
-                RefreshTokenProvider = new TestSimpleRefreshTokenProvider(hasher) // Servidor Providere de los Refresh Tokens
+                RefreshTokenProvider = new TestSimpleRefreshTokenAuthenticationProvider(hasher), // Servidor Provider de los Refresh Tokens
+                AccessTokenFormat = new TestCustomJwtFormat(tokenGeneratorWithSymmetricKey), // Custom format to Access Jwt Tokens 
             };
             
             // Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions()); 
         }
     }
 }

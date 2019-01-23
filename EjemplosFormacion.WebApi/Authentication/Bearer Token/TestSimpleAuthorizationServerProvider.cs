@@ -42,6 +42,12 @@ namespace EjemplosFormacion.WebApi.Authentication.BearerToken
             _hasher = hasher;
         }
 
+        // IS NOT THE SAME IMPLEMENTATION IS JUST FOR SEE THE EXPLANATION ABOUT WHAT DO THIS METHOD
+        // http://bitoftech.net/2014/10/27/json-web-token-asp-net-web-api-2-jwt-owin-authorization-server/
+        // The first method “ValidateClientAuthentication” will be responsible for validating if the Resource server (audience) is already registered in our Authorization server 
+        // by reading the client_id value from the request, notice that the request will contain only the client_id without the shared symmetric key. 
+        // If we take the happy scenario and the audience is registered we’ll mark the context as a valid context 
+        // which means that audience check has passed and the code flow can proceed to the next step which is validating that resource owner credentials (user who is requesting the token).
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             string clientId = string.Empty;
@@ -95,7 +101,7 @@ namespace EjemplosFormacion.WebApi.Authentication.BearerToken
                 context.SetError("invalid_clientId", "Client is inactive.");
                 return Task.FromResult<object>(null);
             }
-
+            
             context.OwinContext.Set<string>("as:clientAllowedOrigin", client.AllowedOrigin);
             context.OwinContext.Set<string>("as:clientRefreshTokenLifeTime", client.RefreshTokenLifeTime.ToString());
 
@@ -103,6 +109,9 @@ namespace EjemplosFormacion.WebApi.Authentication.BearerToken
             return Task.FromResult<object>(null);
         }
 
+        // http://bitoftech.net/2014/10/27/json-web-token-asp-net-web-api-2-jwt-owin-authorization-server/
+        // The second method “GrantResourceOwnerCredentials” will be responsible for validating the resource owner(user) credentials
+        // The JWT access token will be generated when we call “context.Validated(ticket)
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
