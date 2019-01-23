@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
 {
-    interface ITokenGeneratorWithSymmetricKey
+    public interface ITokenGeneratorWithSymmetricKey
     {
+        string GenerateTokenJwt(List<Claim> claims);
         string GenerateTokenJwt(Dictionary<string, string> claims);
     }
 }

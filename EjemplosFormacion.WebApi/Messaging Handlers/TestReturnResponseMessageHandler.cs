@@ -38,6 +38,13 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
             // Note: TaskCompletionSource creates a task that does not contain a delegate.
             var tsc = new TaskCompletionSource<HttpResponseMessage>();
             tsc.SetResult(response);   // Also sets the task state to "RanToCompletion"
+
+            // Another way
+            var tsc2 = Task.FromResult(response);
+
+            // Another way
+            var tsc3 = Task<HttpResponseMessage>.Factory.StartNew(() => response);
+
             return tsc.Task;
         }
 

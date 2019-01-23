@@ -15,15 +15,15 @@ namespace EjemplosFormacion.WebApi.MessagingHandlers
     /// Mostrara una alerta donde el usuario podra introducir sus credenciales y reenviara la peticion al servicio
     /// Recordar que el Header de WWW-Authenticate es usado para que el cliente sepa contra que Schema se esta validando y el sepa que tipo de credenciales enviar
     /// </summary>
-    class TestBasicAuthenticatonMessageHandlerShowDialogBox : DelegatingHandler
+    class TestBasicAuthenticatonMessageHandlerShowBasicAuthenticationDialogBox : DelegatingHandler
     {
         // Passing the next Handler of the Pipeline If Any
-        public TestBasicAuthenticatonMessageHandlerShowDialogBox(HttpMessageHandler messageHandler) : base(messageHandler)
+        public TestBasicAuthenticatonMessageHandlerShowBasicAuthenticationDialogBox(HttpMessageHandler messageHandler) : base(messageHandler)
         {
             if (messageHandler == null) throw new ArgumentException("messageHandler vacio!.");
         }
 
-        public TestBasicAuthenticatonMessageHandlerShowDialogBox()
+        public TestBasicAuthenticatonMessageHandlerShowBasicAuthenticationDialogBox()
         {
 
         }

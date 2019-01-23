@@ -473,7 +473,7 @@ namespace EjemplosFormacion.WebApi
                 defaults: new { controller = "TestMessagingHandler", action = "TestBasicAuthenticatonMessageHandlerShowDialogBox", },
                 constraints: null,
                 // Message Handler for this Route, necesitas el HttpControllerDispatcher ya que es el Handler que ejecuta al Controller
-                handler: new TestBasicAuthenticatonMessageHandlerShowDialogBox(new HttpControllerDispatcher(config)) // Message Handler for this Route
+                handler: new TestBasicAuthenticatonMessageHandlerShowBasicAuthenticationDialogBox(new HttpControllerDispatcher(config)) // Message Handler for this Route
             );
 
             // Test Decrypt Json Request and Encrypt Response to Json Response

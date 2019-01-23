@@ -26,12 +26,10 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             _expiresMinutes = expiresMinutes;
         }
 
-        public string GenerateTokenJwt(Dictionary<string, string> claims)
+        public string GenerateTokenJwt(List<Claim> claims)
         {
-            List<Claim> listOfClaims = claims.Select(x => new Claim(x.Key, x.Value)).ToList();
-
             // create a claimsIdentity
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(listOfClaims);
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
             
             // create token to the user
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
@@ -47,6 +45,13 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
 
             string jwtTokenString = tokenHandler.WriteToken(jwtSecurityToken);
             return jwtTokenString;
+        }
+
+        public string GenerateTokenJwt(Dictionary<string, string> claims)
+        {
+            List<Claim> listOfClaims = claims.Select(x => new Claim(x.Key, x.Value)).ToList();
+
+            return GenerateTokenJwt(listOfClaims);
         }
     }
 }

@@ -1,6 +1,9 @@
-﻿using EjemplosFormacion.WebApi.Authentication.BearerToken;
+﻿using EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract;
+using EjemplosFormacion.WebApi.Authentication.BearerToken;
 using EjemplosFormacion.WebApi.Authentication.BearerToken.Models;
 using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -9,11 +12,15 @@ namespace EjemplosFormacion.WebApi.Controllers.TestAuthentication
     public class TestBearerTokenController : ApiController
     {
 
-        private readonly TestAuthRepository _repo;
+        readonly TestAuthRepository _repo;
+        readonly ITokenGeneratorWithSymmetricKey _tokenGeneratorWithSymmetricKey;
+        readonly ITokenValidatorWithSymmetricKey _tokenValidatorWithSymmetricKey;
 
-        public TestBearerTokenController()
+        public TestBearerTokenController(ITokenGeneratorWithSymmetricKey tokenGeneratorWithSymmetricKey, ITokenValidatorWithSymmetricKey tokenValidatorWithSymmetricKey)
         {
             _repo = new TestAuthRepository();
+            _tokenGeneratorWithSymmetricKey = tokenGeneratorWithSymmetricKey;
+            _tokenValidatorWithSymmetricKey = tokenValidatorWithSymmetricKey;
         }
 
         public async Task<IHttpActionResult> RegisterUser(TestUserModel userModel)
@@ -24,15 +31,15 @@ namespace EjemplosFormacion.WebApi.Controllers.TestAuthentication
             }
 
             IdentityResult result = await _repo.RegisterUser(userModel);
-
-            IHttpActionResult errorResult = GetErrorResult(result);
-
-            if (errorResult != null)
+            if (result.Succeeded)
             {
+                return Ok();
+            }
+            else
+            {
+                IHttpActionResult errorResult = GetErrorResult(result);
                 return errorResult;
             }
-
-            return Ok();
         }
 
         [Authorize]
@@ -50,6 +57,20 @@ namespace EjemplosFormacion.WebApi.Controllers.TestAuthentication
             }
 
             return BadRequest("Token Id does not exist");
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetToken(string userName)
+        {
+            string token = _tokenGeneratorWithSymmetricKey.GenerateTokenJwt(new List<Claim> { new Claim(ClaimTypes.Name, userName) });
+            return Ok(token);
+        }
+
+        [HttpGet]
+        public IHttpActionResult ValidateToken(string token)
+        {
+            (bool isValid, ClaimsPrincipal claimsPrincipal) = _tokenValidatorWithSymmetricKey.ValidateToken(token);
+            return Ok(claimsPrincipal);
         }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)

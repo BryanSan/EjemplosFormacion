@@ -22,7 +22,7 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
             _lifeTimeValidator = lifeTimeValidator;
         }
 
-        public bool ValidateToken(string token)
+        public (bool, ClaimsPrincipal) ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var validationParameters = new TokenValidationParameters()
@@ -37,17 +37,16 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
                     return _lifeTimeValidator(notBefore, expires, securityToken, tokenValidationParameters);
                 }
             };
-
+             
             try
             {
-                SecurityToken securityToken;
-                ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out securityToken);
+                ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out _);
 
-                return true;
+                return (true, claimsPrincipal);
             }
             catch (SecurityTokenException)
             {
-                return false;
+                return (false, null);
             }
         }
     }
