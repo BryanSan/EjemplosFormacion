@@ -91,13 +91,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IAzureReadOnlyBlob.cs" />
-    <Compile Include="Abstract\IAzureWriteStreamBlob.cs" />
-    <Compile Include="Abstract\IFileDependencyCacheService.cs" />
-    <Compile Include="Abstract\ICacheService.cs" />
-    <Compile Include="Abstract\ICacheServiceBatch.cs" />
-    <Compile Include="Abstract\IRedisCacheService.cs" />
-    <Compile Include="Abstract\ICacheServiceTransaction.cs" />
+    <Compile Include="Helper Classes\Abstract\IAzureReadOnlyBlob.cs" />
+    <Compile Include="Helper Classes\Abstract\IAzureWriteStreamBlob.cs" />
+    <Compile Include="Helper Classes\Abstract\IFileDependencyCacheService.cs" />
+    <Compile Include="Helper Classes\Abstract\ICacheService.cs" />
+    <Compile Include="Helper Classes\Abstract\ICacheServiceBatch.cs" />
+    <Compile Include="Helper Classes\Abstract\IRedisCacheService.cs" />
+    <Compile Include="Helper Classes\Abstract\ICacheServiceTransaction.cs" />
     <Compile Include="Extension Methods\DynamicExtensions.cs" />
     <Compile Include="Extension Methods\HttpRequestMessageExtensions.cs" />
     <Compile Include="Extension Methods\StringExtensions.cs" />
@@ -121,6 +121,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Abstract\" />
     <Folder Include="Wrappers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

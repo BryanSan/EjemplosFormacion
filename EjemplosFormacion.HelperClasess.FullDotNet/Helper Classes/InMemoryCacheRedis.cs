@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.FullDotNet.Abstract;
+﻿using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;

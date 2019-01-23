@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.FullDotNet.Abstract;
+﻿using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.IO;
 

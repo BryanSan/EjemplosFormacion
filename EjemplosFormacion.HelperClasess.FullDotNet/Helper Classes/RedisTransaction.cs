@@ -1,4 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.FullDotNet.Abstract;
+﻿using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
 using StackExchange.Redis;
 using System.Threading.Tasks;
 

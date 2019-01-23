@@ -1,4 +1,4 @@
-﻿namespace EjemplosFormacion.HelperClasess.FullDotNet.Abstract
+﻿namespace EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract
 {
     public interface ICacheServiceBatch
     {

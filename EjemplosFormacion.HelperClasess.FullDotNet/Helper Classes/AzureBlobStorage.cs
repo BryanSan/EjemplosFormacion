@@ -1,5 +1,4 @@
-﻿using EjemplosFormacion.HelperClasess.FullDotNet.Abstract;
-using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
+﻿using EjemplosFormacion.HelperClasess.FullDotNet.HelperClasses.Abstract;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
