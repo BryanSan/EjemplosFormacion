@@ -10,8 +10,9 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// <summary>
     /// https://dotnetcodr.com/2016/10/18/hashing-passwords-with-a-password-based-key-derivation-function-in-net/
     /// </summary>
-    public class HasherWithSaltAndDerivationKey : IHasherWithSaltAndDerivationKey
+    public class HasherWithSaltAndKeyDerivation : IHasherWithSaltAndKeyDerivation
     {
+        // Salt segun las buenas practicas deberia ser un valor random generado individualmente (no reusable)
         public byte[] GetByteHash(byte[] bytesToHash, byte[] salt, int roundOfHashIterations)
         {
             if (bytesToHash == null || bytesToHash.Count() <= 0) throw new ArgumentException($"{nameof(bytesToHash)} a hashear no puede estar vacio!.");
