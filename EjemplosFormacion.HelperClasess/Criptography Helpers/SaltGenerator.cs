@@ -8,9 +8,9 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// </summary>
     public class SaltGenerator : ISaltGenerator
     {
-        readonly IRandomBytesGenerator _randomBytesGenerator;
+        readonly ICryptographicRandomBytesGenerator _randomBytesGenerator;
 
-        public SaltGenerator(IRandomBytesGenerator randomBytesGenerator)
+        public SaltGenerator(ICryptographicRandomBytesGenerator randomBytesGenerator)
         {
             _randomBytesGenerator = randomBytesGenerator;
         }

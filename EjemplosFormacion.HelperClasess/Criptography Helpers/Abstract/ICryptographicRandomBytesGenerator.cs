@@ -2,7 +2,7 @@
 
 namespace EjemplosFormacion.HelperClasess.CriptographyHelpers.Abstract
 {
-    public interface IRandomBytesGenerator : IDisposable
+    public interface ICryptographicRandomBytesGenerator : IDisposable
     {
         void GenerateRandomBytes(byte[] bufferToFill);
     }

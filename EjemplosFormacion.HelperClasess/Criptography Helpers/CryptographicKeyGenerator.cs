@@ -8,9 +8,9 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// </summary>
     public class CryptographicKeyGenerator : ICryptographicKeyGenerator
     {
-        readonly IRandomBytesGenerator _randomBytesGenerator;
+        readonly ICryptographicRandomBytesGenerator _randomBytesGenerator;
 
-        public CryptographicKeyGenerator(IRandomBytesGenerator randomBytesGenerator)
+        public CryptographicKeyGenerator(ICryptographicRandomBytesGenerator randomBytesGenerator)
         {
             _randomBytesGenerator = randomBytesGenerator;
         }

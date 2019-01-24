@@ -8,11 +8,11 @@ namespace EjemplosFormacion.HelperClasess.CriptographyHelpers
     /// <summary>
     /// https://dotnetcodr.com/2016/10/05/generate-truly-random-cryptographic-keys-using-a-random-number-generator-in-net/
     /// </summary>
-    public class RandomBytesGenerator : IRandomBytesGenerator
+    public class CryptographicRandomBytesGenerator : ICryptographicRandomBytesGenerator
     {
         readonly Lazy<RNGCryptoServiceProvider> _randomGeneratorServiceProvider;
 
-        public RandomBytesGenerator()
+        public CryptographicRandomBytesGenerator()
         {
             _randomGeneratorServiceProvider = new Lazy<RNGCryptoServiceProvider>(() => new RNGCryptoServiceProvider());
         }
